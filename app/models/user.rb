@@ -6,4 +6,5 @@ class User < ApplicationRecord
 
   enum genre: { client: 0, admin: 1 }
 
+  validates :genre, presence: true
 end
