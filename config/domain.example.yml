@@ -1,0 +1,5 @@
+development:
+  admin:
+    - aaa.com
+  client:
+    - bbb.com
