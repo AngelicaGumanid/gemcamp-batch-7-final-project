@@ -1,18 +1,44 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <title>App</title>
-    <meta name="viewport" content="width=device-width,initial-scale=1">
-    <%= csrf_meta_tags %>
-    <%= csp_meta_tag %>
+<head>
+  <title>App</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <%= csrf_meta_tags %>
+  <%= csp_meta_tag %>
 
-    <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
-    <%= javascript_include_tag "application", "data-turbo-track": "reload", type: "module" %>
-  </head>
+  <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
+  <%= stylesheet_link_tag "universal.css", "data-turbo-track": "reload" %>
+  <%= javascript_include_tag "application", "data-turbo-track": "reload", type: "module" %>
+</head>
 
-  <body>
-    <p class="notice"><%= notice %></p>
-    <p class="alert"><%= alert %></p>
-    <%= yield %>
-  </body>
+<body>
+<% if notice.present? %>
+  <p class="notice" id="notice"><%= notice %></p>
+  <script>
+      alert('<%= j notice %>');
+  </script>
+<% end %>
+
+<% if alert.present? %>
+  <p class="alert" id="alert"><%= alert %></p>
+  <script>
+      alert('<%= j alert %>');
+  </script>
+<% end %>
+
+<script>
+    setTimeout(function () {
+        var notice = document.getElementById('notice');
+        if (notice) {
+            notice.style.display = 'none';
+        }
+        var alert = document.getElementById('alert');
+        if (alert) {
+            alert.style.display = 'none';
+        }
+    }, 3000);
+</script>
+
+<%= yield %>
+</body>
 </html>

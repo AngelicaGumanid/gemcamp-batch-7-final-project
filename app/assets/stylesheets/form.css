@@ -1,20 +1,59 @@
-.gradient-custom-2 {
-    /* fallback for old browsers */
+.gradient-form {
+    height: 100vh; /* Full viewport height */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.gradient-custom {
     background: #fccb90;
+    background: linear-gradient(to right, #1978BE, #45B86A);
+    background: linear-gradient(to right, #1978BE, #45B86A);
 
-    /* Chrome 10-25, Safari 5.1-6 */
-    background: -webkit-linear-gradient(to right, #FFC107, #DB4437);
+}
 
-    /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
-    background: linear-gradient(to right, #FFC107, #DB4437);
+.gradient-custom-btn {
+    background: #fccb90;
+    background: linear-gradient(to right, #1978BE, #EC2129);
+    background: linear-gradient(to right, #1978BE, #EC2129);
 
+}
+
+.btn-block {
+    width: 100%;
+    padding: 10px;
+}
+
+.form-check {
+    display: flex;
+    align-items: center;
+}
+
+.form-check-input {
+    margin-right: 5px;
+}
+
+.btn-outline-secondary {
+    color: #1978BE;
+    border: 1px solid #1978BE;
+    padding: 8px 12px;
+    border-radius: 5px;
+    text-decoration: none;
+    display: inline-block;
+    transition: all 0.3s ease;
+}
+
+.btn-outline-secondary:hover {
+    background-color: #1978BE;
+    color: #fff;
 }
 
 @media (min-width: 768px) {
     .gradient-form {
-        height: 100vh !important;
+        height: 110vh !important;
     }
 }
+
 @media (min-width: 769px) {
     .gradient-custom-2 {
         border-top-right-radius: .3rem;
