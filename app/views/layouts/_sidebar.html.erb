@@ -1,0 +1,113 @@
+<%= stylesheet_link_tag "sidebar", "data-turbo-track": "reload" %>
+
+<header class="header">
+  <div class="container-fluid header__container">
+
+    <div class="header__left">
+    <%= image_tag "koda_logo.png", class: "header__img", alt: "logo" %>
+    <a href="#" class="header__logo"> System Management </a>
+    </div>
+
+    <!-- Align Change Language and Username to the Right -->
+    <div class="header__right">
+      <!-- Change Language Button -->
+      <button class="header__language">Change Language</button>
+
+      <!-- Username Dropdown -->
+      <div class="header__user">
+        <button class="header__username-dropdown">
+          <span>Username</span>
+          <i class='bx bx-chevron-down'></i>
+        </button>
+        <div class="header__dropdown-content">
+          <a href="#" class="dropdown-item">Profile</a>
+          <a href="#" class="dropdown-item">Sign Out</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="header__toggle">
+      <i class='bx bx-menu' id="header-toggle"></i>
+    </div>
+  </div>
+</header>
+
+<div class="nav" id="navbar">
+  <nav class="nav__container">
+    <div>
+      <a href="#" class="nav__link nav__logo">
+        <i class='bx bxs-disc nav__icon'></i>
+        <span class="nav__logo-name"> System Management </span>
+      </a>
+
+      <!-- .................... Menu List .................... -->
+      <div class="nav__list">
+        <div class="nav__items">
+
+          <h3 class="nav__subtitle"> Home </h3>
+
+          <%= link_to class: "nav__link", to: admins_root_path do %>
+            <i class='bx bxs-dashboard nav__icon'></i>
+            <span class="nav__name"> Homepage </span>
+          <% end %>
+
+          <!-- Member Management Section -->
+          <div class="nav__dropdown">
+            <a href="#" class="nav__link">
+              <i class='bx bx-user nav__icon'></i>
+              <span class="nav__name"> Member Management </span>
+              <i class='bx bx-chevron-down nav__icon nav__dropdown-icon'></i>
+            </a>
+            <div class="nav__dropdown-collapse">
+              <ul class="nav__dropdown-content">
+                <li><a href="#" class="nav__dropdown-item">User List</a></li>
+                <li><a href="#" class="nav__dropdown-item">Item List</a></li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- Example 2 Management Section -->
+          <div class="nav__dropdown">
+            <a href="#" class="nav__link">
+              <i class='bx bx-folder nav__icon'></i>
+              <span class="nav__name"> Example 2 Management </span>
+              <i class='bx bx-chevron-down nav__icon nav__dropdown-icon'></i>
+            </a>
+            <div class="nav__dropdown-collapse">
+              <ul class="nav__dropdown-content">
+                <li><a href="#" class="nav__dropdown-item">Example 1</a></li>
+                <li><a href="#" class="nav__dropdown-item">Example 2</a></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Logout -->
+    <!--    <a href="views/includes/logout.php" class="nav__link nav__logout">-->
+    <!--      <i class='bx bx-log-out-circle nav__icon'></i>-->
+    <!--      <span class="nav__name"> Log Out </span>-->
+    <!--    </a>-->
+  </nav>
+</div>
+
+
+<!--<div class="sidebar">-->
+<!--  <ul>-->
+<!--    <li><a href="#">System Management</a></li>-->
+<!--    <li><a href="#">Homepage</a></li>-->
+<!--    <li>Member Management-->
+<!--      <ul>-->
+<!--        <li><a href="#">User List</a></li>-->
+<!--        <li><a href="#">Item List</a></li>-->
+<!--      </ul>-->
+<!--    </li>-->
+<!--    <li>Example 2 Management-->
+<!--      <ul>-->
+<!--        <li><a href="#">Example 1</a></li>-->
+<!--        <li><a href="#">Example 2</a></li>-->
+<!--      </ul>-->
+<!--    </li>-->
+<!--  </ul>-->
+<!--</div>-->
