@@ -19,7 +19,7 @@
 
                   <div data-mdb-input-init class="form-outline mb-4">
                     <%= f.label :email, "Username", class: "form-label" %>
-                    <%= f.email_field :email, autofocus: true, autocomplete: "email", class: "form-control", placeholder: "Email address" %>
+                    <%= f.email_field :email, autofocus: true, autocomplete: "email", class: "form-control" %>
                   </div>
 
                   <div data-mdb-input-init class="form-outline mb-4">
@@ -27,33 +27,21 @@
                     <%= f.password_field :password, autocomplete: "current-password", class: "form-control" %>
                   </div>
 
-                  <%# if devise_mapping.rememberable? %>
-<!--                    <div class="field">-->
-                      <%#= f.check_box :remember_me %>
-                      <%#= f.label :remember_me %>
-<!--                    </div>-->
-                  <%# end %>
-
                   <div class="form-check d-flex align-items-center mb-4">
                     <%= f.check_box :remember_me, class: "form-check-input me-2" %>
                     <%= f.label :remember_me, class: "form-check-label" %>
                   </div>
 
-
                   <div class="actions">
-                    <%= f.submit 'Log In', class: "btn btn-primary btn-block fa-lg gradient-custom-btn mb-3" %>
+                    <%= f.submit 'Log In', class: "btn btn-primary btn-block fa-lg gradient-custom-admin mb-3" %>
                   </div>
 
                 <% end %>
 
-                <%#= link_to 'Back to Home', root_path %>
-                <%= link_to 'Back to Home', root_path, class: "btn btn-outline-secondary mt-3" %>
-
-
               </div>
             </div>
 
-            <div class="col-lg-6 d-flex align-items-center gradient-custom">
+            <div class="col-lg-6 d-flex align-items-center gradient-custom-admin">
               <div class="text-white px-3 py-4 p-md-5 mx-md-4">
                 <h4 class="mb-4">Nard's Lottery Result Website</h4>
                 <p class="small mb-0">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
@@ -61,6 +49,7 @@
                   exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
               </div>
             </div>
+
           </div>
         </div>
       </div>

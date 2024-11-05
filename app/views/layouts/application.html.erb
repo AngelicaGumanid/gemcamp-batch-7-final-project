@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html>
+
 <head>
   <title>System Management</title>
   <link rel="icon" href="<%= asset_path 'koda_logo.png' %>" type="image/png">
@@ -7,8 +8,7 @@
   <%= csrf_meta_tags %>
   <%= csp_meta_tag %>
 
-  <!-- Boxicons -->
-  <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+  <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'> <!-- Boxicons -->
 
   <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
   <%= stylesheet_link_tag "universal.css", "data-turbo-track": "reload" %>
@@ -16,6 +16,7 @@
 </head>
 
 <body>
+
 <% if notice.present? %>
   <p class="notice" id="notice"><%= notice %></p>
   <script>
@@ -44,5 +45,6 @@
 </script>
 
 <%= yield %>
+
 </body>
 </html>
