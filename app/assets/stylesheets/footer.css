@@ -1,0 +1,12 @@
+.header__language {
+    background: none;
+    border: none;
+    font-size: var(--normal-font-size);
+    color: var(--title-color);
+    cursor: pointer;
+}
+
+.btn_footer:hover {
+    border-image: linear-gradient(to right, #1978BE, #EC2129) 1;
+    color: #1978BE;
+}
