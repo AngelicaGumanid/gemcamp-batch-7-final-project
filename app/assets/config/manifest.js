@@ -3,3 +3,4 @@
 //= link landing.css
 //= link form.css
 //= link universal.css
+//= link sidebar.css

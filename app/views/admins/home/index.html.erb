@@ -1,4 +1,10 @@
 <h1>Welcome Admin</h1>
 <p>This is the admin home page.</p>
 
-<%= button_to 'Sign out', destroy_admins_user_session_path, method: :delete, class: 'btn btn-danger' %>
+<div class="layout">
+  <%= render 'layouts/sidebar' %>
+  <div class="content">
+    <p>Hi, Username</p>
+    <%= button_to 'Sign out', destroy_admins_user_session_path, method: :delete, class: 'btn btn-danger' %>
+  </div>
+</div>
