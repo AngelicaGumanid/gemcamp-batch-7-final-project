@@ -3,3 +3,4 @@ development:
     - admin.com
   client:
     - client.com
+    - ngrok-free.app

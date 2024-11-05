@@ -72,4 +72,5 @@ Rails.application.configure do
 
   config.hosts << "client.com"
   config.hosts << "admin.com"
+  config.hosts << "3b9b-175-176-38-131.ngrok-free.app"
 end
