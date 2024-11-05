@@ -4,6 +4,17 @@
   <div class="container h-100">
     <div class="row d-flex justify-content-center align-items-center h-100">
       <div class="col-xl-10">
+
+        <!-- SIGN IN AND SIGN UP BUTTONS -->
+        <ul class="nav nav-pills nav-justified mb-3" id="ex1" role="tablist">
+          <li class="nav-item" role="presentation">
+            <%= link_to "Log in", new_session_path(resource_name), class: "btn btn-block btn btn-outline-secondary btn-outline-secondary-active mt-3" %>
+          </li>
+          <li class="nav-item" role="presentation">
+            <%= link_to "Sign up", new_registration_path(resource_name), class: "btn btn-block btn-outline-secondary mt-3" %>
+          </li>
+        </ul>
+
         <div class="card rounded-3 text-black">
           <div class="row g-0">
             <div class="col-lg-6">
@@ -17,8 +28,8 @@
                 <%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
 
                   <div data-mdb-input-init class="form-outline mb-4">
-                    <%= f.label :email, "Email", class: "form-label" %>
-                    <%= f.email_field :email, autofocus: true, autocomplete: "email", class: "form-control", placeholder: "Email address" %>
+                    <%= f.label :email, class: "form-label" %>
+                    <%= f.email_field :email, autofocus: true, autocomplete: "email", class: "form-control" %>
                   </div>
 
                   <div data-mdb-input-init class="form-outline mb-4">
@@ -31,27 +42,24 @@
                     <%= f.label :remember_me, class: "form-check-label" %>
                   </div>
 
-
                   <div class="actions">
-                    <%= f.submit 'Log In', class: "btn btn-primary btn-block fa-lg gradient-custom-btn mb-3" %>
+                    <%= f.submit 'Log In', class: "btn btn-primary btn-block fa-lg gradient-custom-client mb-3" %>
                   </div>
 
                 <% end %>
 
-                <%= render "devise/shared/links" %>
-                <%= link_to 'Back to Home', root_path, class: "btn btn-outline-secondary mt-3" %>
-
-
               </div>
             </div>
 
-            <div class="col-lg-6 d-flex align-items-center gradient-custom">
-              <div class="text-white px-3 py-4 p-md-5 mx-md-4">
-                <h4 class="mb-4">Nard's Lottery Result Website</h4>
+            <div class="col-lg-6 d-flex align-items-center gradient-custom-client">
+
+              <div class="text-center text-white px-3 py-4 p-md-5 mx-md-4">
+                <h4 class="mb-4">Nard's and Jerome Website</h4>
                 <p class="small mb-0">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
                   tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud
                   exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
               </div>
+
             </div>
           </div>
         </div>
@@ -59,35 +67,3 @@
     </div>
   </div>
 </section>
-
-
-
-<!--<h2>Log in</h2>-->
-
-
-
-<%#= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
-<!--  <div class="field">-->
-<!--    <%#= f.label :email %><br />-->
-    <%#= f.email_field :email, autofocus: true, autocomplete: "email" %>
-<!--  </div>-->
-
-<!--  <div class="field">-->
-<!--    <%#= f.label :password %><br />-->
-    <%#= f.password_field :password, autocomplete: "current-password" %>
-<!--  </div>-->
-
-  <%# if devise_mapping.rememberable? %>
-<!--    <div class="field">-->
-      <%#= f.check_box :remember_me %>
-      <%#= f.label :remember_me %>
-<!--    </div>-->
-  <%# end %>
-
-<!--  <div class="actions">-->
-    <%#= f.submit "Log in" %>
-<!--  </div>-->
-<%# end %>
-
-<%#= render "devise/shared/links" %>
-<%#= link_to 'Back to Home', root_path %>
