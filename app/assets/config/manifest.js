@@ -5,3 +5,4 @@
 //= link universal.css
 //= link sidebar.css
 //= link navbar.css
+//= link client_home.css
