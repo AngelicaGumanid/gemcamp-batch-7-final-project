@@ -1,0 +1,70 @@
+.client-homepage {
+    text-align: center;
+}
+
+.top-section {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px;
+}
+
+.banner-image {
+    margin: 20px 0;
+    padding: 30px;
+    background-color: #f0f0f0;
+}
+
+.announcement, .feedback-section, .coming-soon-section {
+    margin: 20px 0;
+}
+
+.feedback-images, .coming-soon-images {
+    display: flex;
+    justify-content: center;
+}
+
+.image, .more {
+    width: 100px;
+    height: 100px;
+    margin: 10px;
+    background-color: #e0e0e0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+
+/*banner*/
+.banner-carousel .carousel-item img {
+    height: 400px;
+    object-fit: cover;
+}
+
+.carousel-caption h5 {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #ffffff;
+}
+
+.carousel-caption p {
+    font-size: 1rem;
+    color: #ffffff;
+}
+
+.carousel-control-prev-icon,
+.carousel-control-next-icon {
+    background-color: #333333;
+    border-radius: 50%;
+}
+
+.banner-carousel .carousel-control-prev-icon,
+.banner-carousel .carousel-control-next-icon {
+    width: 30px;
+    height: 30px;
+}
+
+.banner-carousel .carousel-caption {
+    background: rgba(0, 0, 0, 0.5);
+    padding: 10px;
+    border-radius: 8px;
+}
