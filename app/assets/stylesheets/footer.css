@@ -1,12 +1,28 @@
-.header__language {
+/* Footer styling */
+.footer {
+    background-color: var(--container-color);
+    padding: 1rem 0;
+    text-align: center;
+    width: 100%;
+    margin-top: auto;
+}
+
+.footer__container {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+}
+
+.footer__link {
     background: none;
     border: none;
     font-size: var(--normal-font-size);
     color: var(--title-color);
     cursor: pointer;
+    transition: color 0.3s ease, transform 0.3s ease;
 }
 
-.btn_footer:hover {
-    border-image: linear-gradient(to right, #1978BE, #EC2129) 1;
-    color: #1978BE;
+.footer__link:hover {
+    color: var(--text-color-light); /* Adjust hover color as desired */
+    transform: scale(1.05);
 }

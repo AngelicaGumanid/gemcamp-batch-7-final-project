@@ -1,9 +1,14 @@
-<footer class="footer mt-auto py-3 bg-light">
-  <div class="container">
-    <button class="header__language">Share</button>
-    <button class="header__language">Invite</button>
-    <button class="header__language">Lottery</button>
-    <button class="header__language">Shop</button>
-    <button class="header__language">Me</button>
+<%= stylesheet_link_tag "footer", "data-turbo-track": "reload" %>
+
+<footer class="footer">
+  <div class="footer__container">
+    <button class="footer__link">Share</button>
+    <button class="footer__link">Invite</button>
+    <button class="footer__link">Lottery</button>
+    <button class="footer__link">Shop</button>
+
+    <% if current_clients_user %>
+      <button class="footer__link">Me</button>
+    <% end %>
   </div>
 </footer>

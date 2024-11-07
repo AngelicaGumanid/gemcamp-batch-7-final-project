@@ -47,12 +47,6 @@
     transition: all 0.3s ease;
 }
 
-@media (min-width: 768px) {
-    .gradient-form {
-        height: 88vh !important;
-    }
-}
-
 @media (min-width: 769px) {
     .gradient-custom-2 {
         border-top-right-radius: .3rem;

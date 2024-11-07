@@ -1,22 +1,61 @@
-<%= stylesheet_link_tag "navbar", "data-turbo-track": "reload" %>
+<%= stylesheet_link_tag "navbar1", "data-turbo-track": "reload" %>
 
 <header class="header">
-  <div class="container-fluid header__container">
+  <nav class="navbar navbar-expand-lg sticky-top border-bottom">
+    <div class="container-fluid header__container">
 
-    <div class="header__left">
-      <%= image_tag "koda_logo.png", class: "header__img", alt: "logo" %>
-      <a href="#" class="header__logo"> System Management </a>
+      <div class="header__left">
+        <%= image_tag "koda_logo.png", class: "header__img", alt: "logo" %>
+      </div>
+
+      <div class="d-flex align-items-center">
+        <div class="header__right me-2">
+          <button class="header__language btn_footer">Coins</button>
+          <button class="header__language">Claim</button>
+          <button class="header__language">Language</button>
+        </div>
+
+        <button class="navbar-toggler" type="button" onclick="toggleSidebar()" aria-label="Toggle navigation">
+          <span> <i class='bx bx-menu' id="header-toggle"></i> </span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarContent">
+          <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+            <li class="nav-item">
+              <button class="btn btn-outline-secondary" onclick="toggleSidebar()">≡</button>
+            </li>
+          </ul>
+        </div>
+      </div>
     </div>
-
-    <div class="header__right">
-      <button class="header__language btn_footer">Coins</button>
-      <button class="header__language">Claim</button>
-      <button class="header__language">Language</button>
-    </div>
-
-<!--    <div class="header__toggle">-->
-<!--      <i class='bx bx-menu' id="header-toggle"></i>-->
-<!--    </div>-->
-
-  </div>
+  </nav>
 </header>
+
+<div id="sidebar" class="sidebar">
+
+  <button class="btn btn-outline-secondary sidebar__close-btn" onclick="toggleSidebar()">≡</button>
+
+  <div class="text-center">
+    <%= image_tag "koda_logo.png", class: "rounded-circle", alt: "logo", width: "100" %>
+    <p>Username:</p>
+    <p>Email:</p>
+    <p>Coins:</p>
+    <button class="btn btn-primary w-100 my-3">Cash In Now</button>
+  </div>
+
+  <hr>
+  <a href="#" class="d-block mb-3">Contact Us</a>
+  <a href="#" class="d-block mb-3">My Profile</a>
+
+  <% if current_clients_user %>
+    <%= button_to 'Sign out', destroy_clients_user_session_path, method: :delete, class: 'btn btn-danger' %>
+  <% end %>
+
+</div>
+
+<script>
+    function toggleSidebar() {
+        const sidebar = document.getElementById('sidebar');
+        sidebar.classList.toggle('show-sidebar');
+    }
+</script>
