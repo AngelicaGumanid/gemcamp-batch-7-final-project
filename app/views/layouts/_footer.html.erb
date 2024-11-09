@@ -8,7 +8,7 @@
     <button class="footer__link">Shop</button>
 
     <% if current_clients_user %>
-      <button class="footer__link">Me</button>
+      <%= link_to 'Me', clients_profile_path, class: 'footer__link' %>
     <% end %>
   </div>
 </footer>

@@ -1,4 +1,3 @@
-/* Footer styling */
 .footer {
     background-color: var(--container-color);
     padding: 1rem 0;
@@ -20,9 +19,10 @@
     color: var(--title-color);
     cursor: pointer;
     transition: color 0.3s ease, transform 0.3s ease;
+    text-decoration: none;
 }
 
 .footer__link:hover {
-    color: var(--text-color-light); /* Adjust hover color as desired */
+    color: var(--text-color-light);
     transform: scale(1.05);
 }

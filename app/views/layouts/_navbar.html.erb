@@ -10,7 +10,8 @@
 
       <div class="d-flex align-items-center">
         <div class="header__right me-2">
-          <button class="header__language btn_footer">Coins</button>
+          <%= link_to 'Home', clients_root_path, class: 'header__language' %>
+          <button class="header__language">Coins</button>
           <button class="header__language">Claim</button>
           <button class="header__language">Language</button>
         </div>
@@ -36,16 +37,27 @@
   <button class="btn btn-outline-secondary sidebar__close-btn" onclick="toggleSidebar()">≡</button>
 
   <div class="text-center">
-    <%= image_tag "koda_logo.png", class: "rounded-circle", alt: "logo", width: "100" %>
-    <p>Username:</p>
-    <p>Email:</p>
-    <p>Coins:</p>
+    <% if current_clients_user %>
+      <% if current_clients_user.image.present? %>
+        <%= image_tag current_clients_user.image.url, class: "rounded-circle", style: "object-fit: cover; width: 100px; height: 100px;", alt: "Profile image", width: "100" %>
+      <% else %>
+        <%= image_tag "default_profile.png", class: "rounded-circle", style: "object-fit: cover; width: 100px; height: 100px;", alt: "Default profile image", width: "100" %>
+      <% end %>
+
+      <p>Username: <%= current_clients_user.username %></p>
+      <p>Email: <%= current_clients_user.email %></p>
+      <p>Coins: <%= current_clients_user.coins %></p>
+    <% else %>
+      <%= image_tag "default_profile.png", class: "rounded-circle", alt: "Default profile image", width: "100" %>
+      <p>Please log in to view your details.</p>
+    <% end %>
+
     <button class="btn btn-primary w-100 my-3">Cash In Now</button>
   </div>
 
   <hr>
   <a href="#" class="d-block mb-3">Contact Us</a>
-  <a href="#" class="d-block mb-3">My Profile</a>
+  <%= link_to 'My Profile', clients_profile_path, class: 'footer__link' %>
 
   <% if current_clients_user %>
     <%= button_to 'Sign out', destroy_clients_user_session_path, method: :delete, class: 'btn btn-danger' %>
