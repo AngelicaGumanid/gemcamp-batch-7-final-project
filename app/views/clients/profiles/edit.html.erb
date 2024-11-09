@@ -1,0 +1,55 @@
+<%= stylesheet_link_tag "profile", "data-turbo-track": "reload" %>
+
+<%= render 'layouts/navbar' %>
+
+<section class="vh-100 d-flex align-items-center profile-section">
+  <div class="container h-100 d-flex align-items-center justify-content-center">
+
+    <div class="container mt-5">
+      <h1 class="mb-4 text-center">Edit Profile</h1>
+
+      <%= form_for(@user, url: clients_profile_path, method: :patch, html: { multipart: true }) do |f| %>
+        <div class="row mb-3">
+          <div class="col-md-6">
+            <%= f.label :username, class: 'form-label' %>
+            <%= f.text_field :username, class: 'form-control' %>
+          </div>
+
+          <div class="col-md-6">
+            <%= f.label :phone, class: 'form-label' %>
+            <%= f.text_field :phone, class: 'form-control' %>
+          </div>
+        </div>
+
+        <div class="mb-3">
+          <%= f.label :email, class: 'form-label' %>
+          <%= f.email_field :email, class: 'form-control' %>
+        </div>
+
+        <div class="mb-3">
+          <%= f.label :image, class: 'form-label' %>
+          <%= f.file_field :image, class: 'form-control' %>
+        </div>
+
+        <div class="mb-3">
+          <%= f.label :password, class: 'form-label' %>
+          <small class="form-text text-muted">Leave blank if not changing</small>
+          <%= f.password_field :password, class: 'form-control' %>
+        </div>
+
+        <div class="mb-3">
+          <%= f.label :current_password, class: 'form-label' %>
+          <small class="form-text text-muted">Required when changing password</small>
+          <%= f.password_field :current_password, class: 'form-control' %>
+        </div>
+
+        <div class="d-flex justify-content-center">
+          <%= f.submit 'Update Profile', class: 'btn btn-primary px-4 py-2' %>
+        </div>
+      <% end %>
+
+    </div>
+  </div>
+</section>
+
+<%= render 'layouts/footer' %>
