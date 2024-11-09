@@ -69,5 +69,7 @@ group :development do
   gem "devise"
 
   gem "phonelib"
+
+  gem "carrierwave"
 end
 
