@@ -14,4 +14,5 @@ class User < ApplicationRecord
   validates :coins, numericality: { only_integer: true, greater_than_or_equal_to: 0 }
   validates :total_deposit, numericality: { greater_than_or_equal_to: 0 }
   validates :children_members, numericality: { only_integer: true, greater_than_or_equal_to: 0 }
+  mount_uploader :image, ImageUploader
 end
