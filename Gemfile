@@ -71,5 +71,7 @@ group :development do
   gem "phonelib"
 
   gem "carrierwave"
+
+  gem "rest-client"
 end
 
