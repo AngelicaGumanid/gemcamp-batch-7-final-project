@@ -73,5 +73,7 @@ group :development do
   gem "carrierwave"
 
   gem "rest-client"
+
+  gem "stimulus-rails"
 end
 
