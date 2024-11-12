@@ -8,3 +8,4 @@
 //= link footer.css
 //= link client_home.css
 //= link profile.css
+//= link table.css
