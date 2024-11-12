@@ -11,6 +11,7 @@ Rails.application.routes.draw do
     namespace :clients do
       devise_for :users, controllers: { registrations: 'clients/registrations', sessions: 'clients/sessions' }
       resource :profile, only: [:show, :edit, :update], controller: 'profiles'
+      resources :locations, only: [:index, :new, :create, :edit, :update, :destroy]
       root 'home#index'
     end
   end
