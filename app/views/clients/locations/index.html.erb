@@ -1,0 +1,57 @@
+<%= stylesheet_link_tag "table", "data-turbo-track": "reload" %>
+
+<%= render 'layouts/navbar' %>
+
+<section class="vh-100 d-flex align-items-center locations-section">
+  <div class="container h-100">
+    <div class="mt-5">
+      <h1 class="mb-4 text-center">Addresses</h1>
+
+      <div class="d-flex justify-content-end mb-3">
+        <%= link_to 'Add New Location', new_clients_location_path, class: 'btn btn-primary btn-sm rounded-pill shadow-sm' %>
+      </div>
+
+      <% if @locations.any? %>
+        <div class="container-fluid" style="background-color: white;">
+          <div class="container">
+            <table class="table">
+
+              <thead>
+              <tr>
+                <th scope="col">Name</th>
+                <th scope="col">Street Address</th>
+                <th scope="col">Phone Number</th>
+                <th scope="col">Genre</th>
+                <th scope="col">Default</th>
+                <th scope="col">Actions</th>
+              </tr>
+              </thead>
+
+              <tbody>
+              <% @locations.each do |location| %>
+                <tr>
+                  <td data-label="Name"><%= location.name %></td>
+                  <td data-label="Street Address"><%= location.street_address %></td>
+                  <td data-label="Phone Number"><%= location.phone_number %></td>
+                  <td data-label="Genre"><%= location.genre.humanize %></td>
+                  <td data-label="Default"><%= location.is_default ? 'Yes' : 'No' %></td>
+                  <td class="actions">
+                    <div class="d-flex justify-content-start">
+                      <%= link_to 'Edit', edit_clients_location_path(location), class: 'btn btn-outline-secondary btn-sm rounded-pill me-2' %>
+                      <%= button_to 'Delete', clients_location_path(location), method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-danger btn-sm rounded-pill' %>
+                    </div>
+                  </td>
+                </tr>
+              <% end %>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      <% else %>
+        <p class="text-center">No locations found. Please add a new location.</p>
+      <% end %>
+    </div>
+  </div>
+</section>
+
+<%= render 'layouts/footer' %>
