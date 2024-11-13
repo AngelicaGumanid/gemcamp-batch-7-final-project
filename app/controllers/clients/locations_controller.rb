@@ -3,7 +3,7 @@ class Clients::LocationsController < ApplicationController
   before_action :set_location, only: %i[show edit update destroy]
 
   def index
-    @locations = current_clients_user.locations
+    @locations = current_clients_user.locations.includes(:region, :province, :city, :barangay)
   end
 
   def new
@@ -46,6 +46,6 @@ class Clients::LocationsController < ApplicationController
   end
 
   def location_params
-    params.require(:location).permit(:genre, :name, :street_address, :phone_number, :remark, :is_default)
+    params.require(:location).permit(:genre, :name, :street_address, :phone_number, :remark, :is_default, :address_regions_id, :address_provinces_id, :address_cities_id, :address_barangays_id)
   end
 end
