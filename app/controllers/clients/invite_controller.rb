@@ -1,15 +1,4 @@
 class Clients::InviteController < ApplicationController
-  skip_before_action :authenticate_user!, only: [:index]
-
-  def index
-    @promoter_email = params[:promoter]
-    cookies[:promoter] = @promoter_email if @promoter_email.present?
-
-    @qr_code = generate_qr_code(@promoter_email)
-    @invite_url = generate_invite_url(@promoter_email)
-  end
-
-  private
 
   def generate_qr_code(promoter_email)
     require 'rqrcode'
@@ -24,8 +13,22 @@ class Clients::InviteController < ApplicationController
     ).html_safe
   end
 
+  def index
+    if clients_user_signed_in?
+      @promoter_email = current_clients_user.email
+    else
+      @promoter_email = nil
+    end
+    cookies[:promoter] = @promoter_email if @promoter_email.present?
+
+    @qr_code = generate_qr_code(@promoter_email)
+    @invite_url = generate_invite_url(@promoter_email)
+  end
+
+  private
+
   def generate_invite_url(promoter_email)
-    base_url = "#{request.base_url}/users/sign_up"
+    base_url = "#{request.base_url}/clients/users/sign_up"
     "#{base_url}?promoter=#{promoter_email}"
   end
 end

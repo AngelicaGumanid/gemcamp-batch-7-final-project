@@ -50,6 +50,7 @@
     <% else %>
       <%= image_tag "default_profile.png", class: "rounded-circle", alt: "Default profile image", width: "100" %>
       <p>Please log in to view your details.</p>
+      <%= link_to "Log in", new_clients_user_session_path, class: "btn btn-block btn-outline-secondary mt-3" %>
     <% end %>
 
     <button class="btn btn-primary w-100 my-3">Cash In Now</button>
@@ -57,7 +58,10 @@
 
   <hr>
   <a href="#" class="d-block mb-3">Contact Us</a>
-  <%= link_to 'My Profile', clients_profile_path, class: 'footer__link' %>
+
+  <% if current_clients_user %>
+    <%= link_to 'My Profile', clients_profile_path, class: 'footer__link' %>
+  <% end %>
 
   <% if current_clients_user %>
     <%= button_to 'Sign out', destroy_clients_user_session_path, method: :delete, class: 'btn btn-danger' %>
