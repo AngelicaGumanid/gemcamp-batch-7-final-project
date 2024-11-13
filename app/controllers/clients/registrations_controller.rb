@@ -5,7 +5,7 @@ class Clients::RegistrationsController < Devise::RegistrationsController
       promoter = User.find_by(email: promoter_email)
 
       if promoter
-        params[:user][:parent_id] = promoter.id
+        params[:clients_user][:parent_id] = promoter.id
         puts "Assigned parent_id: #{promoter.id}"
       else
         puts "Promoter not found for email: #{promoter_email}"
@@ -15,8 +15,13 @@ class Clients::RegistrationsController < Devise::RegistrationsController
     super
   end
 
+  def new
+    cookies[:promoter] = params[:promoter]
+    super
+  end
+
   def sign_up_params
-    params.require(:user).permit(:email, :password, :password_confirmation, :parent_id)
+    params.require(:clients_user).permit(:email, :password, :password_confirmation, :parent_id)
   end
 
 end
