@@ -23,6 +23,7 @@
                 <th scope="col">Phone Number</th>
                 <th scope="col">Genre</th>
                 <th scope="col">Default</th>
+                <th scope="col">Address</th>
                 <th scope="col">Actions</th>
               </tr>
               </thead>
@@ -35,6 +36,7 @@
                   <td data-label="Phone Number"><%= location.phone_number %></td>
                   <td data-label="Genre"><%= location.genre.humanize %></td>
                   <td data-label="Default"><%= location.is_default ? 'Yes' : 'No' %></td>
+                  <td><%= "#{location.region&.name} #{location.province&.name } #{location.city&.name} #{location.barangay&.name}" %></td>
                   <td class="actions">
                     <div class="d-flex justify-content-start">
                       <%= link_to 'Edit', edit_clients_location_path(location), class: 'btn btn-outline-secondary btn-sm rounded-pill me-2' %>

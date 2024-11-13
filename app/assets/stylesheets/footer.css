@@ -4,6 +4,9 @@
     text-align: center;
     width: 100%;
     margin-top: auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .footer__container {
