@@ -8,6 +8,10 @@ class CreateLocations < ActiveRecord::Migration[7.0]
       t.text :remark
       t.boolean :is_default, default: false
       t.references :user, null: false, foreign_key: true
+      t.references :address_regions, null: false, foreign_key: true
+      t.references :address_provinces, null: false, foreign_key: true
+      t.references :address_cities, null: false, foreign_key: true
+      t.references :address_barangays, null: false, foreign_key: true
 
       t.timestamps
     end

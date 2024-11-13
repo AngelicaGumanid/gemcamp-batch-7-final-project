@@ -53,8 +53,16 @@ ActiveRecord::Schema[7.0].define(version: 2024_11_12_163209) do
     t.text "remark"
     t.boolean "is_default", default: false
     t.bigint "user_id", null: false
+    t.bigint "address_regions_id", null: false
+    t.bigint "address_provinces_id", null: false
+    t.bigint "address_cities_id", null: false
+    t.bigint "address_barangays_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["address_barangays_id"], name: "index_locations_on_address_barangays_id"
+    t.index ["address_cities_id"], name: "index_locations_on_address_cities_id"
+    t.index ["address_provinces_id"], name: "index_locations_on_address_provinces_id"
+    t.index ["address_regions_id"], name: "index_locations_on_address_regions_id"
     t.index ["user_id"], name: "index_locations_on_user_id"
   end
 
@@ -77,5 +85,9 @@ ActiveRecord::Schema[7.0].define(version: 2024_11_12_163209) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
+  add_foreign_key "locations", "address_barangays", column: "address_barangays_id"
+  add_foreign_key "locations", "address_cities", column: "address_cities_id"
+  add_foreign_key "locations", "address_provinces", column: "address_provinces_id"
+  add_foreign_key "locations", "address_regions", column: "address_regions_id"
   add_foreign_key "locations", "users"
 end
