@@ -75,5 +75,7 @@ group :development do
   gem "rest-client"
 
   gem "stimulus-rails"
+
+  gem "rqrcode", "~> 2.0"
 end
 
