@@ -12,7 +12,11 @@ class Clients::RegistrationsController < Devise::RegistrationsController
       end
     end
 
-    super
+    super do |resource|
+      if resource.persisted? && resource.parent
+        resource.parent.increment!(:children_members)
+      end
+    end
   end
 
   def new

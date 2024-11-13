@@ -17,4 +17,5 @@ class User < ApplicationRecord
   mount_uploader :image, ImageUploader
 
   has_many :locations, dependent: :destroy
+  belongs_to :parent, class_name: 'User', optional: true
 end
