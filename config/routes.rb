@@ -12,7 +12,7 @@ Rails.application.routes.draw do
       devise_for :users, controllers: { registrations: 'clients/registrations', sessions: 'clients/sessions' }
       resource :profile, only: [:show, :edit, :update], controller: 'profiles'
       resources :locations, only: [:index, :new, :create, :edit, :update, :destroy]
-      get 'invite=people', to: 'invite#index', as: 'invite_people'
+      get 'invite/people', to: 'invite#index', as: 'invite_people'
       root 'home#index'
     end
   end

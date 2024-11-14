@@ -1,94 +1,80 @@
+/* Updated Table Styling */
 table {
-    border: 1px solid white;
+    border: 1px solid #ccc;
     border-collapse: collapse;
-    margin: 0;
-    padding: 0;
+    margin: 20px 0;
     width: 100%;
-    table-layout: fixed;
+    table-layout: auto;
+    background-color: #f9f9f9;
 }
 
-table tr {
-    border: 1px solid white;
-    border-bottom: 1px solid #ddd;
-    padding: .35em;
+table thead {
+    display: table-header-group; /* Show thead on desktop */
 }
 
-table th,
-table td {
-    padding: .625em;
-    text-align: start;
-}
-
-table th {
-    font-size: .85em;
-    letter-spacing: .1em;
-    text-transform: uppercase;
-}
-
-@media screen and (max-width: 600px) {
-    table {
-        border: 0;
-    }
-
+@media screen and (max-width: 768px) {
     table thead {
-        border: none;
-        clip: rect(0 0 0 0);
-        height: 1px;
-        margin: -1px;
-        overflow: hidden;
-        padding: 0;
-        position: absolute;
-        width: 1px;
+        display: none; /* Hide thead in mobile view */
+    }
+}
+
+table thead th {
+    background-color: #f1f1f1;
+    color: #333;
+    padding: 10px;
+    text-align: left;
+    border-bottom: 2px solid #ddd;
+    text-transform: uppercase;
+    font-size: 0.9em;
+}
+
+table tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+table tr:hover {
+    background-color: #e9f5f5;
+}
+
+table td {
+    padding: 15px; /* Increase padding for better readability */
+    border-bottom: 1px solid #ddd;
+    text-align: left;
+    font-size: 0.85em;
+}
+
+@media screen and (max-width: 768px) {
+    table, tbody, th, td, tr {
+        display: block;
     }
 
     table tr {
-        border-bottom: 3px solid #ddd;
-        display: block;
-        margin-bottom: .625em;
+        margin-bottom: 20px; /* Add spacing between client entries */
+        background-color: #fff;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        border-radius: 8px;
+        overflow: hidden;
     }
 
     table td {
-        border-bottom: 1px solid #ddd;
-        display: block;
-        font-size: .8em;
+        padding: 12px; /* Adjust padding for mobile */
         text-align: right;
+        position: relative;
+        border: none;
+        border-bottom: 1px solid #ddd;
     }
 
     table td::before {
         content: attr(data-label);
-        float: left;
+        position: absolute;
+        left: 10px;
+        top: 10px;
         font-weight: bold;
         text-transform: uppercase;
+        color: #333;
     }
 
     table td:last-child {
         border-bottom: 0;
     }
-}
-
-/* Buttons */
-.create-contact {
-    display: inline-block;
-    text-decoration: none;
-    background-color: #38b673;
-    font-weight: bold;
-    font-size: 14px;
-    color: #FFFFFF;
-    padding: 10px 15px;
-    margin: 15px 0;
-}
-
-.create-contact:hover {
-    background-color: #32a367;
-}
-
-/* Action Buttons */
-.actions .btn {
-    display: inline-flex;
-    justify-content: center;
-    align-items: center;
-}
-
-.actions .btn i {
-    font-size: 1.2em;
 }
