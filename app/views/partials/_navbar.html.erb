@@ -1,0 +1,77 @@
+<%= stylesheet_link_tag "navbar1", "data-turbo-track": "reload" %>
+
+<header class="header">
+  <nav class="navbar navbar-expand-lg sticky-top border-bottom">
+    <div class="container-fluid header__container">
+
+      <div class="header__left">
+        <%= image_tag "koda_logo.png", class: "header__img", alt: "logo" %>
+      </div>
+
+      <div class="d-flex align-items-center">
+        <div class="header__right me-2">
+          <%= link_to 'Home', root_path, class: 'header__language' %>
+          <button class="header__language">Coins</button>
+          <button class="header__language">Claim</button>
+          <button class="header__language">Language</button>
+        </div>
+
+        <button class="navbar-toggler" type="button" onclick="toggleSidebar()" aria-label="Toggle navigation">
+          <span> <i class='bx bx-menu' id="header-toggle"></i> </span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarContent">
+          <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+            <li class="nav-item">
+              <button class="btn btn-outline-secondary" onclick="toggleSidebar()">≡</button>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </nav>
+</header>
+
+<div id="sidebar" class="sidebar">
+
+  <button class="btn btn-outline-secondary sidebar__close-btn" onclick="toggleSidebar()">≡</button>
+
+  <div class="text-center">
+    <% if current_clients_user %>
+      <% if current_clients_user.image.present? %>
+        <%= image_tag current_clients_user.image.url, class: "rounded-circle", style: "object-fit: cover; width: 100px; height: 100px;", alt: "Profile image", width: "100" %>
+      <% else %>
+        <%= image_tag "default_profile.png", class: "rounded-circle", style: "object-fit: cover; width: 100px; height: 100px;", alt: "Default profile image", width: "100" %>
+      <% end %>
+
+      <p>Username: <%= current_clients_user.username %></p>
+      <p>Email: <%= current_clients_user.email %></p>
+      <p>Coins: <%= current_clients_user.coins %></p>
+    <% else %>
+      <%= image_tag "default_profile.png", class: "rounded-circle", alt: "Default profile image", width: "100" %>
+      <p>Please log in to view your details.</p>
+      <%= link_to "Log in", new_clients_user_session_path, class: "btn btn-block btn-outline-secondary mt-3" %>
+    <% end %>
+
+    <button class="btn btn-primary w-100 my-3">Cash In Now</button>
+  </div>
+
+  <hr>
+  <a href="#" class="d-block mb-3">Contact Us</a>
+
+  <% if current_clients_user %>
+    <%= link_to 'My Profile', clients_profile_path, class: 'footer__link' %>
+  <% end %>
+
+  <% if current_clients_user %>
+    <%= button_to 'Sign out', destroy_clients_user_session_path, method: :delete, class: 'btn btn-danger' %>
+  <% end %>
+
+</div>
+
+<script>
+    function toggleSidebar() {
+        const sidebar = document.getElementById('sidebar');
+        sidebar.classList.toggle('show-sidebar');
+    }
+</script>
