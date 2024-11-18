@@ -1,6 +1,6 @@
 <%= stylesheet_link_tag "profile", "data-turbo-track": "reload" %>
 
-<%= render 'layouts/navbar' %>
+<%= render 'partials/navbar' %>
 
 <section class="vh-100 d-flex align-items-center profile-section">
   <div class="container h-100 d-flex align-items-center justify-content-center">
@@ -29,7 +29,13 @@
 
             <div class="col-12 col-md-4 d-flex justify-content-center align-items-center">
               <div class="position-relative profile-image-container">
-                <%= image_tag @user.image.url, class: "rounded-circle shadow-sm", alt: "Profile image" if @user.image.present? %>
+                <% if current_clients_user %>
+                  <% if current_clients_user.image.present? %>
+                    <%= image_tag @user.image.url, class: "rounded-circle shadow-sm", alt: "Profile image" if @user.image.present? %>
+                  <% else %>
+                    <%= image_tag "default_profile.png", class: "rounded-circle", style: "object-fit: cover; width: 100px; height: 100px;", alt: "Default profile image", width: "100" %>
+                  <% end %>
+                <% end %>
               </div>
             </div>
           </div>
@@ -39,4 +45,4 @@
   </div>
 </section>
 
-<%= render 'layouts/footer' %>
+<%= render 'partials/footer' %>

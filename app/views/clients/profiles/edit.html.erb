@@ -1,6 +1,6 @@
 <%= stylesheet_link_tag "profile", "data-turbo-track": "reload" %>
 
-<%= render 'layouts/navbar' %>
+<%= render 'partials/navbar' %>
 
 <section class="vh-100 d-flex align-items-center profile-section">
   <div class="container h-100 d-flex align-items-center justify-content-center">
@@ -8,7 +8,21 @@
     <div class="container mt-5">
       <h1 class="mb-4 text-center">Edit Profile</h1>
 
+      <%= render 'partials/popup_message' %>
+
       <%= form_for(@user, url: clients_profile_path, method: :patch, html: { multipart: true }) do |f| %>
+
+        <% if @user.errors.any? %>
+          <div class="alert alert-danger">
+            <h4 class="alert-heading">Error</h4>
+            <ul>
+              <% @user.errors.full_messages.each do |message| %>
+                <li><%= message %></li>
+              <% end %>
+            </ul>
+          </div>
+        <% end %>
+
         <div class="row mb-3">
           <div class="col-md-6">
             <%= f.label :username, class: 'form-label' %>
@@ -44,12 +58,13 @@
         </div>
 
         <div class="d-flex justify-content-center">
-          <%= f.submit 'Update Profile', class: 'btn btn-primary px-4 py-2' %>
+          <%= f.submit 'Update Profile', class: 'btn btn-primary px-4 py-2'%>
         </div>
+
       <% end %>
 
     </div>
   </div>
 </section>
 
-<%= render 'layouts/footer' %>
+<%= render 'partials/footer' %>
