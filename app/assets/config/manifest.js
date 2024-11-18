@@ -4,9 +4,11 @@
 //= link form.css
 //= link universal.css
 //= link sidebar.css
-//= link navbar1.css
+//= link navbar.css
 //= link footer.css
 //= link client_home.css
 //= link profile.css
 //= link table.css
 //= link qrcode.css
+//= link location.css
+//= link error_messages.css

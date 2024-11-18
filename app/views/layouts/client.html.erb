@@ -2,7 +2,7 @@
 <html>
 
 <head>
-  <title>System Management</title>
+  <title>Client</title>
   <link rel="icon" href="<%= asset_path 'koda_logo.png' %>" type="image/png">
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <%= csrf_meta_tags %>
@@ -18,8 +18,13 @@
 </head>
 
 <body>
+<%= stylesheet_link_tag "client_home.css", "data-turbo-track": "reload" %>
+
+<%= render 'partials/navbar' %>
 
 <%= yield %>
+
+<%= render 'partials/footer' %>
 
 </body>
 </html>

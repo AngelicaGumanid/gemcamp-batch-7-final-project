@@ -38,7 +38,6 @@
 }
 
 body {
-    margin: var(--header-height) 0 0 0;
     padding-top: var(--header-height);
     font-family: var(--body-font);
     font-size: var(--normal-font-size);

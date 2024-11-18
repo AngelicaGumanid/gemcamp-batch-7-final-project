@@ -1,6 +1,6 @@
 <%= stylesheet_link_tag "form", "data-turbo-track": "reload" %>
 
-<%= render 'layouts/navbar' %>
+<%= render 'partials/navbar' %>
 
 <section class="h-100 gradient-form" style="background-color: #eee;">
   <div class="container h-100">
@@ -25,6 +25,9 @@
                 <div class="text-center">
                   <%= image_tag "koda_logo.png", style: "width: 200px;", alt: "logo" %>
                   <h4 class="mt-1 mb-5 pb-1"> Client Log In</h4>
+
+                  <%= render 'partials/popup_message' %>
+
                 </div>
 
                 <%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
@@ -45,7 +48,7 @@
                   </div>
 
                   <div class="actions">
-                    <%= f.submit 'Log In', class: "btn btn-primary btn-block fa-lg gradient-custom-client mb-3" %>
+                    <%= f.submit 'Log In', class: "btn btn-primary btn-block fa-lg gradient-custom-client mt-3 btn-outline-secondary" %>
                   </div>
 
                 <% end %>
@@ -70,4 +73,4 @@
   </div>
 </section>
 
-<%= render 'layouts/footer' %>
+<%= render 'partials/footer' %>

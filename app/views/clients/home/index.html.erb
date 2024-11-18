@@ -1,6 +1,4 @@
-<%= stylesheet_link_tag "client_home.css", "data-turbo-track": "reload" %>
-
-<%= render 'layouts/navbar' %>
+<%= render 'partials/popup_message' %>
 
 <div class="container-fluid py-2">
   <div class="client-homepage ">
@@ -56,10 +54,3 @@
     </div>
   </div>
 </div>
-
-<%= render 'layouts/footer' %>
-
-<!--<h1>Welcome Client!</h1>-->
-<!--<p>This is the client home page.</p>-->
-
-<%#= button_to 'Sign out', destroy_clients_user_session_path, method: :delete, class: 'btn btn-danger' %>
