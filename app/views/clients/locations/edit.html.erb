@@ -1,4 +1,7 @@
-<%= render 'layouts/navbar' %>
+<%= stylesheet_link_tag "location", "data-turbo-track": "reload" %>
+
+<div class="container-fluid py-2">
+<%= render 'partials/navbar' %>
 
 <section class="vh-100 d-flex align-items-center locations-section">
   <div class="container h-100 d-flex align-items-center justify-content-center">
@@ -96,4 +99,4 @@
   </div>
 </section>
 
-<%= render 'layouts/footer' %>
+<%= render 'partials/footer' %>

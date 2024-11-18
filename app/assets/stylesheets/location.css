@@ -1,0 +1,34 @@
+.locations-section {
+    padding-bottom: 50px;
+}
+
+.container.mt-5 {
+    padding-bottom: 20px;
+}
+
+.form-label {
+    margin-bottom: 0.5rem;
+}
+
+.form-control {
+    margin-bottom: 1rem;
+}
+
+.d-flex.justify-content-center {
+    margin-top: 20px;
+}
+
+footer {
+    padding-top: 20px;
+}
+
+@media (max-width: 768px) {
+    .container {
+        padding-left: 15px;
+        padding-right: 15px;
+    }
+
+    .row .col-md-6 {
+        margin-bottom: 10px;
+    }
+}
