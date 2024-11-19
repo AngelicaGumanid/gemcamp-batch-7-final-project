@@ -14,6 +14,11 @@
   </div>
 
   <div>
+    <%= form.label :category_id, "Category" %>
+    <%= form.collection_select :category_id, Category.all, :id, :name, prompt: "Select a Category" %>
+  </div>
+
+  <div>
     <%= form.label :quantity %>
     <%= form.number_field :quantity %>
   </div>

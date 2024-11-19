@@ -2,12 +2,14 @@
 
 <h1>Items</h1>
 <%= link_to 'New Item', new_admins_item_path, class: 'btn btn-primary' %>
+<%= link_to 'Categories ', admins_categories_index_path, class: "header__logo" %>
 
 <table>
   <thead>
   <tr>
     <th>Name</th>
     <th>Image</th>
+    <th>Category</th>
     <th>Quantity</th>
     <th>Minimum Tickets</th>
     <th>Status</th>
@@ -19,6 +21,7 @@
     <tr>
       <td><%= item.name %></td>
       <td><%= image_tag(item.image.url, size: "100x100") if item.image.present? %></td>
+      <td><%= item.category&.name || 'Uncategorized' %></td>
       <td><%= item.quantity %></td>
       <td><%= item.minimum_tickets %></td>
       <td><%= item.status %></td>

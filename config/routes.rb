@@ -1,5 +1,9 @@
 Rails.application.routes.draw do
   namespace :admins do
+    get 'categories/index'
+    get 'categories/show'
+    get 'categories/edit'
+    get 'categories/new'
     get 'items/index'
     get 'items/edit'
     get 'items/new'
@@ -8,11 +12,19 @@ Rails.application.routes.draw do
   constraints(AdminDomainConstraint.new) do
     namespace :admins do
       devise_for :users, controllers: { sessions: 'admins/sessions' }, skip: [:registrations]
+
       resources :items do
         member do
           patch :restore
         end
       end
+
+      resources :categories do
+        member do
+          patch :restore
+        end
+      end
+
     end
     root to: 'admins/home#index', as: 'admin_root'
   end

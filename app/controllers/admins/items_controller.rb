@@ -2,7 +2,7 @@ class Admins::ItemsController < ApplicationController
   before_action :set_item, only: %i[show edit update destroy]
 
   def index
-    @items = Item.all
+    @items = Item.with_deleted.includes(:category)
   end
 
   def show
@@ -55,7 +55,7 @@ class Admins::ItemsController < ApplicationController
   end
 
   def item_params
-    params.require(:item).permit(:name, :quantity, :minimum_tickets, :state, :batch_count, :online_at, :offline_at, :start_at, :status, :image)
+    params.require(:item).permit(:name, :quantity, :minimum_tickets, :batch_count, :online_at, :offline_at, :start_at, :status, :image, :category_id)
   end
 
 end

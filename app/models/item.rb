@@ -1,4 +1,6 @@
 class Item < ApplicationRecord
+  belongs_to :category, optional:true
+
   default_scope { where(deleted_at: nil) }
 
   enum status: { inactive: 0, active: 1 }
