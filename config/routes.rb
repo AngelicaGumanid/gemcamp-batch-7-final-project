@@ -8,7 +8,11 @@ Rails.application.routes.draw do
   constraints(AdminDomainConstraint.new) do
     namespace :admins do
       devise_for :users, controllers: { sessions: 'admins/sessions' }, skip: [:registrations]
-      resources :items
+      resources :items do
+        member do
+          patch :restore
+        end
+      end
     end
     root to: 'admins/home#index', as: 'admin_root'
   end

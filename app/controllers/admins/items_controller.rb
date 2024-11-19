@@ -1,9 +1,12 @@
 class Admins::ItemsController < ApplicationController
   before_action :set_item, only: %i[show edit update destroy]
 
-
   def index
     @items = Item.all
+  end
+
+  def show
+    @item = Item.with_deleted.find(params[:id])
   end
 
   def edit
@@ -34,6 +37,12 @@ class Admins::ItemsController < ApplicationController
   def destroy
     @item.destroy
     redirect_to admins_items_path, notice: 'Item successfully deleted.'
+  end
+
+  def restore
+    @item = Item.with_deleted.find(params[:id])
+    @item.update(deleted_at: nil)
+    redirect_to admins_items_path, notice: 'Item successfully restored.'
   end
 
   private
