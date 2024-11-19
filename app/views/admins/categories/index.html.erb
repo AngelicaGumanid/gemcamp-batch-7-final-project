@@ -1,0 +1,30 @@
+<%= render 'partials/sidebar' %>
+
+<h1>Categories</h1>
+<%= link_to 'New Category', new_admins_category_path, class: 'btn btn-primary' %>
+
+<table>
+  <thead>
+  <tr>
+    <th>Name</th>
+    <th>Deleted At</th>
+    <th>Actions</th>
+  </tr>
+  </thead>
+  <tbody>
+  <% @categories.each do |category| %>
+    <tr>
+      <td><%= category.name %></td>
+      <td><%= category.deleted_at || 'Active' %></td>
+      <td>
+        <% if category.deleted_at.nil? %>
+          <%= link_to 'Edit', edit_admins_category_path(category), class: 'btn btn-warning' %>
+          <%= button_to 'Delete', admins_category_path(category), method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-danger' %>
+        <% else %>
+          <%= button_to 'Restore', restore_admins_category_path(category), method: :patch, class: 'btn btn-success' %>
+        <% end %>
+      </td>
+    </tr>
+  <% end %>
+  </tbody>
+</table>
