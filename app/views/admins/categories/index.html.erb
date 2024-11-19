@@ -18,10 +18,10 @@
       <td><%= category.deleted_at || 'Active' %></td>
       <td>
         <% if category.deleted_at.nil? %>
-          <%= link_to 'Edit', edit_admins_category_path(category), class: 'btn btn-warning' %>
-          <%= button_to 'Delete', admins_category_path(category), method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-danger' %>
+          <%= link_to 'Edit', edit_admins_category_path(category), class: 'btn btn-outline-warning' %>
+          <%= button_to 'Delete', admins_category_path(category), method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-outline-danger' %>
         <% else %>
-          <%= button_to 'Restore', restore_admins_category_path(category), method: :patch, class: 'btn btn-success' %>
+          <%= button_to 'Restore', restore_admins_category_path(category), method: :patch, class: 'btn btn-outline-success' %>
         <% end %>
       </td>
     </tr>

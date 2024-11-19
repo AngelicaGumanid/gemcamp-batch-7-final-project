@@ -22,7 +22,6 @@
   <p><strong>Deleted At:</strong> <%= @item.deleted_at&.strftime('%d %B %Y %I:%M %p') || 'Not Deleted' %></p>
 </div>
 
-<%= link_to 'Back to Items', admins_items_path, class: 'btn btn-secondary' %>
-<%= link_to 'Edit Item', edit_admins_item_path(@item), class: 'btn btn-warning' if @item.deleted_at.nil? %>
-<%= button_to 'Delete Item', admins_item_path(@item), method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-danger' if @item.deleted_at.nil? %>
-<%= link_to 'Restore Item', restore_admins_item_path(@item), method: :patch, class: 'btn btn-success' if @item.deleted_at.present? %>
+<%= link_to 'Back to Items', admins_items_path, class: 'btn btn-outline-secondary' %>
+<%= link_to 'Edit Item', edit_admins_item_path(@item), class: 'btn btn-outline-warning' if @item.deleted_at.nil? %>
+<%= button_to 'Delete Item', admins_item_path(@item), method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-outline-danger' if @item.deleted_at.nil? %>
