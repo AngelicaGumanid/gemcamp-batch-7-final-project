@@ -1,8 +1,14 @@
 Rails.application.routes.draw do
+  namespace :admins do
+    get 'items/index'
+    get 'items/edit'
+    get 'items/new'
+  end
 
   constraints(AdminDomainConstraint.new) do
     namespace :admins do
       devise_for :users, controllers: { sessions: 'admins/sessions' }, skip: [:registrations]
+      resources :items
     end
     root to: 'admins/home#index', as: 'admin_root'
   end

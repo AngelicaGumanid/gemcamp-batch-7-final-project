@@ -1,0 +1,32 @@
+<%= render 'partials/sidebar' %>
+
+<h1>Items</h1>
+<%= link_to 'New Item', new_admins_item_path, class: 'btn btn-primary' %>
+
+<table>
+  <thead>
+  <tr>
+    <th>Name</th>
+    <th>Image</th>
+    <th>Quantity</th>
+    <th>Minimum Tickets</th>
+    <th>Status</th>
+    <th>Actions</th>
+  </tr>
+  </thead>
+  <tbody>
+  <% @items.each do |item| %>
+    <tr>
+      <td><%= item.name %></td>
+      <td><%= image_tag(item.image.url, size: "100x100") if item.image.present? %></td>
+      <td><%= item.quantity %></td>
+      <td><%= item.minimum_tickets %></td>
+      <td><%= item.status %></td>
+      <td>
+        <%= link_to 'Edit', edit_admins_item_path(item), class: 'btn btn-warning' %>
+        <%= link_to 'Delete', admins_item_path(item), method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-danger' %>
+      </td>
+    </tr>
+  <% end %>
+  </tbody>
+</table>
