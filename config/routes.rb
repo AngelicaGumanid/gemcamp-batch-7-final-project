@@ -16,6 +16,10 @@ Rails.application.routes.draw do
       resources :items do
         member do
           patch :restore
+          patch :start
+          patch :pause
+          patch :end
+          patch :cancel
         end
       end
 

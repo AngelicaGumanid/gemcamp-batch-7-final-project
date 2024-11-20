@@ -1,5 +1,5 @@
 class Admins::ItemsController < ApplicationController
-  before_action :set_item, only: %i[show edit update destroy]
+  before_action :set_item, only: %i[show edit update destroy start pause end_item cancel resume]
 
   def index
     @items = Item.with_deleted.includes(:category)
@@ -43,6 +43,46 @@ class Admins::ItemsController < ApplicationController
     @item = Item.with_deleted.find(params[:id])
     @item.update(deleted_at: nil)
     redirect_to admins_items_path, notice: 'Item successfully restored.'
+  end
+
+  def start
+    if @item.start!
+      redirect_to admins_items_path, notice: 'Item successfully started.'
+    else
+      redirect_to admins_items_path, alert: 'Cannot start item due to invalid conditions.'
+    end
+  end
+
+  def pause
+    if @item.pause!
+      redirect_to admins_items_path, notice: 'Item successfully paused.'
+    else
+      redirect_to admins_items_path, alert: 'Cannot pause item.'
+    end
+  end
+
+  def end_item
+    if @item.end!
+      redirect_to admins_items_path, notice: 'Item successfully ended.'
+    else
+      redirect_to admins_items_path, alert: 'Cannot end item.'
+    end
+  end
+
+  def cancel
+    if @item.cancel!
+      redirect_to admins_items_path, notice: 'Item successfully cancelled.'
+    else
+      redirect_to admins_items_path, alert: 'Cannot cancel item.'
+    end
+  end
+
+  def resume
+    if @item.resume!
+      redirect_to admins_items_path, notice: 'Item successfully resumed.'
+    else
+      redirect_to admins_items_path, alert: 'Cannot resume item.'
+    end
   end
 
   private

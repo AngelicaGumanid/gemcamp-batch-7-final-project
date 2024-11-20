@@ -1,5 +1,7 @@
 <%= render 'partials/sidebar' %>
 
+<%= stylesheet_link_tag "table", "data-turbo-track": "reload" %>
+
 <h1>Items</h1>
 <%= link_to 'New Item', new_admins_item_path, class: 'btn btn-primary' %>
 <%= link_to 'Categories ', admins_categories_index_path, class: "btn btn-outline-primary" %>
@@ -9,10 +11,12 @@
   <tr>
     <th>Name</th>
     <th>Image</th>
-    <th>Category</th>
     <th>Quantity</th>
     <th>Minimum Tickets</th>
+    <th>Batch Count</th>
+    <th>Category</th>
     <th>Status</th>
+    <th>State</th>
     <th>Actions</th>
   </tr>
   </thead>
@@ -21,15 +25,22 @@
     <tr>
       <td><%= item.name %></td>
       <td><%= image_tag(item.image.url, size: "100x100") if item.image.present? %></td>
-      <td><%= item.category&.name || 'Uncategorized' %></td>
       <td><%= item.quantity %></td>
       <td><%= item.minimum_tickets %></td>
+      <td><%= item.batch_count %></td>
+      <td><%= item.category&.name || 'Uncategorized' %></td>
       <td><%= item.status %></td>
+      <td><%= item.aasm.current_state %></td>
       <td>
         <% if item.deleted_at.nil? %>
           <%= link_to 'Show', admins_item_path(item), class: 'btn btn-outline-info' %>
           <%= link_to 'Edit', edit_admins_item_path(item), class: 'btn btn-outline-warning' %>
           <%= button_to 'Delete', admins_item_path(item), method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-outline-danger' %>
+          <%= button_to 'Start', start_admins_item_path(item), method: :patch, class: 'btn btn-outline-success' if item.may_start? %>
+          <%= button_to 'Pause', pause_admins_item_path(item), method: :patch, class: 'btn btn-outline-warning' if item.may_pause? %>
+          <%= button_to 'End', end_admins_item_path(item), method: :patch, class: 'btn btn-outline-danger' if item.may_end? %>
+          <%= button_to 'Cancel', cancel_admins_item_path(item), method: :patch, class: 'btn btn-outline-secondary' if item.may_cancel? %>
+          <%= button_to 'Resume', resume_admins_item_path(item), method: :patch, class: 'btn btn-outline-info' if item.may_resume? %>
         <% else %>
           <%= button_to 'Restore', restore_admins_item_path(item), method: :patch, class: 'btn btn-outline-success' %>
         <% end %>
