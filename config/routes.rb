@@ -20,6 +20,7 @@ Rails.application.routes.draw do
           patch :pause
           patch :end
           patch :cancel
+          patch :resume
         end
       end
 

@@ -9,7 +9,11 @@ class Category < ApplicationRecord
   before_destroy :ensure_no_items
 
   def destroy
-    update(deleted_at: Time.current)
+    if ensure_no_items
+      update(deleted_at: Time.current)
+    else
+      false
+    end
   end
 
   private
@@ -17,7 +21,9 @@ class Category < ApplicationRecord
   def ensure_no_items
     if items.exists?
       errors.add(:base, "Cannot delete category with associated items")
-      throw(:abort)
+      false
+    else
+      true
     end
   end
 end

@@ -1,40 +1,44 @@
 /*==================== SHOW NAVBAR ====================*/
-const showMenu = (headerToggle, navbarId) =>{
+const showMenu = (headerToggle, navbarId) => {
     const toggleBtn = document.getElementById(headerToggle),
-        nav = document.getElementById(navbarId)
+        nav = document.getElementById(navbarId);
 
     // Validate that variables exist
     if(headerToggle && navbarId){
-        toggleBtn.addEventListener('click', ()=>{
+        toggleBtn.addEventListener('click', () => {
             // We add the show-menu class to the div tag with the nav__menu class
-            nav.classList.toggle('show-menu')
+            nav.classList.toggle('show-menu');
             // change icon
-            toggleBtn.classList.toggle('bx-x')
-        })
+            toggleBtn.classList.toggle('bx-x');
+        });
     }
-}
-showMenu('header-toggle','navbar')
+};
 
-/*==================== LINK ACTIVE ====================*/
-const linkColor = document.querySelectorAll('.nav__link')
+// Listen to turbo:load to reinitialize the sidebar functionality on page loads
+document.addEventListener("turbo:load", () => {
+    showMenu('header-toggle', 'navbar');
 
-function colorLink(){
-    linkColor.forEach(l => l.classList.remove('active'))
-    this.classList.add('active')
-}
+    /*==================== LINK ACTIVE ====================*/
+    const linkColor = document.querySelectorAll('.nav__link');
 
-linkColor.forEach(l => l.addEventListener('click', colorLink))
+    function colorLink(){
+        linkColor.forEach(l => l.classList.remove('active'));
+        this.classList.add('active');
+    }
 
-const navDropdown = document.querySelectorAll(".nav__dropdown");
-for (let i = 0; i < navDropdown.length; i++) {
-    navDropdown[i].addEventListener("click", () =>
-        navDropdown[i].classList.toggle("open")
-    );
-}
+    linkColor.forEach(l => l.addEventListener('click', colorLink));
 
-const main = document.querySelector("main");
-main.addEventListener("mousemove", (e) => {
+    const navDropdown = document.querySelectorAll(".nav__dropdown");
     for (let i = 0; i < navDropdown.length; i++) {
-        navDropdown[i].classList.remove("open");
+        navDropdown[i].addEventListener("click", () =>
+            navDropdown[i].classList.toggle("open")
+        );
     }
+
+    const main = document.querySelector("main");
+    main.addEventListener("mousemove", (e) => {
+        for (let i = 0; i < navDropdown.length; i++) {
+            navDropdown[i].classList.remove("open");
+        }
+    });
 });

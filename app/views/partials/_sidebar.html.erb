@@ -63,10 +63,7 @@
             <div class="nav__dropdown-collapse">
               <ul class="nav__dropdown-content">
                 <li><a href="#" class="nav__dropdown-item">User List</a></li>
-                <li><a href="#" class="nav__dropdown-item">Item List</a></li>
-                <li>
-                  <%= link_to 'Items', admins_items_index_path %>
-                </li>
+                <li><%= link_to 'Items', admins_items_index_path, class: "nav__dropdown-item" %></li>
               </ul>
             </div>
           </div>
@@ -74,14 +71,14 @@
           <div class="nav__dropdown">
             <a href="#" class="nav__link">
               <i class='bx bx-folder nav__icon'></i>
-              <span class="nav__name"> Example 2 Management </span>
+              <span class="nav__name"> Other Management </span>
               <i class='bx bx-chevron-down nav__icon nav__dropdown-icon'></i>
             </a>
 
             <div class="nav__dropdown-collapse">
               <ul class="nav__dropdown-content">
+                <li><%= link_to 'Categories ', admins_categories_index_path, class: "nav__dropdown-item" %></li>
                 <li><a href="#" class="nav__dropdown-item">Example 1</a></li>
-                <li><a href="#" class="nav__dropdown-item">Example 2</a></li>
               </ul>
             </div>
           </div>
