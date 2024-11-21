@@ -1,10 +1,11 @@
 <%= render 'partials/popup_message' %>
 
-<div class="container-fluid py-2">
-  <div class="client-homepage ">
+<div class="container-fluid py-4">
+  <div class="client-homepage">
 
-    <div class="banner-image">
-      <div id="bannerCarousel" class="carousel slide banner-carousel" data-bs-ride="carousel">
+    <!-- Banner Section -->
+    <div class="banner-image mb-4">
+      <div id="bannerCarousel" class="carousel slide" data-bs-ride="carousel">
         <div class="carousel-inner">
           <div class="carousel-item active">
             <%= image_tag "1.png", class: "d-block w-100", alt: "Banner 1" %>
@@ -29,28 +30,61 @@
       </div>
     </div>
 
-    <div class="announcement">
-      <h3>Announcement:</h3>
-    </div>
-
-    <div class="feedback-section">
-      <div class="section-header">Winners Feedback</div>
-      <div class="feedback-images">
-        <div class="image">Image 1</div>
-        <div class="image">Image 2</div>
-        <div class="image">Image 3</div>
-        <div class="more">More...</div>
+    <!-- Announcement Section -->
+    <div class="announcement my-4">
+      <div class="d-flex justify-content-between align-items-center">
+        <h3 class="fw-bold">Announcement</h3>
+        <button class="btn btn-primary">Button</button>
       </div>
     </div>
 
-    <div class="coming-soon-section">
-      <div class="section-header">Coming Soon</div>
-      <div class="coming-soon-images">
-        <div class="image">Image 1</div>
-        <div class="image">Image 2</div>
-        <div class="image">Image 3</div>
-        <div class="more">More...</div>
+    <!-- Categories Filter Section -->
+    <div class="categories-filter my-4">
+      <div class="d-flex justify-content-center gap-3 flex-wrap">
+        <button class="btn btn-outline-secondary filter-btn" data-filter="all">All</button>
+        <% @categories.each do |category| %>
+          <button class="btn btn-outline-secondary filter-btn" data-filter="<%= category.name %>">
+            <%= category.name %>
+          </button>
+        <% end %>
       </div>
     </div>
+
+    <!-- Items Grid Section -->
+    <div class="items-grid row g-3">
+      <% @items.each do |item| %>
+        <div class="col-md-6 col-lg-4 item-card" data-category="<%= item.category.name %>">
+          <div class="card shadow-sm border-0 rounded">
+            <%= image_tag item.image.url, class: "card-img-top", alt: item.name if item.image.present? %>
+            <div class="card-body text-center">
+              <h5 class="card-title fw-bold"><%= item.name %></h5>
+            </div>
+          </div>
+        </div>
+      <% end %>
+    </div>
+
+    <!-- Feedback Section -->
+    <div class="feedback-section mt-5">
+      <h4 class="fw-bold">Winners Feedback</h4>
+      <div class="feedback-images d-flex gap-3 justify-content-center">
+        <div class="image bg-light rounded-circle d-flex align-items-center justify-content-center">Image 1</div>
+        <div class="image bg-light rounded-circle d-flex align-items-center justify-content-center">Image 2</div>
+        <div class="image bg-light rounded-circle d-flex align-items-center justify-content-center">Image 3</div>
+        <div class="more text-primary cursor-pointer">More...</div>
+      </div>
+    </div>
+
+    <!-- Coming Soon Section -->
+    <div class="coming-soon-section mt-5">
+      <h4 class="fw-bold">Coming Soon</h4>
+      <div class="coming-soon-images d-flex gap-3 justify-content-center">
+        <div class="image bg-light rounded-circle d-flex align-items-center justify-content-center">Image 1</div>
+        <div class="image bg-light rounded-circle d-flex align-items-center justify-content-center">Image 2</div>
+        <div class="image bg-light rounded-circle d-flex align-items-center justify-content-center">Image 3</div>
+        <div class="more text-primary cursor-pointer">More...</div>
+      </div>
+    </div>
+
   </div>
 </div>

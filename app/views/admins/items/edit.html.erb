@@ -2,7 +2,7 @@
 
 <h1><%= action_name.capitalize %> Item</h1>
 
-<%= form_with model: @item, url: action_name == 'new' ? admins_items_path : admins_item_path(@item), local: true do |form| %>
+<%= form_with model: @item, url: @item.new_record? ? admins_items_path : admins_item_path(@item), local: true do |form| %>
   <div>
     <%= form.label :name %>
     <%= form.text_field :name %>

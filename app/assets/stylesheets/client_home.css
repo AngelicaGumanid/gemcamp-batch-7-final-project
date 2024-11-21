@@ -2,68 +2,79 @@
     text-align: center;
 }
 
-.top-section {
-    display: flex;
-    justify-content: space-between;
-    padding: 10px;
-}
-
 .banner-image {
-    margin: 20px 0;
-    padding: 30px;
+    margin-bottom: 30px;
 }
 
 .announcement, .feedback-section, .coming-soon-section {
     margin: 20px 0;
 }
 
-.feedback-images, .coming-soon-images {
-    display: flex;
-    justify-content: center;
+.categories-filter .filter-btn {
+    border-radius: 50px;
+    padding: 10px 20px;
 }
 
-.image, .more {
-    width: 100px;
-    height: 100px;
-    margin: 10px;
+.items-grid .item-card {
+    transition: transform 0.3s ease-in-out;
+}
+
+.items-grid .item-card:hover {
+    transform: translateY(-5px);
+}
+
+.card {
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.card-img-top {
+    height: 250px;
+    object-fit: cover;
+    border-radius: 10px 10px 0 0;
+    width: 100%;
+    max-width: 100%;
+    display: block;
+}
+
+
+.card-body {
+    padding: 15px;
+}
+
+.card-title {
+    font-size: 1.2rem;
+    font-weight: 600;
+}
+
+.feedback-section, .coming-soon-section {
+    background-color: #f8f9fa;
+    padding: 20px;
+    border-radius: 12px;
+}
+
+.feedback-images .image, .coming-soon-images .image {
     background-color: #e0e0e0;
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
+    font-size: 0.9rem;
+    color: #555;
 }
 
-
-/*banner*/
-.banner-carousel .carousel-item img {
-    height: 400px;
-    object-fit: cover;
+.feedback-images .more, .coming-soon-images .more {
+    color: #007bff;
+    cursor: pointer;
+    font-weight: 500;
+    margin-top: 10px;
 }
 
-.carousel-caption h5 {
-    font-size: 1.5rem;
-    font-weight: bold;
-    color: #ffffff;
-}
-
-.carousel-caption p {
-    font-size: 1rem;
-    color: #ffffff;
-}
-
-.carousel-control-prev-icon,
-.carousel-control-next-icon {
-    background-color: #333333;
-    border-radius: 50%;
-}
-
-.banner-carousel .carousel-control-prev-icon,
-.banner-carousel .carousel-control-next-icon {
-    width: 30px;
-    height: 30px;
-}
-
-.banner-carousel .carousel-caption {
-    background: rgba(0, 0, 0, 0.5);
-    padding: 10px;
-    border-radius: 8px;
+@media (max-width: 768px) {
+    .feedback-images .image, .coming-soon-images .image {
+        width: 60px;
+        height: 60px;
+    }
 }
