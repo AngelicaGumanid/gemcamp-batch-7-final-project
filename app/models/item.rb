@@ -46,7 +46,7 @@ class Item < ApplicationRecord
   end
 
   def can_start?
-    quantity.present? && quantity.positive? && (Date.current < offline_at) && status == 'active'
+    quantity.present? && quantity.positive? && (offline_at.nil? || offline_at > Date.current) && active?
   end
 
   def deduct_quantity_and_increase_batch

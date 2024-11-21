@@ -40,6 +40,7 @@ Rails.application.routes.draw do
       resource :profile, only: [:show, :edit, :update], controller: 'profiles'
       resources :locations, only: [:index, :new, :create, :edit, :update, :destroy]
       get 'invite/people', to: 'invite#index', as: 'invite_people'
+      get '/lottery', to: 'clients/lotteries#index'
     end
     root to: 'clients/home#index'
   end

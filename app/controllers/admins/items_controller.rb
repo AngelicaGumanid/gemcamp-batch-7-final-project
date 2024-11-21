@@ -49,7 +49,7 @@ class Admins::ItemsController < ApplicationController
     if @item.start!
       redirect_to admins_items_path, notice: 'Item successfully started.'
     else
-      redirect_to admins_items_path, alert: 'Cannot start item due to invalid conditions.'
+      redirect_to admins_items_path, alert: "Cannot start item. Current state: #{@item.state}"
     end
   end
 
