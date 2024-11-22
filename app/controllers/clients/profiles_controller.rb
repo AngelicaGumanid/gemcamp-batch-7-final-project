@@ -12,22 +12,26 @@ class Clients::ProfilesController < ApplicationController
   def update
     @user = current_clients_user
 
-    if profile_params[:password].present?
+    if params[:user][:current_password].blank?
+      flash.now[:alert] = 'Failed to update profile. Current password is required.'
+      @user.errors.add(:current_password, 'is required to update your profile')
+      render :edit
+    else
       if @user.valid_password?(params[:user][:current_password])
-        if @user.update(profile_params.except(:current_password))
-          redirect_to clients_profile_path, notice: 'Profile updated successfully.'
+        update_params = profile_params.except(:current_password)
+        update_params.delete(:password) if update_params[:password].blank?
+
+        if @user.update(update_params)
+          flash[:notice] = 'Profile updated successfully.'
+          redirect_to clients_profile_path
         else
-          render :edit, alert: 'Failed to update profile.'
+          flash.now[:alert] = 'Failed to update profile.'
+          render :edit
         end
       else
+        flash.now[:alert] = 'Failed to update profile. Current password is incorrect.'
         @user.errors.add(:current_password, 'is incorrect')
-        render :edit, alert: 'Failed to update profile. Current password is incorrect.'
-      end
-    else
-      if @user.update(profile_params.except(:current_password, :password))
-        redirect_to clients_profile_path, notice: 'Profile updated successfully.'
-      else
-        render :edit, alert: 'Failed to update profile.'
+        render :edit
       end
     end
   end

@@ -73,4 +73,5 @@ Rails.application.configure do
   config.assets.debug = true
   config.hosts << "client.com"
   config.hosts << "admin.com"
+  config.hosts << "ad02-175-176-38-157.ngrok-free.app"
 end

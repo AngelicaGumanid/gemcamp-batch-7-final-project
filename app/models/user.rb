@@ -10,7 +10,7 @@ class User < ApplicationRecord
 
   validates :email, presence: true, uniqueness: true
   validates :username, uniqueness: true, allow_blank: true
-  validates :phone, phone: { possible: true, types: %i[voip mobile], country: 'PH' }, allow_blank: true
+  validates :phone, phone: true, allow_blank: true
   validates :coins, numericality: { only_integer: true, greater_than_or_equal_to: 0 }
   validates :total_deposit, numericality: { greater_than_or_equal_to: 0 }
   validates :children_members, numericality: { only_integer: true, greater_than_or_equal_to: 0 }

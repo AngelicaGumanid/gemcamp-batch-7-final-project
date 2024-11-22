@@ -10,7 +10,7 @@
 
       <%= render 'partials/popup_message' %>
 
-      <%= form_for(@user, url: clients_profile_path, method: :patch, html: { multipart: true }) do |f| %>
+      <%= form_for(@user, url: clients_profile_path, data: { turbo_method: :patch, turbo: false }, html: { multipart: true }) do |f| %>
 
         <% if @user.errors.any? %>
           <div class="alert alert-danger">
@@ -53,7 +53,7 @@
 
         <div class="mb-3">
           <%= f.label :current_password, class: 'form-label' %>
-          <small class="form-text text-muted">Required when changing password</small>
+          <small class="form-text text-muted">Required for all updates</small>
           <%= f.password_field :current_password, class: 'form-control' %>
         </div>
 
