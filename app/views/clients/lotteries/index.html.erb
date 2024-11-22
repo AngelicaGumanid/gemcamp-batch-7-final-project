@@ -1,0 +1,66 @@
+<%= render 'partials/navbar' %>
+
+<div class="container mt-5">
+  <% @items.each do |item| %>
+    <div class="card mb-4">
+      <img src="<%= item.image %>" class="card-img-top" alt="<%= item.name %>">
+      <div class="card-body">
+        <h5 class="card-title"><%= item.name %></h5>
+        <p class="card-text">Minimum Tickets: <%= item.minimum_tickets %></p>
+        <div class="progress mb-3" style="height: 20px;">
+          <% if item.quantity.present? && item.minimum_tickets.present? && item.minimum_tickets > 0 %>
+            <div class="progress-bar" role="progressbar" style="width: <%= (item.quantity.to_f / item.minimum_tickets * 100).round(2) %>%;" aria-valuenow="<%= item.quantity %>" aria-valuemin="0" aria-valuemax="<%= item.minimum_tickets %>">
+              <%= item.quantity %> / <%= item.minimum_tickets %>
+            </div>
+          <% else %>
+            <p class="text-muted">Progress information not available.</p>
+          <% end %>
+        </div>
+
+
+        <% if clients_user_signed_in? %>
+          <form action="<%= buy_ticket_path(item) %>" method="post">
+            <%= hidden_field_tag :authenticity_token, form_authenticity_token %>
+            <div class="input-group mb-3" style="max-width: 300px;">
+              <button class="btn btn-outline-secondary" type="button" onclick="decreaseQuantity('<%= item.id %>')">-</button>
+              <input type="number" name="ticket_count" id="ticket-count-<%= item.id %>" class="form-control text-center" value="1" min="1">
+              <button class="btn btn-outline-secondary" type="button" onclick="increaseQuantity('<%= item.id %>')">+</button>
+            </div>
+            <button type="submit" class="btn btn-primary">Buy Tickets</button>
+          </form>
+        <% else %>
+          <p class="text-danger">You need to <a href="<%= new_clients_user_session_path %>">sign in</a> to buy tickets.</p>
+        <% end %>
+      </div>
+    </div>
+  <% end %>
+
+  <div class="mt-5">
+    <h5>Your Tickets</h5>
+    <% if @user_tickets.any? %>
+      <ul class="list-group">
+        <% @user_tickets.each do |ticket| %>
+          <li class="list-group-item">
+            Serial Number: <%= ticket.serial_number %> (Item: <%= ticket.item.name %>)
+          </li>
+        <% end %>
+      </ul>
+    <% else %>
+      <p class="text-muted">You don't own any tickets yet.</p>
+    <% end %>
+  </div>
+</div>
+
+<script>
+    function decreaseQuantity(itemId) {
+        const input = document.getElementById(`ticket-count-${itemId}`);
+        input.value = Math.max(parseInt(input.value) - 1, 1);
+    }
+
+    function increaseQuantity(itemId) {
+        const input = document.getElementById(`ticket-count-${itemId}`);
+        input.value = parseInt(input.value) + 1;
+    }
+</script>
+
+<%= render 'partials/footer' %>

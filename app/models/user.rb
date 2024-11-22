@@ -17,6 +17,7 @@ class User < ApplicationRecord
   mount_uploader :image, ImageUploader
 
   has_many :locations, dependent: :destroy
+  has_many :tickets, dependent: :destroy
 
   # For admin
   belongs_to :parent, class_name: 'User', optional: true
