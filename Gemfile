@@ -79,5 +79,7 @@ group :development do
   gem "rqrcode", "~> 2.0"
 
   gem "aasm"
+
+  gem "kaminari"
 end
 
