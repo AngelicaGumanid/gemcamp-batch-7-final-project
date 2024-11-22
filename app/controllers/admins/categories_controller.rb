@@ -1,4 +1,4 @@
-class Admins::CategoriesController < ApplicationController
+class Admins::CategoriesController < AdminController
   before_action :set_category, only: %i[show edit update destroy restore]
 
   def index

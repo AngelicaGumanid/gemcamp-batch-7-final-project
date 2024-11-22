@@ -1,4 +1,5 @@
-class Admins::HomeController < ApplicationController
+class Admins::HomeController < AdminController
+
   def index
     @clients = User.where(genre: :client)
 

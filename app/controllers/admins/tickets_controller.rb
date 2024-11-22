@@ -1,4 +1,4 @@
-class Admins::TicketsController < ApplicationController
+class Admins::TicketsController < AdminController
   before_action :set_ticket, only: %i[show cancel]
 
   def index

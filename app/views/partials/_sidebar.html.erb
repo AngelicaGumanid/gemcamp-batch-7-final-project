@@ -19,12 +19,11 @@
 
         <div class="header__dropdown-content">
           <a href="#" class="dropdown-item">Profile</a>
-          <%= button_to destroy_admins_user_session_path, method: :delete, class: 'btn btn-link dropdown-item' do %>
+          <%= link_to destroy_admins_user_session_path, data:{ turbo_method: :delete }, class: 'btn btn-link dropdown-item' do %>
             Sign Out
           <% end %>
 
         </div>
-
       </div>
     </div>
 
