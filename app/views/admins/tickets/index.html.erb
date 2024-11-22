@@ -1,0 +1,69 @@
+<%= stylesheet_link_tag "table", "data-turbo-track": "reload" %>
+
+<%= render 'partials/sidebar' %>
+
+<h1>Tickets</h1>
+
+<%= form_with url: admins_tickets_path, method: :get, local: true do %>
+  <div>
+    <%= label_tag :serial_number %>
+    <%= text_field_tag :serial_number, params[:serial_number] %>
+  </div>
+
+  <div>
+    <%= label_tag :item_name, 'Item Name' %>
+    <%= text_field_tag :item_name, params[:item_name] %>
+  </div>
+
+  <div>
+    <%= label_tag :email %>
+    <%= text_field_tag :email, params[:email] %>
+  </div>
+
+  <div>
+    <%= label_tag :state %>
+    <%= select_tag :state, options_for_select(%w[all pending won lost cancelled], params[:state]) %>
+  </div>
+
+  <div>
+    <%= label_tag :start_date %>
+    <%= date_field_tag :start_date, params[:start_date] %>
+    <%= label_tag :end_date %>
+    <%= date_field_tag :end_date, params[:end_date] %>
+  </div>
+
+  <%= submit_tag 'Search' %>
+<% end %>
+
+<table>
+  <thead>
+  <tr>
+    <th>Item</th>
+    <th>User</th>
+    <th>Batch Count</th>
+    <th>Coins</th>
+    <th>State</th>
+    <th>Serial Number</th>
+    <th>Actions</th>
+  </tr>
+  </thead>
+  <tbody>
+  <% @tickets.each do |ticket| %>
+    <tr>
+      <td><%= ticket.item.name %></td>
+      <td><%= ticket.user.email %></td>
+      <td><%= ticket.item.batch_count %></td>
+      <td><%= ticket.coins %></td>
+      <td><%= ticket.state %></td>
+      <td><%= ticket.serial_number %></td>
+      <td>
+        <% if ticket.pending? %>
+          <%= button_to 'Cancel', cancel_admins_ticket_path(ticket), method: :patch %>
+        <% end %>
+      </td>
+    </tr>
+  <% end %>
+  </tbody>
+</table>
+
+<%= paginate @tickets %>
