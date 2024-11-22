@@ -1,7 +1,8 @@
 class Item < ApplicationRecord
   include AASM
 
-  belongs_to :category, optional:true
+  belongs_to :category, optional: true
+  has_many :tickets, dependent: :restrict_with_error
 
   default_scope { where(deleted_at: nil) }
 
@@ -37,7 +38,7 @@ class Item < ApplicationRecord
     end
 
     event :cancel do
-      transitions from: [:starting, :paused], to: :cancelled
+      transitions from: %i[starting paused], to: :cancelled, after: :cancel_associated_tickets
     end
 
     event :resume do
@@ -53,6 +54,12 @@ class Item < ApplicationRecord
     self.quantity -= 1
     self.batch_count += 1
     save!
+  end
+
+  private
+
+  def cancel_associated_tickets
+    tickets.where(state: 'pending').find_each(&:cancel!)
   end
 
 end

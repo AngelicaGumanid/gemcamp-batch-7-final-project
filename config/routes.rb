@@ -30,6 +30,12 @@ Rails.application.routes.draw do
         end
       end
 
+      resources :tickets, only: %i[index] do
+        member do
+          patch :cancel
+        end
+      end
+
     end
     root to: 'admins/home#index', as: 'admin_root'
   end
