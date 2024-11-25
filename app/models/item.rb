@@ -23,7 +23,7 @@ class Item < ApplicationRecord
     state :cancelled
 
     event :start do
-      transitions from: [:pending, :ended, :cancelled], to: :starting, guard: :can_start?
+      transitions from: [:pending, :paused, :ended, :cancelled], to: :starting, guard: :can_start?
       after do
         deduct_quantity_and_increase_batch
       end
