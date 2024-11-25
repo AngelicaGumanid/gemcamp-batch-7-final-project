@@ -1,7 +1,5 @@
 <%= stylesheet_link_tag "qrcode.css", "data-turbo-track": "reload" %>
 
-<%= render 'partials/navbar' %>
-
 <div class="d-flex flex-column align-items-center justify-content-center mt-5 min-vh-100">
   <div class="text-center mb-5">
     <h2 class="h2 font-weight-bold">Invite People to Join</h2>
@@ -20,5 +18,3 @@
     <input type="text" value="<%= @invite_url %>" readonly class="form-control invite-link" />
   </div>
 </div>
-
-<%= render 'partials/footer' %>

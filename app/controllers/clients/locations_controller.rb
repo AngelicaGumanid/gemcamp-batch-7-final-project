@@ -1,4 +1,6 @@
 class Clients::LocationsController < ApplicationController
+  layout 'client'
+
   before_action :authenticate_clients_user!
   before_action :set_location, only: %i[show edit update destroy]
 

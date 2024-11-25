@@ -1,4 +1,5 @@
 class Clients::SessionsController < Devise::SessionsController
+  layout 'client'
   def new
     super
   end

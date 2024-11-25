@@ -1,4 +1,5 @@
 class Clients::RegistrationsController < Devise::RegistrationsController
+  layout 'client'
   def create
     if cookies[:promoter].present?
       promoter_email = cookies[:promoter]

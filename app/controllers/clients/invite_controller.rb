@@ -1,4 +1,5 @@
 class Clients::InviteController < ApplicationController
+  layout 'client'
 
   def generate_qr_code(promoter_email)
     require 'rqrcode'

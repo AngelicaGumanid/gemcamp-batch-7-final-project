@@ -1,102 +1,100 @@
 <%= stylesheet_link_tag "location", "data-turbo-track": "reload" %>
 
 <div class="container-fluid py-2">
-<%= render 'partials/navbar' %>
 
-<section class="vh-100 d-flex align-items-center locations-section">
-  <div class="container h-100 d-flex align-items-center justify-content-center">
-    <div class="container mt-5">
+  <section class="vh-100 d-flex align-items-center locations-section">
+    <div class="container h-100 d-flex align-items-center justify-content-center">
+      <div class="container mt-5">
 
-      <div class="d-flex align-items-center mb-4">
-        <%= link_to clients_locations_path, class: 'btn btn-outline-secondary btn-sm me-3' do %>
-          <i class='bx bx-arrow-back'></i> Back to Addresses
+        <div class="d-flex align-items-center mb-4">
+          <%= link_to clients_locations_path, class: 'btn btn-outline-secondary btn-sm me-3' do %>
+            <i class='bx bx-arrow-back'></i> Back to Addresses
+          <% end %>
+        </div>
+
+        <h1 class="mb-4 text-center">Edit Address</h1>
+
+        <%= form_for(@location, url: clients_location_path(@location), method: :patch, html: { multipart: true }) do |f| %>
+          <% if @location.errors.any? %>
+            <div class="alert alert-danger">
+              <ul>
+                <% @location.errors.full_messages.each do |msg| %>
+                  <li><%= msg %></li>
+                <% end %>
+              </ul>
+            </div>
+          <% end %>
+
+          <div class="row mb-3">
+            <div class="col-md-6">
+              <%= f.label :name, class: 'form-label' %>
+              <%= f.text_field :name, class: 'form-control', value: @location.name %>
+            </div>
+
+            <div class="col-md-6">
+              <%= f.label :phone_number, class: 'form-label' %>
+              <%= f.telephone_field :phone_number, class: 'form-control', value: @location.phone_number %>
+            </div>
+          </div>
+
+          <div class="mb-3">
+            <%= f.label :address_regions_id, 'Region', class: 'form-label' %>
+            <%= f.collection_select :address_regions_id,
+                                    Address::Region.all, :id, :name,
+                                    { prompt: 'Please select region' },
+                                    { selected: @location.address_regions_id, class: 'form-control' } %>
+          </div>
+
+          <div class="mb-3">
+            <%= f.label :address_provinces_id, 'Province', class: 'form-label' %>
+            <%= f.collection_select :address_provinces_id,
+                                    Address::Province.where(region_id: @location.address_regions_id), :id, :name,
+                                    { prompt: 'Please select province' },
+                                    { selected: @location.address_provinces_id, class: 'form-control' } %>
+          </div>
+
+          <div class="mb-3">
+            <%= f.label :address_cities_id, 'City', class: 'form-label' %>
+            <%= f.collection_select :address_cities_id,
+                                    Address::City.where(province_id: @location.address_provinces_id), :id, :name,
+                                    { prompt: 'Please select city' },
+                                    { selected: @location.address_cities_id, class: 'form-control' } %>
+          </div>
+
+          <div class="mb-3">
+            <%= f.label :address_barangays_id, 'Barangay', class: 'form-label' %>
+            <%= f.collection_select :address_barangays_id,
+                                    Address::Barangay.where(city_id: @location.address_cities_id), :id, :name,
+                                    { prompt: 'Please select barangay' },
+                                    { selected: @location.address_barangays_id, class: 'form-control' } %>
+          </div>
+
+          <div class="mb-3">
+            <%= f.label :street_address, class: 'form-label' %>
+            <%= f.text_field :street_address, class: 'form-control', value: @location.street_address %>
+          </div>
+
+          <div class="mb-3">
+            <%= f.label :genre, class: 'form-label' %>
+            <%= f.select :genre, Location.genres.keys.map { |k| [k.humanize, k] }, { selected: @location.genre }, class: 'form-control' %>
+          </div>
+
+          <div class="mb-3">
+            <%= f.label :remark, class: 'form-label' %>
+            <%= f.text_area :remark, class: 'form-control', value: @location.remark %>
+          </div>
+
+          <div class="mb-3 form-check">
+            <%= f.check_box :is_default, class: 'form-check-input', id: 'defaultCheck', checked: @location.is_default %>
+            <%= f.label :is_default, 'Set as default address', class: 'form-check-label' %>
+          </div>
+
+          <div class="d-flex justify-content-center">
+            <%= f.submit 'Update Location', class: 'btn btn-primary px-4 py-2' %>
+          </div>
         <% end %>
+
       </div>
-
-      <h1 class="mb-4 text-center">Edit Address</h1>
-
-      <%= form_for(@location, url: clients_location_path(@location), method: :patch, html: { multipart: true }) do |f| %>
-        <% if @location.errors.any? %>
-          <div class="alert alert-danger">
-            <ul>
-              <% @location.errors.full_messages.each do |msg| %>
-                <li><%= msg %></li>
-              <% end %>
-            </ul>
-          </div>
-        <% end %>
-
-        <div class="row mb-3">
-          <div class="col-md-6">
-            <%= f.label :name, class: 'form-label' %>
-            <%= f.text_field :name, class: 'form-control', value: @location.name %>
-          </div>
-
-          <div class="col-md-6">
-            <%= f.label :phone_number, class: 'form-label' %>
-            <%= f.telephone_field :phone_number, class: 'form-control', value: @location.phone_number %>
-          </div>
-        </div>
-
-        <div class="mb-3">
-          <%= f.label :address_regions_id, 'Region', class: 'form-label' %>
-          <%= f.collection_select :address_regions_id,
-                                  Address::Region.all, :id, :name,
-                                  { prompt: 'Please select region' },
-                                  { selected: @location.address_regions_id, class: 'form-control' } %>
-        </div>
-
-        <div class="mb-3">
-          <%= f.label :address_provinces_id, 'Province', class: 'form-label' %>
-          <%= f.collection_select :address_provinces_id,
-                                  Address::Province.where(region_id: @location.address_regions_id), :id, :name,
-                                  { prompt: 'Please select province' },
-                                  { selected: @location.address_provinces_id, class: 'form-control' } %>
-        </div>
-
-        <div class="mb-3">
-          <%= f.label :address_cities_id, 'City', class: 'form-label' %>
-          <%= f.collection_select :address_cities_id,
-                                  Address::City.where(province_id: @location.address_provinces_id), :id, :name,
-                                  { prompt: 'Please select city' },
-                                  { selected: @location.address_cities_id, class: 'form-control' } %>
-        </div>
-
-        <div class="mb-3">
-          <%= f.label :address_barangays_id, 'Barangay', class: 'form-label' %>
-          <%= f.collection_select :address_barangays_id,
-                                  Address::Barangay.where(city_id: @location.address_cities_id), :id, :name,
-                                  { prompt: 'Please select barangay' },
-                                  { selected: @location.address_barangays_id, class: 'form-control' } %>
-        </div>
-
-        <div class="mb-3">
-          <%= f.label :street_address, class: 'form-label' %>
-          <%= f.text_field :street_address, class: 'form-control', value: @location.street_address %>
-        </div>
-
-        <div class="mb-3">
-          <%= f.label :genre, class: 'form-label' %>
-          <%= f.select :genre, Location.genres.keys.map { |k| [k.humanize, k] }, { selected: @location.genre }, class: 'form-control' %>
-        </div>
-
-        <div class="mb-3">
-          <%= f.label :remark, class: 'form-label' %>
-          <%= f.text_area :remark, class: 'form-control', value: @location.remark %>
-        </div>
-
-        <div class="mb-3 form-check">
-          <%= f.check_box :is_default, class: 'form-check-input', id: 'defaultCheck', checked: @location.is_default %>
-          <%= f.label :is_default, 'Set as default address', class: 'form-check-label' %>
-        </div>
-
-        <div class="d-flex justify-content-center">
-          <%= f.submit 'Update Location', class: 'btn btn-primary px-4 py-2' %>
-        </div>
-      <% end %>
-
     </div>
-  </div>
-</section>
-
-<%= render 'partials/footer' %>
+  </section>
+</div>

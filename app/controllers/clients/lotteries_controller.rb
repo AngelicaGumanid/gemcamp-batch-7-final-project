@@ -1,10 +1,18 @@
 class Clients::LotteriesController < ApplicationController
+  layout 'client'
+
   before_action :set_item, only: [:buy_ticket]
   before_action :authenticate_user!, only: [:buy_ticket]
 
   def index
     @items = Item.active
     @user_tickets = current_clients_user&.tickets || []
+
+    @items = Item.where("online_at <= ? AND offline_at >= ? AND status = ? AND state = ?",
+                        Time.current, Time.current, 1, 'starting')
+                 .includes(:category)
+
+    @categories = Category.all
   end
 
   def buy_ticket

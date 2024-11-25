@@ -1,4 +1,6 @@
 class Clients::ProfilesController < ApplicationController
+  layout 'client'
+
   before_action :authenticate_clients_user!
 
   def show
