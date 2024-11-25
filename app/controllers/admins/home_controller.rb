@@ -1,5 +1,5 @@
 class Admins::HomeController < AdminController
-
+  layout 'admin'
   def index
     @clients = User.where(genre: :client)
 

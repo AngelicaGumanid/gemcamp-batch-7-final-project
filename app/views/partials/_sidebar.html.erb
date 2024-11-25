@@ -61,7 +61,7 @@
 
             <div class="nav__dropdown-collapse">
               <ul class="nav__dropdown-content">
-                <li><a href="#" class="nav__dropdown-item">User List</a></li>
+                <li><%= link_to 'User List', admin_root_path, class: "nav__dropdown-item"%></li>
                 <li><%= link_to 'Items', admins_items_index_path, class: "nav__dropdown-item" %></li>
               </ul>
             </div>

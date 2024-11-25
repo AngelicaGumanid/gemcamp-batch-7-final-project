@@ -1,4 +1,5 @@
 class Admins::ItemsController < AdminController
+  layout 'admin'
   before_action :set_item, only: %i[show edit update destroy start pause end_item cancel resume]
 
   def index

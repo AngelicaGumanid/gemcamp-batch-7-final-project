@@ -1,4 +1,5 @@
 class Admins::TicketsController < AdminController
+  layout 'admin'
   before_action :set_ticket, only: %i[show cancel]
 
   def index
