@@ -4,22 +4,12 @@ class Admins::TicketsController < AdminController
 
   def index
     conditions, values = search_conditions
-    Rails.logger.debug "Conditions: #{conditions}, Values: #{values}"
 
-    if conditions.blank?
-      @tickets = Ticket.joins(:item, :user)
-                       .order(created_at: :desc)
-                       .page(params[:page])
-                       .per(20)
-    else
-      @tickets = Ticket.joins(:item, :user)
-                       .where(conditions, values)
-                       .order(created_at: :desc)
-                       .page(params[:page])
-                       .per(20)
-    end
-
-    Rails.logger.debug @tickets.to_sql
+    @tickets = Ticket.joins(:item, :user)
+                     .where(conditions, values)
+                     .order(created_at: :desc)
+                     .page(params[:page])
+                     .per(20)
   end
 
   def cancel

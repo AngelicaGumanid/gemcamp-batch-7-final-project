@@ -3,37 +3,37 @@
 <h1>Tickets</h1>
 
 <%= form_with url: admins_tickets_path, method: :get, local: true do %>
-  <div>
+  <div class="form-group">
     <%= label_tag :serial_number %>
-    <%= text_field_tag :serial_number, params[:serial_number] %>
+    <%= text_field_tag :serial_number, params[:serial_number], class: "form-control" %>
   </div>
 
-  <div>
+  <div class="form-group">
     <%= label_tag :item_name, 'Item Name' %>
-    <%= text_field_tag :item_name, params[:item_name] %>
+    <%= text_field_tag :item_name, params[:item_name], class: "form-control" %>
   </div>
 
-  <div>
+  <div class="form-group">
     <%= label_tag :email %>
-    <%= text_field_tag :email, params[:email] %>
+    <%= text_field_tag :email, params[:email], class: "form-control" %>
   </div>
 
-  <div>
+  <div class="form-group">
     <%= label_tag :state %>
-    <%= select_tag :state, options_for_select(%w[all pending won lost cancelled], params[:state]) %>
+    <%= select_tag :state, options_for_select([['All', ''], ['Pending', 'pending'], ['Won', 'won'], ['Lost', 'lost'], ['Cancelled', 'cancelled']], params[:state]), class: "form-control" %>
   </div>
 
-  <div>
+  <div class="form-group">
     <%= label_tag :start_date %>
-    <%= date_field_tag :start_date, params[:start_date] %>
+    <%= date_field_tag :start_date, params[:start_date], class: "form-control" %>
     <%= label_tag :end_date %>
-    <%= date_field_tag :end_date, params[:end_date] %>
+    <%= date_field_tag :end_date, params[:end_date], class: "form-control" %>
   </div>
 
-  <%= submit_tag 'Search' %>
+  <%= submit_tag 'Search', class: 'btn btn-primary' %>
 <% end %>
 
-<table>
+<table class="table table-striped mt-4">
   <thead>
   <tr>
     <th>Item</th>

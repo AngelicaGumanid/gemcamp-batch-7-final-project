@@ -43,7 +43,7 @@ class Ticket < ApplicationRecord
   private
 
   def refund_coin
-    user.increment!(:coins, 1)
+    user.decrement!(:coins, 1) if user.coins > 0
   end
 
 end

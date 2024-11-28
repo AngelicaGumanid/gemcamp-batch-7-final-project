@@ -36,8 +36,13 @@ class Admins::ItemsController < AdminController
   end
 
   def destroy
-    @item.destroy
-    redirect_to admins_items_path, notice: 'Item successfully deleted.'
+    if @item.tickets.any?
+      flash[:alert] = "Cannot delete this item because it has associated tickets."
+      redirect_to admins_items_path
+    else
+      @item.destroy
+      redirect_to admins_items_path, notice: 'Item successfully deleted.'
+    end
   end
 
   def restore
