@@ -50,13 +50,7 @@ Rails.application.routes.draw do
 
       get 'invite/people', to: 'invite#index', as: 'invite_people'
 
-      get '/lottery', to: 'clients/lotteries#index'
-
-      resources :lotteries, only: [:index] do
-        member do
-          post :buy_ticket
-        end
-      end
+      get '/lottery', to: 'lotteries#index'
 
     end
     root to: 'clients/home#index'
