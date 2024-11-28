@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2024_11_22_011603) do
+ActiveRecord::Schema[7.0].define(version: 2024_11_28_140111) do
   create_table "address_barangays", charset: "utf8mb4", force: :cascade do |t|
     t.bigint "city_id"
     t.string "code"
