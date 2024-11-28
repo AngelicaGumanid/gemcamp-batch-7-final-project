@@ -2,6 +2,7 @@
 import "@hotwired/turbo-rails"
 import "./controllers"
 import "../assets/javascripts/sidebar"
+import "../assets/javascripts/ticket_form"
 import * as bootstrap from "bootstrap"
 
 import jQuery from "jquery"

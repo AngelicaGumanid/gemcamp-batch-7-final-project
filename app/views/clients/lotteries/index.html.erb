@@ -18,9 +18,9 @@
     </div>
 
     <div class="categories d-flex flex-wrap justify-content-center gap-3">
-      <%= link_to 'All', clients_lottery_path, class: "btn btn-outline-secondary btn-sm" %>
+      <%= link_to 'All', clients_lotteries_path, class: "btn btn-outline-secondary btn-sm" %>
       <% @categories.each do |category| %>
-        <%= link_to category.name, clients_lottery_path(category: category.id), class: "btn btn-outline-secondary btn-sm" %>
+        <%= link_to category.name, clients_lotteries_path(category: category.id), class: "btn btn-outline-secondary btn-sm" %>
       <% end %>
     </div>
 

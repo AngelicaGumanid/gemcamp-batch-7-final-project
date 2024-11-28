@@ -1,63 +1,72 @@
-<div class="container mt-5">
-  <!-- Item Display -->
-  <div class="card mb-4">
-    <img src="<%= @item.image %>" class="card-img-top" alt="<%= @item.name %>">
-    <div class="card-body">
-      <h5 class="card-title"><%= @item.name %></h5>
-      <p class="card-text">Minimum Tickets: <%= @item.minimum_tickets %></p>
-      <div class="progress mb-3" style="height: 20px;">
-        <div class="progress-bar" role="progressbar" style="width: <%= (@item.quantity.to_f / @item.minimum_tickets * 100).round(2) %>%;" aria-valuenow="<%= @item.quantity %>" aria-valuemin="0" aria-valuemax="<%= @item.minimum_tickets %>">
-          <%= @item.quantity %> / <%= @item.minimum_tickets %>
+<%= stylesheet_link_tag "ticket_form", "data-turbo-track": "reload" %>
+
+<div class="container-fluid py-4">
+  <section class="item-show">
+    <div class="container">
+      <div class="card mx-auto" style="max-width: 700px;">
+
+        <div class="container-fluid py-4">
+          <%= image_tag(@item.image.url, alt: "Image of #{@item.name}", class: "card-img-custom") %>
+        </div>
+
+        <div class="card-body">
+          <h5 class="card-title text-center mb-3"><%= @item.name %></h5>
+
+
+          <!--        <div class="progress">-->
+          <!--          <div class="progress-bar" role="progressbar" style="width: <%#= (@item.tickets.count.to_f / @item.quantity.to_f * 100).round(2) %>%;" aria-valuenow="<%#= @item.tickets.count %>" aria-valuemin="0" aria-valuemax="<%#= @item.quantity %>">-->
+          <!--            <%#= (@item.tickets.count.to_f / @item.quantity.to_f * 100).round(2) %>%-->
+          <!--          </div>-->
+          <!--        </div>-->
+
+          <div class="progress mb-3">
+            <div class="progress-bar" role="progressbar"
+                 style="width: <%= [(@item.tickets.count.to_f / @item.minimum_tickets.to_f * 100), 100].min %>%;"
+                 aria-valuenow="<%= @item.tickets.count %>"
+                 aria-valuemin="0"
+                 aria-valuemax="<%= @item.minimum_tickets %>">
+              <%= (@item.tickets.count.to_f / @item.minimum_tickets.to_f * 100).round(2) %>%>
+            </div>
+          </div>
+
+          <p class="text-center">
+            <strong><%= @item.tickets.count %></strong> tickets sold out of
+            <strong><%= @item.minimum_tickets %></strong> required.
+          </p>
+
+          <% if current_clients_user %>
+            <% if @item.state == "starting" %>
+              <%= form_with url: buy_ticket_clients_lottery_path(@item), method: :post, local: true do |form| %>
+                <div class="d-flex justify-content-center align-items-center mb-3">
+
+                  <button type="button" class="btn btn-outline-secondary decrement" style="width: 40px;">-</button>
+
+                  <%= form.number_field :ticket_count, in: 1..current_clients_user.coins, class: "form-control text-center mx-2", min: 1, step: 1, value: 1, style: "width: 100%;" %>
+
+                  <button type="button" class="btn btn-outline-secondary increment" style="width: 40px;">+</button>
+                </div>
+
+                <button type="submit" class="btn btn-buy_ticket w-100">Buy Ticket(s)</button>
+              <% end %>
+            <% else %>
+              <p class="text-danger text-center mt-3">This item is not available for purchase at the moment.</p>
+            <% end %>
+          <% else %>
+            <p class="text-center mt-3">Please <%= link_to 'sign in', new_clients_user_session_path %> to purchase
+              tickets.</p>
+          <% end %>
+
+          <h6 class="mt-4">Serial Numbers</h6>
+          <ul>
+            <% @user_tickets.each do |ticket| %>
+              <li>
+                <span class="dot"></span>
+                <span class="serial-number"><%= ticket.serial_number %></span>
+              </li>
+            <% end %>
+          </ul>
         </div>
       </div>
     </div>
-  </div>
-
-  <!-- User Tickets -->
-  <div class="mb-4">
-    <h5>Your Tickets</h5>
-    <% if @user_tickets.any? %>
-      <ul class="list-group">
-        <% @user_tickets.each do |ticket| %>
-          <li class="list-group-item">
-            Serial Number: <%= ticket.serial_number %>
-          </li>
-        <% end %>
-      </ul>
-    <% else %>
-      <p class="text-muted">You don't own any tickets for this item yet.</p>
-    <% end %>
-  </div>
-
-  <!-- Buy Tickets -->
-  <% if user_signed_in? %>
-    <div>
-      <h5>Buy Tickets</h5>
-      <form action="<%= buy_ticket_path(@item) %>" method="post">
-        <%= hidden_field_tag :authenticity_token, form_authenticity_token %>
-        <div class="input-group mb-3" style="max-width: 300px;">
-          <button class="btn btn-outline-secondary" type="button" onclick="decreaseQuantity()">-</button>
-          <input type="number" name="ticket_count" id="ticket-count" class="form-control text-center" value="1" min="1">
-          <button class="btn btn-outline-secondary" type="button" onclick="increaseQuantity()">+</button>
-        </div>
-        <button type="submit" class="btn btn-primary">Buy Tickets</button>
-      </form>
-    </div>
-  <% else %>
-    <div>
-      <p class="text-danger">You need to <a href="<%= new_client_session_path %>">sign in</a> to buy tickets.</p>
-    </div>
-  <% end %>
+  </section>
 </div>
-
-<script>
-    function decreaseQuantity() {
-        const input = document.getElementById("ticket-count");
-        input.value = Math.max(parseInt(input.value) - 1, 1);
-    }
-
-    function increaseQuantity() {
-        const input = document.getElementById("ticket-count");
-        input.value = parseInt(input.value) + 1;
-    }
-</script>

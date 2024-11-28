@@ -12,3 +12,4 @@
 //= link qrcode.css
 //= link location.css
 //= link error_messages.css
+//= link ticket_form.css
