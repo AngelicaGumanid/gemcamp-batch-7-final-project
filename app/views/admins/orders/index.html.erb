@@ -1,0 +1,44 @@
+<%= stylesheet_link_tag "table", "data-turbo-track": "reload" %>
+
+<h1>Orders</h1>
+
+<table class="table table-striped mt-4">
+  <thead>
+  <tr>
+    <th>Serial Number</th>
+    <th>User</th>
+    <th>Offer</th>
+    <th>Amount</th>
+    <th>Coins</th>
+    <th>Genre</th>
+    <th>State</th>
+    <th>Actions</th>
+  </tr>
+  </thead>
+  <tbody>
+  <% @orders.each do |order| %>
+    <tr>
+      <td><%= order.serial_number %></td>
+      <td><%= order.user.email %></td>
+      <td><%= order.offer&.name || 'N/A' %></td>
+      <td><%= order.amount || 'N/A' %></td>
+      <td><%= order.coin %></td>
+      <td><%= order.genre.capitalize %></td>
+      <td><%= order.state.capitalize %></td>
+      <td>
+        <% if order.pending? %>
+          <%= button_to 'Submit', submit_admins_order_path(order), method: :patch %>
+          <%= button_to 'Cancel', cancel_admins_order_path(order), method: :patch %>
+        <% elsif order.submitted? %>
+          <%= button_to 'Pay', pay_admins_order_path(order), method: :patch %>
+        <% elsif order.paid? %>
+          <%= button_to 'Cancel', cancel_admins_order_path(order), method: :patch %>
+        <% end %>
+      </td>
+    </tr>
+  <% end %>
+  </tbody>
+</table>
+
+<%= paginate @orders %>
+
