@@ -1,16 +1,7 @@
 Rails.application.routes.draw do
-  namespace :admins do
-    get 'categories/index'
-    get 'categories/show'
-    get 'categories/edit'
-    get 'categories/new'
-    get 'items/index'
-    get 'items/edit'
-    get 'items/new'
-  end
-
   constraints(AdminDomainConstraint.new) do
     namespace :admins do
+
       devise_for :users, controllers: { sessions: 'admins/sessions' }, skip: [:registrations]
 
       resources :items do
@@ -30,7 +21,7 @@ Rails.application.routes.draw do
         end
       end
 
-      resources :tickets, only: %i[index] do
+      resources :tickets do
         member do
           patch :cancel
         end
@@ -47,12 +38,15 @@ Rails.application.routes.draw do
         end
       end
 
+      resources :offers
+
     end
     root to: 'admins/home#index', as: 'admin_root'
   end
 
   constraints(ClientDomainConstraint.new) do
     namespace :clients do
+
       devise_for :users, controllers: { registrations: 'clients/registrations', sessions: 'clients/sessions' }
 
       resource :profile, only: [:show, :edit, :update], controller: 'profiles'
@@ -60,8 +54,6 @@ Rails.application.routes.draw do
       resources :locations, only: [:index, :new, :create, :edit, :update, :destroy]
 
       get 'invite/people', to: 'invite#index', as: 'invite_people'
-
-      # get '/lottery', to: 'lotteries#index'
 
       resources :lotteries, only: [:index, :show] do
         post 'buy_ticket', on: :member
