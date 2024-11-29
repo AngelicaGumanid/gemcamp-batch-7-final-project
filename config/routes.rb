@@ -40,6 +40,8 @@ Rails.application.routes.draw do
 
       resources :offers
 
+      resources :orders
+
     end
     root to: 'admins/home#index', as: 'admin_root'
   end
