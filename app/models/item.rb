@@ -3,11 +3,14 @@ class Item < ApplicationRecord
 
   belongs_to :category, optional: true
   has_many :tickets, dependent: :restrict_with_error
+  has_many :winners
 
   default_scope { where(deleted_at: nil) }
 
   enum status: { inactive: 0, active: 1 }
   mount_uploader :image, ImageUploader
+
+  validates :minimum_tickets, numericality: { greater_than_or_equal_to: 1 }
 
   def destroy
     update(deleted_at: Time.current)
@@ -34,7 +37,11 @@ class Item < ApplicationRecord
     end
 
     event :end do
-      transitions from: :starting, to: :ended
+      transitions from: :starting, to: :ended, guard: :valid_ticket_count?
+
+      after do
+        pick_winner_and_update_tickets
+      end
     end
 
     event :cancel do
@@ -46,6 +53,35 @@ class Item < ApplicationRecord
     end
   end
 
+  def valid_ticket_count?
+    tickets.count >= minimum_tickets
+  end
+
+  def pick_winner_and_update_tickets
+    return if tickets.empty?
+
+    winning_ticket = tickets.sample
+    winning_ticket.update(state: 'won')
+
+    tickets.where.not(id: winning_ticket.id).update_all(state: 'lost')
+
+    Winner.create!(
+      item: self,
+      ticket: winning_ticket,
+      user: winning_ticket.user,
+      location_id: winning_ticket.user.location_id,
+      price: winning_ticket.coins,
+      admin_id: 1,
+      comment: "Congratulations! You won!"
+    )
+  end
+
+  private
+
+  def cancel_associated_tickets
+    tickets.where(state: 'pending').find_each(&:cancel!)
+  end
+
   def can_start?
     quantity.present? && quantity.positive? && (offline_at.nil? || offline_at > Date.current) && active?
   end
@@ -54,12 +90,6 @@ class Item < ApplicationRecord
     self.quantity -= 1
     self.batch_count += 1
     save!
-  end
-
-  private
-
-  def cancel_associated_tickets
-    tickets.where(state: 'pending').find_each(&:cancel!)
   end
 
 end
