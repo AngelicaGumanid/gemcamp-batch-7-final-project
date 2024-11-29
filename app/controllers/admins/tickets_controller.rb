@@ -58,6 +58,6 @@ class Admins::TicketsController < AdminController
       values[:end_date] = params[:end_date].to_date.end_of_day
     end
 
-    [conditions.join(" AND "), values]
+    [conditions.any? ? conditions.join(" AND ") : "1=1", values]
   end
 end
