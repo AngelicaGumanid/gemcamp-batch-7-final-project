@@ -61,6 +61,10 @@ Rails.application.routes.draw do
         post 'buy_ticket', on: :member
       end
 
+      resources :shops, only: [:index, :show]
+
+      resources :orders, only: [:create]
+
     end
     root to: 'clients/home#index'
   end
