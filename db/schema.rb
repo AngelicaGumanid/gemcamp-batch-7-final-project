@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2024_11_29_010521) do
+ActiveRecord::Schema[7.0].define(version: 2024_11_29_021154) do
   create_table "address_barangays", charset: "utf8mb4", force: :cascade do |t|
     t.bigint "city_id"
     t.string "code"
@@ -101,6 +101,22 @@ ActiveRecord::Schema[7.0].define(version: 2024_11_29_010521) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "orders", charset: "utf8mb4", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.bigint "offer_id"
+    t.string "serial_number", null: false
+    t.integer "state", default: 0, null: false
+    t.decimal "amount", precision: 10, scale: 2
+    t.integer "coin"
+    t.text "remarks"
+    t.integer "genre", default: 0, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["offer_id"], name: "index_orders_on_offer_id"
+    t.index ["serial_number"], name: "index_orders_on_serial_number", unique: true
+    t.index ["user_id"], name: "index_orders_on_user_id"
+  end
+
   create_table "tickets", charset: "utf8mb4", force: :cascade do |t|
     t.bigint "item_id", null: false
     t.bigint "user_id", null: false
@@ -161,6 +177,8 @@ ActiveRecord::Schema[7.0].define(version: 2024_11_29_010521) do
   add_foreign_key "locations", "address_provinces", column: "address_provinces_id"
   add_foreign_key "locations", "address_regions", column: "address_regions_id"
   add_foreign_key "locations", "users"
+  add_foreign_key "orders", "offers"
+  add_foreign_key "orders", "users"
   add_foreign_key "tickets", "items"
   add_foreign_key "tickets", "users"
   add_foreign_key "winners", "items"
