@@ -47,10 +47,12 @@
         <div class="nav__items">
           <h3 class="nav__subtitle"> Home </h3>
 
-          <%= link_to class: "nav__link", to: admin_root_path do %>
+
+          <%= link_to admin_root_path, class: "nav__link" do %>
             <i class='bx bxs-dashboard nav__icon'></i>
-            <span class="nav__name"> Homepage </span>
+            <span class="nav__name">Homepage</span>
           <% end %>
+
 
           <div class="nav__dropdown">
             <a href="#" class="nav__link">
@@ -77,7 +79,8 @@
             <div class="nav__dropdown-collapse">
               <ul class="nav__dropdown-content">
                 <li><%= link_to 'Categories ', admins_categories_index_path, class: "nav__dropdown-item" %></li>
-                <li><%= link_to 'Ticket ', admins_tickets_path, class: "nav__dropdown-item" %></li>
+                <li><%= link_to 'Tickets', admins_tickets_path, class: "nav__dropdown-item" %></li>
+                <li><%= link_to 'Winners', admins_winners_path, class: "nav__dropdown-item" %></li>
                 <li><a href="#" class="nav__dropdown-item">Example 1</a></li>
               </ul>
             </div>
