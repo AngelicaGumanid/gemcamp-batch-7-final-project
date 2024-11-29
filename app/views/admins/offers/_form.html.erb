@@ -1,0 +1,41 @@
+<%= form_with model: @offer, url: @offer.new_record? ? admins_offers_path : admins_offer_path(@offer), local: true do |form| %>
+  <% if @offer.errors.any? %>
+    <div class="alert alert-danger">
+      <h4>There were errors with your submission:</h4>
+      <ul>
+        <% @offer.errors.full_messages.each do |msg| %>
+          <li><%= msg %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="form-group">
+    <%= form.label :name %>
+    <%= form.text_field :name, class: 'form-control' %>
+  </div>
+
+  <div class="form-group">
+    <%= form.label :status %>
+    <%= form.select :status, Offer.statuses.keys.map { |status| [status.titleize, status] }, { prompt: 'Select Status' }, class: 'form-control' %>
+  </div>
+
+  <div class="form-group">
+    <%= form.label :amount %>
+    <%= form.number_field :amount, class: 'form-control' %>
+  </div>
+
+  <div class="form-group">
+    <%= form.label :coin %>
+    <%= form.number_field :coin, class: 'form-control' %>
+  </div>
+
+  <div class="form-group">
+    <%= form.label :image %>
+    <%= form.file_field :image, class: 'form-control' %>
+  </div>
+
+  <div class="form-group">
+    <%= form.submit 'Save Offer', class: 'btn btn-primary' %>
+  </div>
+<% end %>

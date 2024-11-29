@@ -1,0 +1,12 @@
+<h1>Offer Details</h1>
+<p><strong>Name:</strong> <%= @offer.name %></p>
+<p><strong>Status:</strong> <%= @offer.status.titleize %></p>
+<p><strong>Amount:</strong> <%= @offer.amount %></p>
+<p><strong>Coin:</strong> <%= @offer.coin %></p>
+
+<% if @offer.image.present? %>
+  <p><strong>Image:</strong> <%= image_tag @offer.image.url %></p>
+<% end %>
+
+<%= link_to 'Edit', edit_admins_offer_path(@offer), class: 'btn btn-primary' %> |
+<%= link_to 'Back to Offers', admins_offers_path, class: 'btn btn-secondary' %>
