@@ -1,0 +1,37 @@
+<section class="offer-show-section py-5">
+  <div class="container">
+    <div class="card shadow-lg border-0 mb-4">
+      <%= image_tag @offer.image.url, class: "card-img-top", alt: @offer.name, style: "object-fit: cover; height: 300px;" %>
+      <div class="card-body text-center">
+        <h1 class="card-title"><%= @offer.name %></h1>
+        <p class="card-text text-muted">
+          <strong>Status:</strong> <%= @offer.status.capitalize %>
+        </p>
+        <p class="card-text">
+          <strong>Price:</strong>
+          <% if @offer.amount.present? %>
+            <%= number_to_currency(@offer.amount) %>
+          <% elsif @offer.coin.present? %>
+            <%= @offer.coin %> Coins
+          <% else %>
+            Not available
+          <% end %>
+        </p>
+        <%= button_to 'Purchase', clients_orders_path(offer_id: @offer.id), method: :post, class: 'btn btn-primary' %>
+
+      </div>
+    </div>
+
+    <div class="text-center">
+      <%= link_to "Back to Shop", clients_shops_path, class: "btn btn-secondary" %>
+    </div>
+  </div>
+</section>
+
+<style>
+    .offer-show-section {
+        .card {
+            border-radius: 12px;
+        }
+    }
+</style>

@@ -5,7 +5,7 @@
     <button class="footer__link">Share</button>
     <%= link_to 'Invite', clients_invite_people_path, class: 'footer__link' %>
     <%= link_to 'Lottery', clients_lotteries_path, class: 'footer__link' %>
-    <button class="footer__link">Shop</button>
+    <%= link_to 'Shop', clients_shops_path, class: 'footer__link' %>
 
     <% if current_clients_user %>
       <%= link_to 'Me', clients_profile_path, class: 'footer__link' %>
