@@ -36,6 +36,17 @@ Rails.application.routes.draw do
         end
       end
 
+      resources :winners do
+        member do
+          patch :submit
+          patch :pay
+          patch :ship
+          patch :deliver
+          patch :publish
+          patch :remove_publish
+        end
+      end
+
     end
     root to: 'admins/home#index', as: 'admin_root'
   end

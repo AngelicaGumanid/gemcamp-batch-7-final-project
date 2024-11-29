@@ -1,0 +1,88 @@
+<%= stylesheet_link_tag "table", "data-turbo-track": "reload" %>
+
+<h1>Winners</h1>
+
+<%= form_with url: admins_winners_path, method: :get, local: true do %>
+  <div>
+    <%= label_tag :serial_number %>
+    <%= text_field_tag :serial_number, params[:serial_number] %>
+  </div>
+
+  <div>
+    <%= label_tag :email %>
+    <%= text_field_tag :email, params[:email] %>
+  </div>
+
+  <div>
+    <%= label_tag :state %>
+    <%= select_tag :state, options_for_select(Winner.aasm.states.map(&:name), params[:state]) %>
+  </div>
+
+  <div>
+    <%= label_tag :start_date %>
+    <%= date_field_tag :start_date, params[:start_date] %>
+    <%= label_tag :end_date %>
+    <%= date_field_tag :end_date, params[:end_date] %>
+  </div>
+
+  <%= submit_tag 'Search' %>
+<% end %>
+
+<table>
+  <thead>
+  <tr>
+    <th>Item ID</th>
+    <th>Ticket ID</th>
+    <th>User ID</th>
+    <th>Address ID</th>
+    <th>Item Batch Count</th>
+    <th>State</th>
+    <th>Price</th>
+    <th>Paid At</th>
+    <th>Admin ID</th>
+    <th>Picture</th>
+    <th>Comment</th>
+    <th>Actions</th>
+  </tr>
+  </thead>
+  <tbody>
+  <% @winners.each do |winner| %>
+    <tr>
+      <td><%= winner.item.id %></td>  <!-- Item ID -->
+      <td><%= winner.ticket.id %></td>  <!-- Ticket ID -->
+      <td><%= winner.user.id %></td>  <!-- User ID -->
+      <td><%= winner.location.id %></td>  <!-- Address ID -->
+      <td><%= winner.item.batch_count %></td>  <!-- Item Batch Count -->
+      <td><%= winner.state %></td>  <!-- AASM state -->
+      <td><%= number_to_currency(winner.price) %></td>  <!-- Price -->
+      <td><%= winner.paid_at ? winner.paid_at.strftime('%Y-%m-%d') : 'N/A' %></td>  <!-- Paid At -->
+      <td><%= winner.admin.id %></td>  <!-- Admin ID -->
+      <td>
+        <% if winner.picture? %>
+          <%= image_tag winner.picture.url, size: '50x50' %>
+        <% else %>
+          No Picture
+        <% end %>
+      </td>  <!-- Picture -->
+      <td><%= winner.comment %></td>  <!-- Comment -->
+      <td>
+        <% if winner.won? %>
+          <%= button_to 'Claim', submit_admins_winner_path(winner), method: :patch %>
+        <% elsif winner.claimed? %>
+          <%= button_to 'Submit', pay_admins_winner_path(winner), method: :patch %>
+        <% elsif winner.submitted? %>
+          <%= button_to 'Pay', ship_admins_winner_path(winner), method: :patch %>
+        <% elsif winner.paid? %>
+          <%= button_to 'Ship', deliver_admins_winner_path(winner), method: :patch %>
+        <% elsif winner.shipped? %>
+          <%= button_to 'Deliver', publish_admins_winner_path(winner), method: :patch %>
+        <% elsif winner.delivered? %>
+          <%= button_to 'Publish', remove_publish_admins_winner_path(winner), method: :patch %>
+        <% elsif winner.published? %>
+          <%= button_to 'Remove Published', remove_publish_admins_winner_path(winner), method: :patch %>
+        <% end %>
+      </td>
+    </tr>
+  <% end %>
+  </tbody>
+</table>
