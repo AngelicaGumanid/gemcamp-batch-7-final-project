@@ -21,7 +21,7 @@
     --font-medium: 500;
     --font-semi-bold: 600;
 
-    --z-fixed: 100;
+    --z-fixed: 1000;
 }
 
 @media screen and (min-width: 1024px) {
@@ -55,7 +55,7 @@ body {
     left: 0;
     width: 100%;
     background-color: var(--container-color);
-    box-shadow: 0 1px 0 rgba(22, 8, 43, 0.1);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
     padding: 0 1rem;
     z-index: var(--z-fixed);
 }
