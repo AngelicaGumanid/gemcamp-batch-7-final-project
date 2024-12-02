@@ -61,7 +61,9 @@ Rails.application.routes.draw do
         post 'buy_ticket', on: :member
       end
 
-      resources :shops, only: [:index, :show]
+      resources :shops, only: [:index, :show] do
+        post 'purchase', on: :member
+      end
 
       resources :orders, only: [:create]
 

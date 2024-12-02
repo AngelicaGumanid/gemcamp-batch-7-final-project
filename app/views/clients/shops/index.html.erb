@@ -3,55 +3,52 @@
 <section class="vh-100 d-flex align-items-center shop-section">
   <div class="container h-100 d-flex flex-column align-items-center justify-content-center">
 
-    <!-- Banner Section -->
     <div class="col-12 mb-4">
       <div class="card shadow-lg border-0">
-        <img src="#" alt="Shop Banner" class="card-img-top banner-img">
+        <%#= image_tag "1.png", alt: "Shop Banner", class: "card-img-top banner-img" %>
+        <img src="#" alt="Banner Image" class="card-img-top banner-img">
       </div>
     </div>
 
-    <!-- Announcement Section -->
     <div class="col-12 mb-4 text-center">
       <div class="alert alert-info">
         <strong>Announcement:</strong>
-        <button class="btn btn-primary btn-sm">Learn More</button>
+        <button class="btn btn-primary btn-sm">Click Here</button>
       </div>
     </div>
 
-    <!-- Offer Categories -->
-    <!--    <div class="categories d-flex flex-wrap justify-content-center gap-3">-->
-    <%#= link_to 'All Offers', clients_shops_path, class: "btn btn-outline-secondary btn-sm" %>
-    <%# @categories.each do |category| %>
-    <%#= link_to category.name, clients_shops_path(category: category.id), class: "btn btn-outline-secondary btn-sm" %>
-    <%# end %>
-    <!--    </div>-->
+    <!-- Categories Section (If applicable for Shop) -->
+<!--    <div class="categories d-flex flex-wrap justify-content-center gap-3">-->
+      <%#= link_to 'All', clients_shops_path, class: "btn btn-outline-secondary btn-sm" %>
+      <%# @categories.each do |category| %>
+        <%#= link_to category.name, clients_shops_path(category: category.id), class: "btn btn-outline-secondary btn-sm" %>
+      <%# end %>
+<!--    </div>-->
 
-    <!-- Offers Grid -->
+    <!-- Offers Section -->
     <div class="col-12">
       <div class="row row-cols-2 row-cols-md-3 g-4">
         <% @offers.each do |offer| %>
           <div class="col">
+
             <%= link_to clients_shop_path(offer), class: "card shadow-sm h-100 text-center offer-card" do %>
               <div class="card-body">
-                <%= image_tag offer.image.url, class: "card-img-top", alt: offer.name, style: "object-fit: cover; height: 150px;" %>
+                <% if offer.image.present? && offer.image.url.present? %>
+                  <%= image_tag offer.image.url, class: "card-img-top", alt: offer.name, style: "object-fit: cover; height: 150px;" %>
+                <% else %>
+                  <%= image_tag '1.png', class: "card-img-top", alt: 'Placeholder', style: "object-fit: cover; height: 150px;" %>
+                <% end %>
                 <h5 class="card-title"><%= offer.name %></h5>
-                <p class="card-text">
-                  Price:
-                  <% if offer.amount.present? %>
-                    <%= number_to_currency(offer.amount) %>
-                  <% elsif offer.coin.present? %>
-                    <%= offer.coin %> Coins
-                  <% else %>
-                    Not Available
-                  <% end %>
-                </p>
+                <p class="card-text">Coins: <%= offer.coin %></p>
+                <p class="card-text">Price: <%= number_to_currency(offer.amount) %></p>
               </div>
-              <p class="click-to-purchase">Buy Now for <%= offer.coin %> Coins</p>
             <% end %>
+
           </div>
         <% end %>
       </div>
     </div>
+
   </div>
 </section>
 
@@ -73,10 +70,17 @@
             object-fit: cover;
         }
 
-        .click-to-purchase {
-            font-size: 0.85rem;
+        .offer-card {
+            transition: transform 0.3s ease;
+        }
+
+        .offer-card:hover {
+            transform: scale(1.05);
+        }
+
+        .click-to-view-details {
+            font-size: 0.9em;
             color: #007bff;
-            margin-top: 10px;
         }
     }
 </style>

@@ -1,37 +1,63 @@
-<section class="offer-show-section py-5">
+<section class="offer-details-section">
   <div class="container">
     <div class="card shadow-lg border-0 mb-4">
-      <%= image_tag @offer.image.url, class: "card-img-top", alt: @offer.name, style: "object-fit: cover; height: 300px;" %>
-      <div class="card-body text-center">
-        <h1 class="card-title"><%= @offer.name %></h1>
-        <p class="card-text text-muted">
-          <strong>Status:</strong> <%= @offer.status.capitalize %>
-        </p>
-        <p class="card-text">
-          <strong>Price:</strong>
-          <% if @offer.amount.present? %>
-            <%= number_to_currency(@offer.amount) %>
-          <% elsif @offer.coin.present? %>
-            <%= @offer.coin %> Coins
-          <% else %>
-            Not available
-          <% end %>
-        </p>
-        <%= button_to 'Purchase', clients_orders_path(offer_id: @offer.id), method: :post, class: 'btn btn-primary' %>
-
-      </div>
+      <% if @offer.image.present? && @offer.image.url.present? %>
+        <%= image_tag @offer.image.url, alt: @offer.name, class: "card-img-top" %>
+      <% else %>
+        <%= image_tag '1.png', alt: 'Placeholder Image', class: "card-img-top" %>
+      <% end %>
     </div>
 
-    <div class="text-center">
-      <%= link_to "Back to Shop", clients_shops_path, class: "btn btn-secondary" %>
+    <div class="card-body">
+      <h5 class="card-title text-center mb-3"><%= @offer.name %></h5>
+
+      <!-- Price and Coin Section -->
+      <p class="text-center">Coins: <%= @offer.coin %></p>
+      <p class="text-center">Price: <%= number_to_currency(@offer.amount) %></p>
+
+      <!-- Purchase Button -->
+      <% if current_clients_user %>
+        <%= form_with url: purchase_clients_shop_path(@offer), method: :post, local: true do |form| %>
+          <div class="d-flex justify-content-center align-items-center mb-3">
+            <button type="button" class="btn btn-outline-secondary decrement" style="width: 40px;">-</button>
+
+            <%= form.number_field :quantity, in: 1..current_clients_user.coins, class: "form-control text-center mx-2", min: 1, step: 1, value: 1, style: "width: 100%;" %>
+
+            <button type="button" class="btn btn-outline-secondary increment" style="width: 40px;">+</button>
+          </div>
+
+          <button type="submit" class="btn btn-primary w-100">Purchase Offer</button>
+        <% end %>
+      <% else %>
+        <p class="text-center mt-3">Please <%= link_to 'sign in', new_clients_user_session_path %> to purchase this offer.</p>
+      <% end %>
+
+      <div class="mt-3">
+        <%= link_to 'Back to Shop', clients_shops_path, class: "btn btn-secondary" %>
+      </div>
     </div>
   </div>
 </section>
 
 <style>
-    .offer-show-section {
-        .card {
-            border-radius: 12px;
+    .offer-details-section .card-img-top {
+        width: 100%;
+        height: auto;
+    }
+
+    .offer-details-section {
+        .offer-card {
+            transition: transform 0.3s ease;
+            cursor: pointer;
+        }
+
+        .offer-card:hover {
+            transform: scale(1.05);
+        }
+
+        .click-to-view-details {
+            font-size: 0.9em;
+            color: #007bff;
         }
     }
 </style>

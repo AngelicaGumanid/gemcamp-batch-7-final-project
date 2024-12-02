@@ -7,5 +7,5 @@ class Offer < ApplicationRecord
 
   mount_uploader :image, ImageUploader
 
-  scope :search, ->(query) { where('name LIKE ?', "%#{query}%") }
+  scope :active, -> { where(status: :active) }
 end
