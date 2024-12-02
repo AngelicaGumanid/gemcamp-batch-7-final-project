@@ -2,16 +2,53 @@
 
 <h1>Orders</h1>
 
+<%= form_with url: admins_orders_path, method: :get, local: true do %>
+  <div class="form-group">
+    <%= label_tag :serial_number %>
+    <%= text_field_tag :serial_number, params[:serial_number], class: "form-control" %>
+  </div>
+
+  <div class="form-group">
+    <%= label_tag :user_email, 'User Email' %>
+    <%= text_field_tag :user_email, params[:user_email], class: "form-control" %>
+  </div>
+
+  <div class="form-group">
+    <%= label_tag :state %>
+    <%= select_tag :state, options_for_select([['All', ''], ['Pending', 'pending'], ['Submitted', 'submitted'], ['Paid', 'paid'], ['Cancelled', 'cancelled']], params[:state]), class: "form-control" %>
+  </div>
+
+  <div class="form-group">
+    <%= label_tag :offer_id, 'Offer' %>
+    <%= select_tag :offer_id, options_from_collection_for_select(Offer.all, :id, :name, params[:offer_id]), class: "form-control" %>
+  </div>
+
+  <div class="form-group">
+    <%= label_tag :genre %>
+    <%= select_tag :genre, options_for_select(Order.genres.keys.map { |g| [g.titleize, g] }, params[:genre]), class: "form-control" %>
+  </div>
+
+  <div class="form-group">
+    <%= label_tag :start_date %>
+    <%= date_field_tag :start_date, params[:start_date], class: "form-control" %>
+    <%= label_tag :end_date %>
+    <%= date_field_tag :end_date, params[:end_date], class: "form-control" %>
+  </div>
+
+  <%= submit_tag 'Search', class: 'btn btn-primary' %>
+<% end %>
+
+<%= link_to 'Clear Filters', admins_orders_path, class: 'btn btn-secondary' %>
+
 <table class="table table-striped mt-4">
   <thead>
   <tr>
     <th>Serial Number</th>
-    <th>User</th>
-    <th>Offer</th>
+    <th>User Email</th>
     <th>Amount</th>
     <th>Coins</th>
-    <th>Genre</th>
     <th>State</th>
+    <th>Offer</th>
     <th>Actions</th>
   </tr>
   </thead>
@@ -20,19 +57,16 @@
     <tr>
       <td><%= order.serial_number %></td>
       <td><%= order.user.email %></td>
-      <td><%= order.offer&.name || 'N/A' %></td>
-      <td><%= order.amount || 'N/A' %></td>
+      <td><%= order.amount %></td>
       <td><%= order.coin %></td>
-      <td><%= order.genre.capitalize %></td>
-      <td><%= order.state.capitalize %></td>
+      <td><%= order.state %></td>
+      <td><%= order.offer.try(:name) %></td>
       <td>
-        <% if order.pending? %>
-          <%= button_to 'Submit', submit_admins_order_path(order), method: :patch %>
-          <%= button_to 'Cancel', cancel_admins_order_path(order), method: :patch %>
-        <% elsif order.submitted? %>
-          <%= button_to 'Pay', pay_admins_order_path(order), method: :patch %>
-        <% elsif order.paid? %>
-          <%= button_to 'Cancel', cancel_admins_order_path(order), method: :patch %>
+        <% if order.can_pay? %>
+          <%= button_to 'Pay', pay_admins_order_path(order), method: :patch, class: "btn btn-success" %>
+        <% end %>
+        <% if order.can_cancel? %>
+          <%= button_to 'Cancel', cancel_admins_order_path(order), method: :patch, class: "btn btn-danger" %>
         <% end %>
       </td>
     </tr>
@@ -40,5 +74,11 @@
   </tbody>
 </table>
 
-<%= paginate @orders %>
+<h2>Order Summary</h2>
+<p><strong>Subtotal Amount:</strong> <%= number_to_currency(@subtotal) %></p>
+<p><strong>Subtotal Coins:</strong> <%= number_to_currency(@total_coin) %></p>
+<p><strong>Total Amount (from all records):</strong> <%= number_to_currency(@total_amount) %></p>
+<p><strong>Total Coins (from all records):</strong> <%= number_to_currency(@total_coin) %></p>
 
+
+<%= paginate @orders %>

@@ -37,6 +37,14 @@ class Order < ApplicationRecord
     self.serial_number = "#{date_part}-#{user.id}-#{number_count}"
   end
 
+  def can_pay?
+    state == 'submitted' && amount > 0
+  end
+
+  def can_cancel?
+    state == 'pending' || state == 'submitted'
+  end
+
   private
 
   def update_user_balance

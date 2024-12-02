@@ -40,7 +40,12 @@ Rails.application.routes.draw do
 
       resources :offers
 
-      resources :orders
+      resources :orders do
+        member do
+          patch :pay
+          patch :cancel
+        end
+      end
 
     end
     root to: 'admins/home#index', as: 'admin_root'
