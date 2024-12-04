@@ -56,7 +56,27 @@ Rails.application.routes.draw do
 
       devise_for :users, controllers: { registrations: 'clients/registrations', sessions: 'clients/sessions' }
 
-      resource :profile, only: [:show, :edit, :update], controller: 'profiles'
+      resource :profiles, only: [:show, :edit, :update], controller: 'profiles'
+      #   resources :order_history, only: [:index]
+      #   resources :lottery_history, only: [:index]
+      #   resources :invite_list, only: [:index]
+      #   resources :winnings_list, only: [:index]
+      # end
+        # resources :order_history, only: [:index]
+        # resources :lottery_history, only: [:index]
+        # resources :invite_list, only: [:index]
+        # resources :winnings_list, only: [:index]
+        # get 'order_history', to: 'order_history#index', as: 'order_history'
+        # get 'lottery_history', to: 'lottery_history#index', as: 'lottery_history'
+        # get 'invite_list', to: 'invite_list#index', as: 'invite_list'
+        # get 'winnings_list', to: 'winnings_list#index', as: 'winnings_list
+
+      namespace :profiles do
+        resources :order_history, only: [:index]
+        resources :lottery_history, only: [:index]
+        resources :invite_list, only: [:index]
+        resources :winnings_list, only: [:index]
+      end
 
       resources :locations, only: [:index, :new, :create, :edit, :update, :destroy]
 

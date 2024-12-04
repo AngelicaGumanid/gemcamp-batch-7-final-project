@@ -22,7 +22,7 @@
 
               <div class="d-flex justify-content-start align-items-center mt-3">
                 <%= link_to 'Cash In Now', '#', class: 'btn btn-primary btn-sm rounded-pill me-3 px-4 shadow-sm' %>
-                <%= link_to 'Edit Profile', edit_clients_profile_path, class: 'btn btn-outline-secondary btn-sm rounded-pill me-3 px-4 shadow-sm' %>
+                <%= link_to 'Edit Profile', edit_clients_profiles_path, class: 'btn btn-outline-secondary btn-sm rounded-pill me-3 px-4 shadow-sm' %>
                 <%= link_to 'Address', clients_locations_path, class: 'btn btn-outline-secondary btn-sm rounded-pill px-4 shadow-sm' %>
               </div>
             </div>
@@ -41,6 +41,56 @@
           </div>
         </div>
       </div>
+
+      <div class="col-12 col-md-10 col-lg-8">
+        <div class="card shadow-lg border-0 h-100 profile-card">
+          <div class="card-body p-4 d-flex flex-column justify-content-between">
+            <div class="row">
+
+              <%= render 'partials/popup_message' %>
+
+              <div class="col-12 col-md-8">
+                <h3 class="mb-3 profile-title">Profile</h3>
+                <p class="small mb-2"><i class="far fa-star fa-lg"></i> <span class="mx-2 text-muted">|</span> Username:
+                  <strong class="profile-info"><%= @user.username %></strong></p>
+                <p class="small mb-2"><i class="far fa-star fa-lg"></i> <span class="mx-2 text-muted">|</span> Email:
+                  <strong class="profile-info"><%= @user.email %></strong></p>
+                <p class="small mb-2"><i class="far fa-star fa-lg"></i> <span class="mx-2 text-muted">|</span> Coins:
+                  <strong class="profile-info"><%= @user.coins %></strong></p>
+
+                <hr class="my-3">
+
+                <div class="d-flex justify-content-start align-items-center mt-3">
+                  <%= link_to 'Cash In Now', '#', class: 'btn btn-primary btn-sm rounded-pill me-3 px-4 shadow-sm' %>
+                  <%= link_to 'Edit Profile', edit_clients_profiles_path, class: 'btn btn-outline-secondary btn-sm rounded-pill me-3 px-4 shadow-sm' %>
+                  <%= link_to 'Address', clients_locations_path, class: 'btn btn-outline-secondary btn-sm rounded-pill px-4 shadow-sm' %>
+                </div>
+              </div>
+
+              <div class="col-12 col-md-4 d-flex justify-content-center align-items-center">
+                <div class="position-relative profile-image-container">
+                  <% if current_clients_user %>
+                    <% if current_clients_user.image.present? %>
+                      <%= image_tag @user.image.url, class: "rounded-circle shadow-sm", alt: "Profile image" if @user.image.present? %>
+                    <% else %>
+                      <%= image_tag "default_profile.png", class: "rounded-circle", style: "object-fit: cover; width: 100px; height: 100px;", alt: "Default profile image", width: "100" %>
+                    <% end %>
+                  <% end %>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
     </div>
   </div>
+
+<!--  <div class="history-buttons">-->
+    <%#= link_to 'Order History', clients_profiles_order_history_index_path, class: 'btn btn-primary' %>
+    <%#= link_to 'Lottery History', clients_profiles_lottery_history_index_path, class: 'btn btn-primary' %>
+    <%#= link_to 'Invitation History', clients_profiles_invite_list_index_path, class: 'btn btn-primary' %>
+    <%#= link_to 'Winning History', clients_profiles_winnings_list_index_path, class: 'btn btn-primary' %>
+<!--  </div>-->
+
 </section>
