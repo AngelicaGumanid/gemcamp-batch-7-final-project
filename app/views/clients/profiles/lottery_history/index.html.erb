@@ -1,0 +1,30 @@
+<%#= render partial: "clients/profiles/show", locals: { title: "Lottery History" } do %>
+<%= render 'clients/profiles/show' %>
+  <%= form_with url: client_tickets_path, method: :get, local: true do %>
+    <%= label_tag :start_date, "Start Date" %>
+    <%= date_field_tag :start_date, params[:start_date] %>
+
+    <%= label_tag :end_date, "End Date" %>
+    <%= date_field_tag :end_date, params[:end_date] %>
+
+    <%= submit_tag "Filter" %>
+  <% end %>
+
+  <table>
+    <thead>
+    <tr>
+      <th>ID</th>
+      <th>Created At</th>
+      <th>Lottery Name</th>
+    </tr>
+    </thead>
+    <tbody>
+    <% @tickets.each do |ticket| %>
+      <tr>
+        <td><%= ticket.id %></td>
+        <td><%= ticket.created_at %></td>
+        <td><%= ticket.lottery_name %></td>
+      </tr>
+    <% end %>
+    </tbody>
+  </table>
