@@ -20,7 +20,10 @@
 <body>
 <%= stylesheet_link_tag "client_home.css", "data-turbo-track": "reload" %>
 
-<%= render 'partials/popup_message' %>
+<% unless @disable_popup_message %>
+  <%= render 'partials/popup_message' %>
+<% end %>
+
 <%= render 'partials/navbar' %>
 
 <main class="container-fluid py-4">
