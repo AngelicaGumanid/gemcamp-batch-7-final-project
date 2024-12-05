@@ -2,6 +2,6 @@ class Clients::Profiles::LotteryHistoryController < ApplicationController
   layout 'client'
 
   def index
-    @lotteries = Ticket.includes(:item).where(user: current_clients_user).page(params[:page]).per(5)
+    @lotteries = current_clients_user.tickets.includes(:item).order(created_at: :desc).page(params[:page]).per(10)
   end
 end
