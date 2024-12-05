@@ -14,10 +14,12 @@ class Clients::ProfilesController < ApplicationController
 
   def edit
     @user = current_clients_user
+    @disable_popup_message = true
   end
 
   def update
     @user = current_clients_user
+    @disable_popup_message = true
 
     if params[:user][:current_password].blank?
       flash.now[:alert] = 'Failed to update profile. Current password is required.'
