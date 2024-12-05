@@ -5,7 +5,11 @@ class Clients::ProfilesController < ApplicationController
 
   def show
     @user = current_clients_user
+    @user = current_clients_user
     @orders = @user.orders.includes(:offer).order(created_at: :desc).page(params[:page]).per(10)
+    @lotteries = @user.tickets.includes(:item).order(created_at: :desc).page(params[:page]).per(10)
+    @invites = User.where(parent_id: @user.id).order(created_at: :desc).page(params[:page]).per(10)
+    @winnings = Winner.includes(:item, :ticket).where(user_id: @user.id).order(created_at: :desc).page(params[:page]).per(10)
   end
 
   def edit
