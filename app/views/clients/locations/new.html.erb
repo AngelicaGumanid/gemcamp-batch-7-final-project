@@ -1,7 +1,7 @@
 <div class="wrapper">
 
-  <section class="vh-100 d-flex align-items-center locations-section">
-    <div class="container h-100 d-flex align-items-center justify-content-center">
+  <section class=" locations-section">
+    <div class="container-fluid py-4">
       <div class="container mt-5">
         <div class="d-flex align-items-center mb-4">
           <%= link_to clients_locations_path, class: 'btn btn-outline-secondary btn-sm me-3' do %>
@@ -81,8 +81,15 @@
             <%= form.text_area :remark, class: 'form-control' %>
           </div>
 
+          <% if @default_location.present? && !@location.is_default %>
+            <div class="alert alert-warning">
+              <strong>Notice:</strong> You already have a default address: "<%= @default_location.name %>".
+              Setting this as the default address will replace the current default.
+            </div>
+          <% end %>
+
           <div class="mb-3 form-check">
-            <%= form.check_box :is_default, class: 'form-check-input' %>
+            <%= form.check_box :is_default, class: 'form-check-input', id: 'defaultCheck' %>
             <%= form.label :is_default, 'Set as default address', class: 'form-check-label' %>
           </div>
 
@@ -94,3 +101,21 @@
     </div>
   </section>
 </div>
+
+<script>
+    document.addEventListener("turbo:load", () => {
+        const defaultCheckbox = document.querySelector("#defaultCheck");
+        if (defaultCheckbox) {
+            defaultCheckbox.addEventListener("change", function () {
+                if (this.checked) {
+                    const confirmChange = confirm(
+                        "You already have a default address. Do you want to replace it?"
+                    );
+                    if (!confirmChange) {
+                        this.checked = false;
+                    }
+                }
+            });
+        }
+    });
+</script>
