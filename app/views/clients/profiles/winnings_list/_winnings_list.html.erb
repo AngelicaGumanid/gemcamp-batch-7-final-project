@@ -1,0 +1,40 @@
+<div class="container mt-4">
+  <h3 class="mb-4">Winnings History</h3>
+
+  <% if @winnings.present? %>
+    <% @winnings.each do |winner| %>
+      <div class="col-12 col-md-10 col-lg-8 mt-4">
+        <div class="card shadow-lg border-0 h-100 profile-card">
+          <div class="card-body p-4 d-flex flex-column">
+            <p class="small mb-2">
+              <i class="fas fa-gift fa-lg"></i>
+              <span class="mx-2 text-muted">|</span>
+              <strong>Item:</strong> <%= winner.item.name %>
+            </p>
+            <p class="small mb-2">
+              <i class="fas fa-tags fa-lg"></i>
+              <span class="mx-2 text-muted">|</span>
+              <strong>Batch Count:</strong> <%= winner.item_batch_count %>
+            </p>
+            <p class="small mb-2">
+              <i class="far fa-money-bill-alt fa-lg"></i>
+              <span class="mx-2 text-muted">|</span>
+              <strong>Price:</strong> <%= number_to_currency(winner.price) %>
+            </p>
+            <p class="small mb-2">
+              <i class="far fa-calendar-alt fa-lg"></i>
+              <span class="mx-2 text-muted">|</span>
+              <strong>Won At:</strong> <%= winner.created_at.strftime("%B %d, %Y %H:%M") %>
+            </p>
+          </div>
+        </div>
+      </div>
+    <% end %>
+
+    <div class="mt-4">
+      <%= paginate @winnings %>
+    </div>
+  <% else %>
+    <p class="text-center">You have no winnings to display.</p>
+  <% end %>
+</div>
