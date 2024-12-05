@@ -1,0 +1,51 @@
+<div class="container mt-4">
+  <h3 class="mb-4">Order History</h3>
+
+  <% if @orders.present? %>
+    <% @orders.each_with_index do |order, index| %>
+      <div class="col-12 col-md-10 col-lg-8 mt-4">
+        <div class="card shadow-lg border-0 h-100 profile-card">
+          <div class="card-body p-4 d-flex flex-column">
+            <h4 class="mb-3">Order #<%= index + 1 %></h4>
+            <p class="small mb-2">
+              <i class="far fa-star fa-lg"></i>
+              <span class="mx-2 text-muted">|</span>
+              <strong>Serial Number:</strong> <%= order.serial_number %>
+            </p>
+            <p class="small mb-2">
+              <i class="far fa-money-bill-alt fa-lg"></i>
+              <span class="mx-2 text-muted">|</span>
+              <strong>Amount:</strong> <%= order.amount %>
+            </p>
+            <p class="small mb-2">
+              <i class="fas fa-coins fa-lg"></i>
+              <span class="mx-2 text-muted">|</span>
+              <strong>Coin:</strong> <%= order.coin %>
+            </p>
+            <p class="small mb-2">
+              <i class="far fa-calendar-alt fa-lg"></i>
+              <span class="mx-2 text-muted">|</span>
+              <strong>Created At:</strong> <%= order.created_at.strftime("%B %d, %Y %H:%M") %>
+            </p>
+            <p class="small mb-2">
+              <i class="fas fa-check-circle fa-lg"></i>
+              <span class="mx-2 text-muted">|</span>
+              <strong>State:</strong> <%= order.state.humanize %>
+            </p>
+            <p class="small mb-2">
+              <i class="fas fa-tags fa-lg"></i>
+              <span class="mx-2 text-muted">|</span>
+              <strong>Genre:</strong> <%= order.genre %>
+            </p>
+          </div>
+        </div>
+      </div>
+    <% end %>
+
+    <div class="mt-4">
+      <%= paginate @orders %>
+    </div>
+  <% else %>
+    <p class="text-center">You have no orders to display.</p>
+  <% end %>
+</div>
