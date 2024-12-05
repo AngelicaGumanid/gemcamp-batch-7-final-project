@@ -10,10 +10,16 @@ class Clients::LocationsController < ApplicationController
 
   def new
     @location = current_clients_user.locations.new
+    @default_location = current_clients_user.locations.find_by(is_default: true)
   end
 
   def create
     @location = current_clients_user.locations.new(location_params)
+
+    if @location.is_default? && current_clients_user.locations.exists?(is_default: true)
+      current_clients_user.locations.find_by(is_default: true).update(is_default: false)
+    end
+
     if @location.save
       redirect_to clients_locations_path, notice: 'Location created successfully.'
     else
@@ -21,15 +27,24 @@ class Clients::LocationsController < ApplicationController
     end
   end
 
-  def edit; end
+  def edit
+    @default_location = current_clients_user.locations.find_by(is_default: true)
+    @prompt_replace_default = @default_location.present? && !@location.is_default? && @location.id != @default_location.id
+  end
 
   def update
+    # @default_location = current_clients_user.locations.find_by(is_default: true)
+    # if @location.is_default? && @default_location.present? && @location.id != @default_location.id
+    #   @default_location.update(is_default: false)
+    # end
+
     if @location.update(location_params)
       redirect_to clients_locations_path, notice: 'Location updated successfully.'
     else
       render :edit, alert: 'Failed to update location.'
     end
   end
+
 
   def destroy
     @location = current_clients_user.locations.find(params[:id])
