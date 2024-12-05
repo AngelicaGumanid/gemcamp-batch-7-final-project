@@ -1,12 +1,11 @@
 <%= stylesheet_link_tag "profile", "data-turbo-track": "reload" %>
 
-<section class="vh-100 d-flex align-items-center profile-section">
-  <div class="container h-100 d-flex align-items-center justify-content-center">
-    <div class="col-12 col-md-10 col-lg-8">
+<section class="profile-section">
+  <div class="container-fluid py-4">
+    <div class="col-12 col-md-10 col-lg-8 mx-auto">
       <div class="card shadow-lg border-0 h-100 profile-card">
         <div class="card-body p-4 d-flex flex-column justify-content-between">
           <div class="row">
-
             <%= render 'partials/popup_message' %>
 
             <div class="col-12 col-md-8">
@@ -41,56 +40,61 @@
           </div>
         </div>
       </div>
-
-      <div class="col-12 col-md-10 col-lg-8">
-        <div class="card shadow-lg border-0 h-100 profile-card">
-          <div class="card-body p-4 d-flex flex-column justify-content-between">
-            <div class="row">
-
-              <%= render 'partials/popup_message' %>
-
-              <div class="col-12 col-md-8">
-                <h3 class="mb-3 profile-title">Profile</h3>
-                <p class="small mb-2"><i class="far fa-star fa-lg"></i> <span class="mx-2 text-muted">|</span> Username:
-                  <strong class="profile-info"><%= @user.username %></strong></p>
-                <p class="small mb-2"><i class="far fa-star fa-lg"></i> <span class="mx-2 text-muted">|</span> Email:
-                  <strong class="profile-info"><%= @user.email %></strong></p>
-                <p class="small mb-2"><i class="far fa-star fa-lg"></i> <span class="mx-2 text-muted">|</span> Coins:
-                  <strong class="profile-info"><%= @user.coins %></strong></p>
-
-                <hr class="my-3">
-
-                <div class="d-flex justify-content-start align-items-center mt-3">
-                  <%= link_to 'Cash In Now', '#', class: 'btn btn-primary btn-sm rounded-pill me-3 px-4 shadow-sm' %>
-                  <%= link_to 'Edit Profile', edit_clients_profiles_path, class: 'btn btn-outline-secondary btn-sm rounded-pill me-3 px-4 shadow-sm' %>
-                  <%= link_to 'Address', clients_locations_path, class: 'btn btn-outline-secondary btn-sm rounded-pill px-4 shadow-sm' %>
-                </div>
-              </div>
-
-              <div class="col-12 col-md-4 d-flex justify-content-center align-items-center">
-                <div class="position-relative profile-image-container">
-                  <% if current_clients_user %>
-                    <% if current_clients_user.image.present? %>
-                      <%= image_tag @user.image.url, class: "rounded-circle shadow-sm", alt: "Profile image" if @user.image.present? %>
-                    <% else %>
-                      <%= image_tag "default_profile.png", class: "rounded-circle", style: "object-fit: cover; width: 100px; height: 100px;", alt: "Default profile image", width: "100" %>
-                    <% end %>
-                  <% end %>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
     </div>
+
+    <div class="history-buttons mt-4 text-center">
+      <button class="btn btn-primary btn-sm rounded-pill me-3 px-4 shadow-sm" onclick="toggleVisibility('order-history')">Order
+        History
+      </button>
+      <button class="btn btn-primary btn-sm rounded-pill me-3 px-4 shadow-sm" onclick="toggleVisibility('lottery-history')">Lottery
+        History
+      </button>
+      <button class="btn btn-primary btn-sm rounded-pill me-3 px-4 shadow-sm" onclick="toggleVisibility('invite-history')">Invitation
+        History
+      </button>
+      <button class="btn btn-primary btn-sm rounded-pill px-4 shadow-sm" onclick="toggleVisibility('winning-history')">Winning
+        History
+      </button>
+    </div>
+
+    <div id="order-history" class="mt-4 d-none">
+      <%= render 'clients/profiles/order_history/order_history' %>
+    </div>
+    <div id="lottery-history" class="mt-4 d-none">
+      <%= render 'clients/profiles/lottery_history/lottery_history' %>
+    </div>
+    <div id="invite-history" class="mt-4 d-none">
+      <%= render 'clients/profiles/invite_list/invite_list' %>
+    </div>
+    <div id="winning-history" class="mt-4 d-none">
+      <%= render 'clients/profiles/winnings_list/winnings_list' %>
+    </div>
+
+<!--    <div class="col-12 col-md-10 col-lg-8 mt-4">-->
+<!--      <div class="card shadow-lg border-0 h-100 profile-card">-->
+<!--        <div class="card-body p-4 d-flex flex-column">-->
+<!--          <h4 class="mb-3">Sample Card</h4>-->
+<!--          <p class="small mb-2"><i class="far fa-star fa-lg"></i> <span class="mx-2 text-muted">|</span> This is a-->
+<!--            placeholder for additional cards.</p>-->
+<!--          <p class="small mb-2"><i class="far fa-star fa-lg"></i> <span class="mx-2 text-muted">|</span> It uses the-->
+<!--            same style as the profile card.</p>-->
+<!--        </div>-->
+<!--      </div>-->
+<!--    </div>-->
+
   </div>
-
-<!--  <div class="history-buttons">-->
-    <%#= link_to 'Order History', clients_profiles_order_history_index_path, class: 'btn btn-primary' %>
-    <%#= link_to 'Lottery History', clients_profiles_lottery_history_index_path, class: 'btn btn-primary' %>
-    <%#= link_to 'Invitation History', clients_profiles_invite_list_index_path, class: 'btn btn-primary' %>
-    <%#= link_to 'Winning History', clients_profiles_winnings_list_index_path, class: 'btn btn-primary' %>
-<!--  </div>-->
-
 </section>
+
+<script>
+    function toggleVisibility(sectionId) {
+        const sections = ['order-history', 'lottery-history', 'invite-history', 'winning-history'];
+        sections.forEach(id => {
+            const section = document.getElementById(id);
+            if (sectionId === id) {
+                section.classList.toggle('d-none');
+            } else {
+                section.classList.add('d-none');
+            }
+        });
+    }
+</script>

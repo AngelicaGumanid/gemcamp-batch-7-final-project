@@ -5,6 +5,7 @@ class Clients::ProfilesController < ApplicationController
 
   def show
     @user = current_clients_user
+    @orders = @user.orders.includes(:offer).order(created_at: :desc).page(params[:page]).per(10)
   end
 
   def edit
