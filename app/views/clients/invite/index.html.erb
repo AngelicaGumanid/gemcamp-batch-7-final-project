@@ -1,20 +1,21 @@
 <%= stylesheet_link_tag "qrcode.css", "data-turbo-track": "reload" %>
 
-<div class="d-flex flex-column align-items-center justify-content-center mt-5 min-vh-100">
-  <div class="text-center mb-5">
-    <h2 class="h2 font-weight-bold">Invite People to Join</h2>
-    <p class="text-muted">Scan the QR code or use the invite link to sign up:</p>
-  </div>
-
-  <!-- QR Code Section -->
-  <div class="mb-5">
-    <div class="qr-code-container">
-      <%= raw @qr_code %>
+<div class="container-fluid py-4">
+  <div class="d-flex flex-column align-items-center justify-content-center px-4">
+    <div class="text-center mb-4">
+      <h2 class="font-weight-bold">Invite People to Join</h2>
+      <p class="text-muted mb-4">Scan the QR code or use the invite link to sign up:</p>
     </div>
-  </div>
 
-  <div class="border border-light rounded-3 p-4 shadow-sm text-center">
-    <p class="text-muted mb-2">Your Invite Link:</p>
-    <input type="text" value="<%= @invite_url %>" readonly class="form-control invite-link" />
+    <div class="mb-4">
+      <div class="qr-code-container">
+        <%= raw @qr_code %>
+      </div>
+    </div>
+
+    <div class="invite-link-container border border-light rounded-3 p-4 shadow-sm text-center">
+      <p class="text-muted mb-2">Your Invite Link:</p>
+      <input type="text" value="<%= @invite_url %>" readonly class="form-control invite-link"/>
+    </div>
   </div>
 </div>
