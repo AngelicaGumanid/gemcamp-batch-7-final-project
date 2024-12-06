@@ -11,92 +11,97 @@
 
         <h1 class="mb-4 text-center">New Address</h1>
 
-        <%= form_with model: @location, url: clients_locations_path, method: :post, html: { multipart: true }, data: { controller: 'location' }, local: true do |form| %>
+        <% if @address_limit_reached %>
+          <div class="alert alert-danger text-center">
+            <strong>Warning:</strong> You have reached the maximum limit of 5 addresses. You cannot add more.
+          </div>
+        <% else %>
+          <%= form_with model: @location, url: clients_locations_path, method: :post, html: { multipart: true }, data: { controller: 'location' }, local: true do |form| %>
+            <% if @location.errors.any? %>
+              <div class="alert alert-danger">
+                <ul>
+                  <% @location.errors.full_messages.each do |msg| %>
+                    <li><%= msg %></li>
+                  <% end %>
+                </ul>
+              </div>
+            <% end %>
 
-          <% if @location.errors.any? %>
-            <div class="alert alert-danger">
-              <ul>
-                <% @location.errors.full_messages.each do |msg| %>
-                  <li><%= msg %></li>
-                <% end %>
-              </ul>
+            <div class="row mb-3">
+              <div class="col-md-6">
+                <%= form.label :name, class: 'form-label' %>
+                <%= form.text_field :name, class: 'form-control' %>
+              </div>
+
+              <div class="col-md-6">
+                <%= form.label :phone_number, class: 'form-label' %>
+                <%= form.telephone_field :phone_number, class: 'form-control' %>
+              </div>
+            </div>
+
+            <div class="mb-3">
+              <%= form.label :address_regions_id, 'Region', class: 'form-label' %>
+              <%= form.collection_select :address_regions_id,
+                                         Address::Region.all, :id, :name,
+                                         { prompt: 'Please select region' },
+                                         { data: { location_target: 'selectedRegionId', action: 'change->location#fetchProvinces' }, class: 'form-control' } %>
+            </div>
+
+            <div class="mb-3">
+              <%= form.label :address_provinces_id, 'Province', class: 'form-label' %>
+              <%= form.collection_select :address_provinces_id,
+                                         [], nil, nil,
+                                         { prompt: 'Please select province' },
+                                         { data: { location_target: 'selectProvinceId', action: 'change->location#fetchCities' }, class: 'form-control' } %>
+            </div>
+
+            <div class="mb-3">
+              <%= form.label :address_cities_id, 'City', class: 'form-label' %>
+              <%= form.collection_select :address_cities_id,
+                                         [], nil, nil,
+                                         { prompt: 'Please select city' },
+                                         { data: { location_target: 'selectCityId', action: 'change->location#fetchBarangays' }, class: 'form-control' } %>
+            </div>
+
+            <div class="mb-3">
+              <%= form.label :address_barangays_id, 'Barangay', class: 'form-label' %>
+              <%= form.collection_select :address_barangays_id,
+                                         [], nil, nil,
+                                         { prompt: 'Please select barangay' },
+                                         { data: { location_target: 'selectBarangayId' }, class: 'form-control' } %>
+            </div>
+
+            <div class="mb-3">
+              <%= form.label :street_address, class: 'form-label' %>
+              <%= form.text_field :street_address, class: 'form-control' %>
+            </div>
+
+            <div class="mb-3">
+              <%= form.label :genre, class: 'form-label' %>
+              <%= form.select :genre, Location.genres.keys.map { |k| [k.humanize, k] }, {}, class: 'form-control' %>
+            </div>
+
+            <div class="mb-3">
+              <%= form.label :remark, class: 'form-label' %>
+              <%= form.text_area :remark, class: 'form-control' %>
+            </div>
+
+            <% if @default_location.present? && !@location.is_default %>
+              <div class="alert alert-warning">
+                <strong>Notice:</strong> You already have a default address: "<%= @default_location.name %>".
+                Setting this as the default address will replace the current default.
+              </div>
+            <% end %>
+
+            <div class="mb-3 form-check">
+              <%= form.check_box :is_default, class: 'form-check-input', id: 'defaultCheck' %>
+              <%= form.label :is_default, 'Set as default address', class: 'form-check-label' %>
+            </div>
+
+            <div class="d-flex justify-content-center">
+              <%= form.submit 'Save Location', class: 'btn btn-primary px-4 py-2' %>
             </div>
           <% end %>
-
-          <div class="row mb-3">
-            <div class="col-md-6">
-              <%= form.label :name, class: 'form-label' %>
-              <%= form.text_field :name, class: 'form-control' %>
-            </div>
-
-            <div class="col-md-6">
-              <%= form.label :phone_number, class: 'form-label' %>
-              <%= form.telephone_field :phone_number, class: 'form-control' %>
-            </div>
-          </div>
-
-          <div class="mb-3">
-            <%= form.label :address_regions_id, 'Region', class: 'form-label' %>
-            <%= form.collection_select :address_regions_id,
-                                       Address::Region.all, :id, :name,
-                                       { prompt: 'Please select region' },
-                                       { data: { location_target: 'selectedRegionId', action: 'change->location#fetchProvinces' }, class: 'form-control' } %>
-          </div>
-
-          <div class="mb-3">
-            <%= form.label :address_provinces_id, 'Province', class: 'form-label' %>
-            <%= form.collection_select :address_provinces_id,
-                                       [], nil, nil,
-                                       { prompt: 'Please select province' },
-                                       { data: { location_target: 'selectProvinceId', action: 'change->location#fetchCities' }, class: 'form-control' } %>
-          </div>
-
-          <div class="mb-3">
-            <%= form.label :address_cities_id, 'City', class: 'form-label' %>
-            <%= form.collection_select :address_cities_id,
-                                       [], nil, nil,
-                                       { prompt: 'Please select city' },
-                                       { data: { location_target: 'selectCityId', action: 'change->location#fetchBarangays' }, class: 'form-control' } %>
-          </div>
-
-          <div class="mb-3">
-            <%= form.label :address_barangays_id, 'Barangay', class: 'form-label' %>
-            <%= form.collection_select :address_barangays_id,
-                                       [], nil, nil,
-                                       { prompt: 'Please select barangay' },
-                                       { data: { location_target: 'selectBarangayId' }, class: 'form-control' } %>
-          </div>
-
-          <div class="mb-3">
-            <%= form.label :street_address, class: 'form-label' %>
-            <%= form.text_field :street_address, class: 'form-control' %>
-          </div>
-
-          <div class="mb-3">
-            <%= form.label :genre, class: 'form-label' %>
-            <%= form.select :genre, Location.genres.keys.map { |k| [k.humanize, k] }, {}, class: 'form-control' %>
-          </div>
-
-          <div class="mb-3">
-            <%= form.label :remark, class: 'form-label' %>
-            <%= form.text_area :remark, class: 'form-control' %>
-          </div>
-
-          <% if @default_location.present? && !@location.is_default %>
-            <div class="alert alert-warning">
-              <strong>Notice:</strong> You already have a default address: "<%= @default_location.name %>".
-              Setting this as the default address will replace the current default.
-            </div>
-          <% end %>
-
-          <div class="mb-3 form-check">
-            <%= form.check_box :is_default, class: 'form-check-input', id: 'defaultCheck' %>
-            <%= form.label :is_default, 'Set as default address', class: 'form-check-label' %>
-          </div>
-
-          <div class="d-flex justify-content-center">
-            <%= form.submit 'Save Location', class: 'btn btn-primary px-4 py-2' %>
-          </div>
         <% end %>
       </div>
     </div>

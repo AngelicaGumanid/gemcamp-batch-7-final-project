@@ -9,8 +9,13 @@ class Clients::LocationsController < ApplicationController
   end
 
   def new
-    @location = current_clients_user.locations.new
-    @default_location = current_clients_user.locations.find_by(is_default: true)
+    if current_clients_user.locations.count >= 5
+      @address_limit_reached = true
+    else
+      @location = current_clients_user.locations.new
+      @default_location = current_clients_user.locations.find_by(is_default: true)
+      @address_limit_reached = false
+    end
   end
 
   def create
