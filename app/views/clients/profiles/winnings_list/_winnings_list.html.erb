@@ -26,6 +26,12 @@
               <span class="mx-2 text-muted">|</span>
               <strong>Won At:</strong> <%= winner.created_at.strftime("%B %d, %Y %H:%M") %>
             </p>
+
+            <% if winner.may_claim? %>
+              <%= link_to 'Claim Prize', edit_clients_profiles_winnings_list_path(winner), class: 'btn btn-success btn-sm mt-2' %>
+            <% else %>
+              <p class="text-muted mt-2"><strong>Status:</strong> <%= winner.state.humanize %></p>
+            <% end %>
           </div>
         </div>
       </div>
