@@ -62,7 +62,7 @@ Rails.application.routes.draw do
         resources :order_history, only: [:index]
         resources :lottery_history, only: [:index]
         resources :invite_list, only: [:index]
-        resources :winnings_list, only: [:index]
+        resources :winnings_list, only: [:index, :edit, :update]
       end
 
       resources :locations, only: [:index, :new, :create, :edit, :update, :destroy]
