@@ -14,7 +14,7 @@
           <strong>Warning:</strong> You have reached the maximum limit of 5 addresses. You cannot add more.
         </div>
       <% else %>
-        <%= form_with model: @location, url: clients_locations_path, method: :post, html: { multipart: true }, data: { controller: 'location' }, local: true do |form| %>
+        <%= form_with model: @location, url: clients_locations_path, method: :post, html: { multipart: true }, data: { turbo: false, controller: 'location' }, local: true do |form| %>
           <% if @location.errors.any? %>
             <div class="alert alert-danger">
               <ul>
