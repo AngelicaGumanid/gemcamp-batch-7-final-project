@@ -11,7 +11,8 @@
 
         <h1 class="mb-4 text-center">New Address</h1>
 
-        <%= form_with model: @location, url: clients_locations_path, method: :post, html: { multipart: true }, data: { controller: 'location' } do |form| %>
+        <%= form_with model: @location, url: clients_locations_path, method: :post, html: { multipart: true }, data: { controller: 'location' }, local: true do |form| %>
+
           <% if @location.errors.any? %>
             <div class="alert alert-danger">
               <ul>

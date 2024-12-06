@@ -8,7 +8,7 @@ class Location < ApplicationRecord
   enum genre: { home: 0, office: 1 }
 
   validates :name, :street_address, presence: true
-  validates :phone_number, phone: { possible: true, types: %i[voip mobile], country: 'PH' }, allow_blank: true
+  validates :phone_number, phone: true, allow_blank: true
 
   validate :user_address_limit, on: :create
   before_save :update_address
