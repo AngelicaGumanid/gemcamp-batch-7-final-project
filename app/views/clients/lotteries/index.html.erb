@@ -1,66 +1,71 @@
-<%#= stylesheet_link_tag "lottery", "data-turbo-track": "reload" %>
+<%= stylesheet_link_tag "lottery", "data-turbo-track": "reload" %>
 
-<section class="vh-100 d-flex align-items-center lottery-section">
-  <div class="container h-100 d-flex flex-column align-items-center justify-content-center">
+<div class="container-fluid py-4">
 
-    <div class="col-12 mb-4">
-      <div class="card shadow-lg border-0">
-        <img src="#" alt="Banner Image" class="card-img-top banner-img">
-      </div>
-    </div>
+  <section class="d-flex align-items-center lottery-section">
+    <div class="container h-100 d-flex flex-column align-items-center justify-content-center">
 
-
-    <div class="col-12 mb-4 text-center">
-      <div class="alert alert-info">
-        <strong>Announcement:</strong>
-        <button class="btn btn-primary btn-sm">Click Here</button>
-      </div>
-    </div>
-
-    <div class="categories d-flex flex-wrap justify-content-center gap-3">
-      <%= link_to 'All', clients_lotteries_path, class: "btn btn-outline-secondary btn-sm" %>
-      <% @categories.each do |category| %>
-        <%= link_to category.name, clients_lotteries_path(category: category.id), class: "btn btn-outline-secondary btn-sm" %>
-      <% end %>
-    </div>
-
-    <div class="col-12">
-      <div class="row row-cols-2 row-cols-md-3 g-4">
-        <% @items.each do |item| %>
-          <div class="col">
-
-            <%= link_to clients_lottery_path(item), class: "card shadow-sm h-100 text-center item-card" do %>
-              <div class="card-body">
-                <%= image_tag item.image.url, class: "card-img-top", alt: item.name, style: "object-fit: cover; height: 150px;" %>
-                <h5 class="card-title"><%= item.name %></h5>
-                <p class="card-text">Batch: <%= item.batch_count %></p>
+      <!-- Banner Section -->
+      <div class="col-12 mb-4">
+        <div class="card shadow-lg border-0">
+          <div id="bannerCarousel" class="carousel slide" data-bs-ride="carousel">
+            <div class="carousel-inner">
+              <div class="carousel-item active">
+                <%= image_tag "default_no_image_transparent.png", class: "d-block w-100 banner-img", alt: "Banner 1" %>
               </div>
+              <div class="carousel-item">
+                <%= image_tag "default_no_image_transparent.png", class: "d-block w-100 banner-img", alt: "Banner 2" %>
+              </div>
+              <div class="carousel-item">
+                <%= image_tag "default_no_image_transparent.png", class: "d-block w-100 banner-img", alt: "Banner 3" %>
+              </div>
+            </div>
 
-              <p class="click-to-buy-ticket">Click to buy ticket</p>
-            <% end %>
+            <button class="carousel-control-prev" type="button" data-bs-target="#bannerCarousel" data-bs-slide="prev">
+              <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+              <span class="visually-hidden">Previous</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#bannerCarousel" data-bs-slide="next">
+              <span class="carousel-control-next-icon" aria-hidden="true"></span>
+              <span class="visually-hidden">Next</span>
+            </button>
           </div>
+        </div>
+      </div>
+
+      <!-- Announcement Section -->
+      <div class="col-12 mb-4 text-center">
+        <div class="alert alert-info">
+          <strong>Announcement:</strong>
+          <button class="btn btn-primary btn-sm">Click Here</button>
+        </div>
+      </div>
+
+      <!-- Categories Section -->
+      <div class="categories d-flex flex-wrap justify-content-center gap-3 mb-4">
+        <%= link_to 'All', clients_lotteries_path, class: "btn btn-outline-secondary btn-sm" %>
+        <% @categories.each do |category| %>
+          <%= link_to category.name, clients_lotteries_path(category: category.id), class: "btn btn-outline-secondary btn-sm" %>
         <% end %>
       </div>
+
+      <!-- Lottery Items Section -->
+      <div class="col-12">
+        <div class="row row-cols-2 row-cols-md-3 g-4">
+          <% @items.each do |item| %>
+            <div class="col">
+              <%= link_to clients_lottery_path(item), class: "card shadow-sm h-100 text-center item-card" do %>
+                <div class="card-body">
+                  <%= image_tag item.image.url, class: "card-img-top", alt: item.name, style: "object-fit: cover; height: 150px;" %>
+                  <h5 class="card-title"><%= item.name %></h5>
+                  <p class="card-text">Batch: <%= item.batch_count %></p>
+                </div>
+                <p class="click-to-buy-ticket">Click to buy ticket</p>
+              <% end %>
+            </div>
+          <% end %>
+        </div>
+      </div>
     </div>
-  </div>
-</section>
-
-<style>
-    .lottery-section {
-        .banner-img {
-            width: 100%;
-            height: auto;
-        }
-
-        .categories {
-            gap: 10px;
-            padding: 10px 0;
-        }
-
-        .item-card img {
-            width: 100%;
-            height: 150px;
-            object-fit: cover;
-        }
-    }
-</style>
+  </section>
+</div>

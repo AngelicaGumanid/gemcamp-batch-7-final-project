@@ -32,7 +32,7 @@ class Clients::ProfilesController < ApplicationController
 
         if @user.update(update_params)
           flash[:notice] = 'Profile updated successfully.'
-          redirect_to clients_profile_path
+          redirect_to clients_profiles_path
         else
           flash.now[:alert] = 'Failed to update profile.'
           render :edit
