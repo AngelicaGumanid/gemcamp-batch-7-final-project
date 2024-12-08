@@ -56,11 +56,5 @@ class Winner < ApplicationRecord
     end
   end
 
-  private
-
-  def paid?
-    state == 'paid'
-  end
-
 end
 

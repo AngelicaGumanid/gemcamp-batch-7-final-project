@@ -62,7 +62,12 @@ Rails.application.routes.draw do
         resources :order_history, only: [:index]
         resources :lottery_history, only: [:index]
         resources :invite_list, only: [:index]
-        resources :winnings_list, only: [:index, :edit, :update]
+        resources :winnings_list, only: [:index, :edit, :update] do
+          member do
+            get 'share', to: 'winnings_list#share_form'
+            patch 'share', to: 'winnings_list#share'
+          end
+        end
       end
 
       resources :locations, only: [:index, :new, :create, :edit, :update, :destroy]
