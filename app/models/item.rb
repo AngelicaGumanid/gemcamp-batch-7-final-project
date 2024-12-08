@@ -62,13 +62,19 @@ class Item < ApplicationRecord
   def pick_winner_and_update_tickets
     return if tickets.empty?
 
-    winning_ticket = tickets.sample
-    winning_ticket.update(state: 'won')
+    current_batch_tickets = tickets.where(batch_count: batch_count)
 
-    tickets.where.not(id: winning_ticket.id).update_all(state: 'lost')
+    Item.transaction do
+      winning_ticket = current_batch_tickets.sample
+      raise ActiveRecord::Rollback unless winning_ticket
 
-    create_winner(winning_ticket)
+      winning_ticket.update!(state: 'won')
+      current_batch_tickets.where.not(id: winning_ticket.id).update_all(state: 'lost')
+
+      create_winner(winning_ticket)
+    end
   end
+
 
   private
 
