@@ -20,6 +20,7 @@ class User < ApplicationRecord
 
   has_many :locations, dependent: :destroy
   has_many :tickets, dependent: :destroy
+  has_many :winners
 
   # For admin
   belongs_to :parent, class_name: 'User', optional: true

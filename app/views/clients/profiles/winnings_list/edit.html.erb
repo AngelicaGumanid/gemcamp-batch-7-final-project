@@ -10,7 +10,7 @@
         <% @locations.each do |location| %>
           <div class="form-check mb-2">
             <%= form.radio_button :location_id, location.id, id: "location_#{location.id}", class: "form-check-input", checked: (location.id == @default_location&.id) %>
-            <%= label_tag "location_#{location.id}", "Name: #{location.name}, Street: #{location.street_address}, City: #{location.city.name}, Province: #{location.province.name}, Region: #{location.region.name}", class: "form-check-label" %>
+            <%= label_tag "location_#{location.id}", "#{location.name}, Street: #{location.street_address}, City: #{location.city.name}, Province: #{location.province.name}, Region: #{location.region.name}", class: "form-check-label" %>
           </div>
         <% end %>
       </div>
