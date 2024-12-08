@@ -1,6 +1,6 @@
 class Admins::ItemsController < AdminController
   layout 'admin'
-  before_action :set_item, only: %i[show edit update destroy start pause end_item cancel resume]
+  before_action :set_item, only: %i[show edit update destroy start pause end cancel resume]
 
   def index
     @items = Item.with_deleted.includes(:category)
@@ -67,7 +67,7 @@ class Admins::ItemsController < AdminController
     end
   end
 
-  def end_item
+  def end
     if @item.end!
       redirect_to admins_items_path, notice: 'Item successfully ended.'
     else

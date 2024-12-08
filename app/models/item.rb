@@ -54,7 +54,9 @@ class Item < ApplicationRecord
   end
 
   def valid_ticket_count?
-    tickets.count >= minimum_tickets
+    current_batch_tickets = tickets.where(batch_count: batch_count).count
+    Rails.logger.info("Current Batch Tickets: #{current_batch_tickets}, Minimum Required: #{minimum_tickets}")
+    current_batch_tickets >= minimum_tickets
   end
 
   def pick_winner_and_update_tickets
@@ -64,16 +66,6 @@ class Item < ApplicationRecord
     winning_ticket.update(state: 'won')
 
     tickets.where.not(id: winning_ticket.id).update_all(state: 'lost')
-
-    Winner.create!(
-      item: self,
-      ticket: winning_ticket,
-      user: winning_ticket.user,
-      location_id: winning_ticket.user.location_id,
-      price: winning_ticket.coins,
-      admin_id: 1,
-      comment: "Congratulations! You won!"
-    )
   end
 
   private
