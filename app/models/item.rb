@@ -55,7 +55,6 @@ class Item < ApplicationRecord
 
   def valid_ticket_count?
     current_batch_tickets = tickets.where(batch_count: batch_count).count
-    Rails.logger.info("Current Batch Tickets: #{current_batch_tickets}, Minimum Required: #{minimum_tickets}")
     current_batch_tickets >= minimum_tickets
   end
 
@@ -82,6 +81,12 @@ class Item < ApplicationRecord
     self.quantity -= 1
     self.batch_count += 1
     save!
+
+    Rails.logger.info("Creating new tickets for batch count: #{batch_count}")
+
+    self.quantity.times do
+      tickets.create(state: 'pending', batch_count: batch_count, user_id: nil)
+    end
   end
 
 end

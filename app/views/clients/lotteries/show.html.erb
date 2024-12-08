@@ -21,17 +21,17 @@
 
           <div class="progress mb-3">
             <div class="progress-bar" role="progressbar"
-                 style="width: <%= [(@item.tickets.count.to_f / @item.minimum_tickets.to_f * 100), 100].min %>%;"
-                 aria-valuenow="<%= @item.tickets.count %>"
+                 style="width: <%= [(@item.tickets.where(batch_count: @item.batch_count).count.to_f / @item.minimum_tickets.to_f * 100), 100].min %>%;"
+                 aria-valuenow="<%= @item.tickets.where(batch_count: @item.batch_count).count %>"
                  aria-valuemin="0"
                  aria-valuemax="<%= @item.minimum_tickets %>">
-              <%= (@item.tickets.count.to_f / @item.minimum_tickets.to_f * 100).round(2) %>%>
+              <%= (@item.tickets.where(batch_count: @item.batch_count).count.to_f / @item.minimum_tickets.to_f * 100).round(2) %>%>
             </div>
           </div>
 
           <p class="text-center">
-            <strong><%= @item.tickets.count %></strong> tickets sold out of
-            <strong><%= @item.minimum_tickets %></strong> required.
+            <strong><%= @item.tickets.where(batch_count: @item.batch_count).count %></strong> tickets sold out of
+            <strong><%= @item.minimum_tickets %></strong> required for batch <%= @item.batch_count %>.
           </p>
 
           <% if current_clients_user %>
