@@ -66,6 +66,8 @@ class Item < ApplicationRecord
     winning_ticket.update(state: 'won')
 
     tickets.where.not(id: winning_ticket.id).update_all(state: 'lost')
+
+    create_winner(winning_ticket)
   end
 
   private
@@ -92,6 +94,33 @@ class Item < ApplicationRecord
 
   def set_default_batch_count
     self.batch_count ||= 0
+  end
+
+  def create_winner(winning_ticket)
+    user = winning_ticket.user
+    admin = User.find_by(genre: 'admin')
+    location = user.locations.find_by(is_default: true)
+
+    winner = Winner.create(
+      item: self,
+      ticket: winning_ticket,
+      user: user,
+      location: location,
+      item_batch_count: winning_ticket.batch_count,
+      price: calculate_winner_price,
+      admin: admin,
+      state: 'won'
+    )
+
+    if winner.persisted?
+      Rails.logger.info("Winner created successfully: #{winner.id}")
+    else
+      Rails.logger.error("Failed to create winner: #{winner.errors.full_messages.join(', ')}")
+    end
+  end
+
+  def calculate_winner_price
+    100.0
   end
 
 end
