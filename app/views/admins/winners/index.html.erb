@@ -48,37 +48,37 @@
   <tbody>
   <% @winners.each do |winner| %>
     <tr>
-      <td><%= winner.item.id %></td>  <!-- Item ID -->
-      <td><%= winner.ticket.id %></td>  <!-- Ticket ID -->
-      <td><%= winner.user.id %></td>  <!-- User ID -->
-      <td><%= winner.location.id %></td>  <!-- Address ID -->
-      <td><%= winner.item.batch_count %></td>  <!-- Item Batch Count -->
-      <td><%= winner.state %></td>  <!-- AASM state -->
-      <td><%= number_to_currency(winner.price) %></td>  <!-- Price -->
-      <td><%= winner.paid_at ? winner.paid_at.strftime('%Y-%m-%d') : 'N/A' %></td>  <!-- Paid At -->
-      <td><%= winner.admin.id %></td>  <!-- Admin ID -->
+      <td><%= winner.item.id %></td>
+      <td><%= winner.ticket.id %></td>
+      <td><%= winner.user.id %></td>
+      <td><%= winner.location.id %></td>
+      <td><%= winner.item.batch_count %></td>
+      <td><%= winner.state %></td>
+      <td><%= number_to_currency(winner.price) %></td>
+      <td><%= winner.paid_at ? winner.paid_at.strftime('%Y-%m-%d') : 'Not Paid Yet' %></td>
+      <td><%= winner.admin.id %></td>
       <td>
         <% if winner.picture? %>
           <%= image_tag winner.picture.url, size: '50x50' %>
         <% else %>
           No Picture
         <% end %>
-      </td>  <!-- Picture -->
-      <td><%= winner.comment %></td>  <!-- Comment -->
+      </td>
+      <td><%= winner.comment %></td>
       <td>
-        <% if winner.won? %>
+        <% if winner.state == 'won' %>
           <%= button_to 'Claim', submit_admins_winner_path(winner), method: :patch %>
-        <% elsif winner.claimed? %>
+        <% elsif winner.state == 'claimed' %>
           <%= button_to 'Submit', pay_admins_winner_path(winner), method: :patch %>
-        <% elsif winner.submitted? %>
+        <% elsif winner.state == 'submitted' %>
           <%= button_to 'Pay', ship_admins_winner_path(winner), method: :patch %>
-        <% elsif winner.paid? %>
+        <% elsif winner.state == 'paid' %>
           <%= button_to 'Ship', deliver_admins_winner_path(winner), method: :patch %>
-        <% elsif winner.shipped? %>
+        <% elsif winner.state == 'shipped' %>
           <%= button_to 'Deliver', publish_admins_winner_path(winner), method: :patch %>
-        <% elsif winner.delivered? %>
+        <% elsif winner.state == 'delivered' %>
           <%= button_to 'Publish', remove_publish_admins_winner_path(winner), method: :patch %>
-        <% elsif winner.published? %>
+        <% elsif winner.state == 'published' %>
           <%= button_to 'Remove Published', remove_publish_admins_winner_path(winner), method: :patch %>
         <% end %>
       </td>
