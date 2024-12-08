@@ -11,6 +11,7 @@ class Item < ApplicationRecord
   mount_uploader :image, ImageUploader
 
   validates :minimum_tickets, numericality: { greater_than_or_equal_to: 1 }
+  after_initialize :set_default_batch_count, if: :new_record?
 
   def destroy
     update(deleted_at: Time.current)
@@ -87,6 +88,10 @@ class Item < ApplicationRecord
     self.quantity.times do
       tickets.create(state: 'pending', batch_count: batch_count, user_id: nil)
     end
+  end
+
+  def set_default_batch_count
+    self.batch_count ||= 0
   end
 
 end

@@ -28,16 +28,13 @@ class Ticket < ApplicationRecord
   def generate_serial_number
     date_part = Time.current.strftime("%y%m%d")
 
-    item = self.item
-
-    batch_count = item.batch_count || 1
+    batch_count = item.batch_count
+    batch_count = 1 if batch_count.nil? || batch_count.zero?
 
     number_count = Ticket.where(item_id: item.id, batch_count: batch_count).count + 1
     number_count = number_count.to_s.rjust(4, '0')
 
-    serial_number = "#{date_part}-#{item.id}-#{batch_count}-#{number_count}"
-
-    self.serial_number = serial_number
+    self.serial_number = "#{date_part}-#{item.id}-#{batch_count}-#{number_count}"
   end
 
   private
