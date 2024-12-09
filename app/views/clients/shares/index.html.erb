@@ -2,13 +2,33 @@
 
 <div class="shares-list">
   <% @shares.each do |share| %>
-    <div class="share-item">
-      <h2><%= link_to share.name, clients_share_path(share) %></h2>
-      <% if share.image.attached? %>
-        <%= image_tag share.image, alt: share.name, class: 'share-image' %>
-      <% else %>
-        <p>No image available</p>
-      <% end %>
+    <div class="share-item card">
+      <%= image_tag share.picture.url, alt: share.item.name, class: 'share-image' if share.picture.present? %>
+      <h2><%= link_to share.item.name, clients_share_path(share) %></h2>
+      <p><%= truncate(share.comment, length: 100) %></p>
+      <p>Shared by: <%= share.user.username %></p>
     </div>
   <% end %>
 </div>
+
+<style>
+    .shares-list {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 20px;
+    }
+
+    .share-item.card, .share-detail.card {
+        padding: 15px;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        background-color: #fff;
+    }
+
+    .share-image {
+        max-width: 100%;
+        height: auto;
+        border-radius: 5px;
+    }
+
+</style>

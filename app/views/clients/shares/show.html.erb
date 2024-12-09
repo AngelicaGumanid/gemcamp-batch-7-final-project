@@ -1,13 +1,36 @@
-<h1><%= @share.name %></h1>
+<h1><%= @share.item.name %></h1>
 
-<div class="share-detail">
-  <% if @share.image.attached? %>
-    <%= image_tag @share.image, alt: @share.name, class: 'share-image' %>
+<div class="share-detail card">
+  <% if @share.picture.present? %>
+    <%= image_tag @share.picture.url, alt: @share.item.name, class: 'share-image' %>
   <% else %>
     <p>No image available</p>
   <% end %>
 
-  <p><%= @share.description %></p>
+  <p><strong>Description:</strong> <%= @share.comment %></p>
+  <p><strong>Shared by:</strong> <%= @share.user.username %></p>
 </div>
 
-<%= link_to 'Back to Shares', clients_shares_path %>
+<%= link_to 'Back to Shares', clients_shares_path, class: 'btn btn-secondary' %>
+
+<style>
+    .shares-list {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 20px;
+    }
+
+    .share-item.card, .share-detail.card {
+        padding: 15px;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        background-color: #fff;
+    }
+
+    .share-image {
+        max-width: 100%;
+        height: auto;
+        border-radius: 5px;
+    }
+
+</style>
