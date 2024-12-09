@@ -1,0 +1,14 @@
+<h1>Published Shares</h1>
+
+<div class="shares-list">
+  <% @shares.each do |share| %>
+    <div class="share-item">
+      <h2><%= link_to share.name, clients_share_path(share) %></h2>
+      <% if share.image.attached? %>
+        <%= image_tag share.image, alt: share.name, class: 'share-image' %>
+      <% else %>
+        <p>No image available</p>
+      <% end %>
+    </div>
+  <% end %>
+</div>

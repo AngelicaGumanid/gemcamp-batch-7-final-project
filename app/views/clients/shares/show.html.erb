@@ -1,0 +1,13 @@
+<h1><%= @share.name %></h1>
+
+<div class="share-detail">
+  <% if @share.image.attached? %>
+    <%= image_tag @share.image, alt: @share.name, class: 'share-image' %>
+  <% else %>
+    <p>No image available</p>
+  <% end %>
+
+  <p><%= @share.description %></p>
+</div>
+
+<%= link_to 'Back to Shares', clients_shares_path %>

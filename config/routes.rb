@@ -1,4 +1,8 @@
 Rails.application.routes.draw do
+  namespace :clients do
+    get 'shares/index'
+    get 'shares/show'
+  end
   constraints(AdminDomainConstraint.new) do
     namespace :admins do
 
@@ -83,6 +87,10 @@ Rails.application.routes.draw do
       end
 
       resources :orders, only: [:create]
+
+      resources :shares, only: [:index, :show]
+      #   post 'purchase', on: :member
+      # end
 
     end
     root to: 'clients/home#index'
