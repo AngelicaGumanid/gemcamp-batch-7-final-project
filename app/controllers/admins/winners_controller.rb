@@ -40,7 +40,7 @@ class Admins::WinnersController < AdminController
   end
 
   def publish
-    transition_state(@winner, :share, 'shared')
+    transition_state(@winner, :publish, 'shared')
   end
 
   def remove_publish

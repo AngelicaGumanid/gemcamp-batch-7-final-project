@@ -68,7 +68,7 @@
       <td>
         <% case winner.state %>
         <% when 'won' %>
-          <%= button_to 'Claim', submit_admins_winner_path(winner), method: :patch, class: 'btn btn-sm btn-primary' %>
+          <%= button_to 'Claim', submit_admins_winner_path(winner), method: :patch, class: 'btn btn-sm btn-primary', disabled: true%>
         <% when 'claimed' %>
           <%= button_to 'Submit', pay_admins_winner_path(winner), method: :patch, class: 'btn btn-sm btn-secondary' %>
         <% when 'submitted' %>
@@ -78,11 +78,13 @@
         <% when 'shipped' %>
           <%= button_to 'Deliver', deliver_admins_winner_path(winner), method: :patch, class: 'btn btn-sm btn-info' %>
         <% when 'delivered' %>
-          <%= button_to 'Share', publish_admins_winner_path(winner), method: :patch, class: 'btn btn-sm btn-dark' %>
+          <%= button_to 'Share', publish_admins_winner_path(winner), method: :patch, class: 'btn btn-sm btn-dark', disabled: true%>
         <% when 'shared' %>
-          <%= button_to 'Publish', remove_publish_admins_winner_path(winner), method: :patch, class: 'btn btn-sm btn-danger' %>
+          <%= button_to 'Publish', publish_admins_winner_path(winner), method: :patch, class: 'btn btn-sm btn-danger' %>
         <% when 'published' %>
           <%= button_to 'Unpublish', remove_publish_admins_winner_path(winner), method: :patch, class: 'btn btn-sm btn-danger' %>
+        <% when 'remove_published' %>
+          <%= button_to 'Publish', publish_admins_winner_path(winner), method: :patch, class: 'btn btn-sm btn-danger' %>
         <% else %>
           No actions available
         <% end %>

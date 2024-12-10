@@ -42,7 +42,7 @@ class Winner < ApplicationRecord
     end
 
     event :deliver do
-      transitions from: :shipped, to: :delivered
+      transitions from: [:shipped, :paid], to: :delivered
     end
 
     event :share do
@@ -50,7 +50,7 @@ class Winner < ApplicationRecord
     end
 
     event :publish do
-      transitions from: :shared, to: :published
+      transitions from: [:shared, :remove_published], to: :published
     end
 
     event :remove_publish do
