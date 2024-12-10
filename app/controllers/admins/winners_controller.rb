@@ -24,69 +24,43 @@ class Admins::WinnersController < AdminController
   end
 
   def submit
-    if @winner.won?
-      @winner.claim!
-      flash[:notice] = "Winner #{@winner.ticket.serial_number} has been claimed."
-    else
-      flash[:alert] = "Cannot claim winner."
-    end
-    redirect_to admins_winners_path
+    transition_state(@winner, :claim, 'claimed')
   end
 
   def pay
-    if @winner.claimed?
-      @winner.submit!
-      flash[:notice] = "Winner #{@winner.ticket.serial_number} has been submitted."
-    else
-      flash[:alert] = "Cannot submit winner."
-    end
-    redirect_to admins_winners_path
+    transition_state(@winner, :submit, 'submitted')
   end
 
   def ship
-    if @winner.submitted?
-      @winner.pay!
-      flash[:notice] = "Winner #{@winner.ticket.serial_number} has been paid."
-    else
-      flash[:alert] = "Cannot mark winner as paid."
-    end
-    redirect_to admins_winners_path
+    transition_state(@winner, :pay, 'paid')
   end
 
   def deliver
-    if @winner.paid?
-      @winner.ship!
-      flash[:notice] = "Winner #{@winner.ticket.serial_number} has been shipped."
-    else
-      flash[:alert] = "Cannot mark winner as shipped."
-    end
-    redirect_to admins_winners_path
+    transition_state(@winner, :deliver, 'delivered')
   end
 
   def publish
-    if @winner.delivered?
-      @winner.share!
-      flash[:notice] = "Winner #{@winner.ticket.serial_number} has been shared."
-    else
-      flash[:alert] = "Cannot share winner."
-    end
-    redirect_to admins_winners_path
+    transition_state(@winner, :share, 'shared')
   end
 
   def remove_publish
-    if @winner.published?
-      @winner.remove_publish!
-      flash[:notice] = "Winner #{@winner.ticket.serial_number} has been removed from published."
-    else
-      flash[:alert] = "Cannot remove published winner."
-    end
-    redirect_to admins_winners_path
+    transition_state(@winner, :remove_publish, 'removed from published')
   end
 
   private
 
   def set_winner
     @winner = Winner.find(params[:id])
+  end
+
+  def transition_state(winner, event, success_state)
+    Rails.logger.info "Current state: #{winner.aasm.current_state}"
+    if winner.send("#{event}!")
+      flash[:notice] = "Winner #{winner.ticket.serial_number} has been #{success_state}."
+    else
+      flash[:alert] = "Cannot mark winner as #{success_state}."
+    end
+    redirect_to admins_winners_path
   end
 
   def search_conditions

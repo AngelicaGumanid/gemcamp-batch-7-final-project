@@ -7,6 +7,8 @@ class Winner < ApplicationRecord
 
   validates :price, numericality: { greater_than_or_equal_to: 0 }
   validates :paid_at, presence: true, if: :paid?
+  validates :picture, presence: true, if: :shared?
+  validates :comment, presence: true, if: :shared?
 
   mount_uploader :picture, ImageUploader
 

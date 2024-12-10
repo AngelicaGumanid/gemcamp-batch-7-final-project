@@ -21,7 +21,6 @@ class Clients::Profiles::WinningsListController < ApplicationController
     end
   end
 
-  # Display the winnings share form
   def share_form
     @winner = current_clients_user.winners.find(params[:id])
   end

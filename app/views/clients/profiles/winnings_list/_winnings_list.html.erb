@@ -32,9 +32,11 @@
                 <%= link_to 'Claim Prize', edit_clients_profiles_winnings_list_path(winner), class: 'btn btn-success' %>
               <% elsif winner.state == 'claimed' %>
                 <span class="badge bg-success">Prize Claimed</span>
+              <% elsif winner.state == 'delivered' %>
+                <%= link_to 'Share Prize', share_clients_profiles_winnings_list_path(winner), class: 'btn btn-info' %>
+              <% elsif winner.state == 'shared' %>
+                <span class="badge bg-info">Shared</span>
               <% end %>
-
-              <%= link_to 'Share Prize', share_clients_profiles_winnings_list_path(winner), class: 'btn btn-info' %>
             </div>
           </div>
         </div>
