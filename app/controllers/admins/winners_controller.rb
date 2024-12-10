@@ -3,20 +3,12 @@ class Admins::WinnersController < AdminController
   before_action :set_winner, only: %i[show edit update destroy submit pay ship deliver publish remove_publish]
 
   def index
-    conditions, values = search_conditions
-    Rails.logger.debug "Conditions: #{conditions}, Values: #{values}"
-
-    if conditions.present?
-      @winners = Winner.joins(:ticket, :user)
-                       .where(conditions, values)
-                       .page(params[:page])
-                       .per(20)
-    else
-      @winners = Winner.joins(:ticket, :user)
-                       .order(created_at: :desc)
-                       .page(params[:page])
-                       .per(20)
-    end
+    @winners = Winner.joins(:ticket, :user)
+                     .includes(:item, :ticket, :user, :admin)
+                     .where(*search_conditions)
+                     .order(created_at: :desc)
+                     .page(params[:page])
+                     .per(20)
   end
 
   def show
@@ -122,7 +114,7 @@ class Admins::WinnersController < AdminController
       values[:end_date] = params[:end_date].to_date.end_of_day
     end
 
-    [conditions.join(" AND "), values]
+    [conditions.any? ? conditions.join(" AND ") : "1=1", values]
   end
 
 end

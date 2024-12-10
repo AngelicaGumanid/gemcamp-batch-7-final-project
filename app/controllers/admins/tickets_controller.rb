@@ -3,10 +3,9 @@ class Admins::TicketsController < AdminController
   before_action :set_ticket, only: %i[show cancel]
 
   def index
-    conditions, values = search_conditions
-
     @tickets = Ticket.joins(:item, :user)
-                     .where(conditions, values)
+                     .includes(:item, :user)
+                     .where(*search_conditions)
                      .order(created_at: :desc)
                      .page(params[:page])
                      .per(20)
@@ -15,7 +14,7 @@ class Admins::TicketsController < AdminController
   def cancel
     if @ticket.pending?
       @ticket.cancel!
-      flash[:notice] = "Ticket #{@ticket.serial_number} has been cancelled and coin refunded."
+      flash[:notice] = "Ticket #{@ticket.serial_number} has been cancelled, and coins have been refunded."
     else
       flash[:alert] = 'Ticket cannot be cancelled.'
     end

@@ -5,7 +5,7 @@ class Winner < ApplicationRecord
   belongs_to :location
   belongs_to :admin, class_name: 'User'
 
-  validates :price, numericality: true
+  validates :price, numericality: { greater_than_or_equal_to: 0 }
   validates :paid_at, presence: true, if: :paid?
 
   mount_uploader :picture, ImageUploader
@@ -32,7 +32,7 @@ class Winner < ApplicationRecord
     end
 
     event :pay do
-      transitions from: :submitted, to: :paid
+      transitions from: :submitted, to: :paid, after: :mark_as_paid
     end
 
     event :ship do
@@ -54,6 +54,12 @@ class Winner < ApplicationRecord
     event :remove_publish do
       transitions from: :published, to: :remove_published
     end
+  end
+
+  private
+
+  def mark_as_paid
+    self.paid_at = Time.current
   end
 
 end

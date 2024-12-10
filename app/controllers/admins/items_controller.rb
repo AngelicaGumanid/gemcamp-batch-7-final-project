@@ -94,10 +94,8 @@ class Admins::ItemsController < AdminController
   private
 
   def set_item
-    @item = Item.find_by(id: params[:id])
-    if @item.nil?
-      redirect_to admins_items_path, alert: 'Item not found.' # Redirect to items index page if item is not found
-    end
+    @item = Item.find(params[:id])
+    redirect_to admins_items_path, alert: 'Item not found.' if @item.nil?
   end
 
   def item_params

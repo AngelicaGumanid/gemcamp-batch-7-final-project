@@ -11,11 +11,9 @@ class Item < ApplicationRecord
   mount_uploader :image, ImageUploader
 
   validates :minimum_tickets, numericality: { greater_than_or_equal_to: 1 }
-  after_initialize :set_default_batch_count, if: :new_record?
+  validates :quantity, numericality: { greater_than_or_equal_to: 0 }
 
-  def destroy
-    update(deleted_at: Time.current)
-  end
+  after_initialize :set_default_batch_count, if: :new_record?
 
   scope :with_deleted, -> { unscope(where: :deleted_at) }
 
@@ -39,7 +37,6 @@ class Item < ApplicationRecord
 
     event :end do
       transitions from: :starting, to: :ended, guard: :valid_ticket_count?
-
       after do
         pick_winner_and_update_tickets
       end
@@ -55,8 +52,28 @@ class Item < ApplicationRecord
   end
 
   def valid_ticket_count?
-    current_batch_tickets = tickets.where(batch_count: batch_count).count
-    current_batch_tickets >= minimum_tickets
+    tickets.where(batch_count: batch_count).count >= minimum_tickets
+  end
+
+  private
+
+  def cancel_associated_tickets
+    tickets.pending.find_each(&:cancel!)
+  end
+
+  def can_start?
+    quantity&.positive? && (offline_at.nil? || offline_at > Date.current) && active?
+  end
+
+  def deduct_quantity_and_increase_batch
+    self.class.transaction do
+      decrement!(:quantity)
+      increment!(:batch_count)
+    end
+  end
+
+  def set_default_batch_count
+    self.batch_count ||= 0
   end
 
   def pick_winner_and_update_tickets
@@ -71,41 +88,17 @@ class Item < ApplicationRecord
       winning_ticket.update!(state: 'won')
       current_batch_tickets.where.not(id: winning_ticket.id).update_all(state: 'lost')
 
-      create_winner(winning_ticket)
+      create_winner_record(winning_ticket)
     end
   end
 
-
-  private
-
-  def cancel_associated_tickets
-    tickets.where(state: 'pending').find_each(&:cancel!)
-  end
-
-  def can_start?
-    quantity.present? && quantity.positive? && (offline_at.nil? || offline_at > Date.current) && active?
-  end
-
-  def deduct_quantity_and_increase_batch
-    self.quantity -= 1
-    self.batch_count += 1
-    save!
-
-    Rails.logger.info("Creating new tickets for batch count: #{batch_count}")
-
-    self.quantity.times do
-      tickets.create(state: 'pending', batch_count: batch_count, user_id: nil)
-    end
-  end
-
-  def set_default_batch_count
-    self.batch_count ||= 0
-  end
-
-  def create_winner(winning_ticket)
+  def create_winner_record(winning_ticket)
     user = winning_ticket.user
-    admin = User.find_by(genre: 'admin')
-    location = user.locations.find_by(is_default: true)
+    admin = User.admin.first
+    raise "No admin user found!" unless admin
+
+    location = user.locations.find_by(is_default: true) || user.locations.first
+    raise "No location found for user #{user.id}" unless location
 
     winner = Winner.create(
       item: self,
@@ -122,6 +115,7 @@ class Item < ApplicationRecord
       Rails.logger.info("Winner created successfully: #{winner.id}")
     else
       Rails.logger.error("Failed to create winner: #{winner.errors.full_messages.join(', ')}")
+      raise ActiveRecord::Rollback, "Winner creation failed."
     end
   end
 
