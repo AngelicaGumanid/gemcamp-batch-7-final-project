@@ -1,8 +1,6 @@
 class Admins::OrdersController < AdminController
   before_action :set_order, only: %i[show edit update destroy pay cancel]
 
-  # In your Admins::OrdersController (index action)
-  # In your Admins::OrdersController (index action)
   def index
     @orders = Order.all
 
@@ -73,6 +71,15 @@ class Admins::OrdersController < AdminController
       redirect_to @order, notice: 'Order was successfully updated.'
     else
       render :edit
+    end
+  end
+
+  def submit
+    if @order && @order.may_submit?
+      @order.submit!
+      redirect_to admins_orders_path, notice: 'Order submitted successfully.'
+    else
+      redirect_to admins_orders_path, alert: 'Order cannot be submitted.'
     end
   end
 

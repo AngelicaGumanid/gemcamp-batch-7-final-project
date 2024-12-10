@@ -46,6 +46,7 @@ Rails.application.routes.draw do
 
       resources :orders do
         member do
+          patch :submit
           patch :pay
           patch :cancel
         end
@@ -86,7 +87,11 @@ Rails.application.routes.draw do
         post 'purchase', on: :member
       end
 
-      resources :orders, only: [:create]
+      resources :orders, only: [:create] do
+        member do
+          patch :cancel
+        end
+      end
 
       resources :shares, only: [:index, :show]
       #   post 'purchase', on: :member

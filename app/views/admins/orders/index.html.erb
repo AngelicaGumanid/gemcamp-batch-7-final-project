@@ -62,6 +62,9 @@
       <td><%= order.state %></td>
       <td><%= order.offer.try(:name) %></td>
       <td>
+        <% if order.may_submit? %>
+          <%= button_to 'Submit', submit_admins_order_path(order), method: :patch, class: "btn btn-primary" %>
+        <% end %>
         <% if order.can_pay? %>
           <%= button_to 'Pay', pay_admins_order_path(order), method: :patch, class: "btn btn-success" %>
         <% end %>
