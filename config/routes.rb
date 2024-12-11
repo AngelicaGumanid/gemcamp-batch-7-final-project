@@ -8,6 +8,8 @@ Rails.application.routes.draw do
 
       devise_for :users, controllers: { sessions: 'admins/sessions' }, skip: [:registrations]
 
+      resources :users
+
       resources :items do
         member do
           patch :restore
