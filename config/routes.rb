@@ -8,7 +8,11 @@ Rails.application.routes.draw do
 
       devise_for :users, controllers: { sessions: 'admins/sessions' }, skip: [:registrations]
 
-      resources :users
+      resources :users do
+        member do
+          get :balance_operate
+        end
+      end
 
       resources :items do
         member do

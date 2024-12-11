@@ -1,0 +1,109 @@
+<%= stylesheet_link_tag "balance_operate", "data-turbo-track": "reload" %>
+
+<div class="container">
+  <h1>Balance Operate</h1>
+  <div class="row">
+    <!-- Left Side Tabs -->
+    <div class="col-md-6">
+      <div class="tab-container">
+        <ul class="tab-header">
+          <li class="tab active" data-tab="increase">Increase</li>
+          <li class="tab" data-tab="deduct">Deduct</li>
+          <li class="tab" data-tab="bonus">Bonus</li>
+        </ul>
+
+        <div class="tab-content">
+          <!-- Increase Tab -->
+          <div id="increase" class="tab-panel active">
+            <form>
+              <div class="form-group">
+                <label for="coins">Coins</label>
+                <input type="number" class="form-control" id="coins" placeholder="Enter coins">
+              </div>
+              <div class="form-group">
+                <label for="genre">Genre</label>
+                <input type="text" class="form-control" id="genre" placeholder="Enter genre">
+              </div>
+              <div class="form-group">
+                <label for="remarks">Remarks</label>
+                <textarea class="form-control" id="remarks" rows="3"></textarea>
+              </div>
+            </form>
+          </div>
+          <!-- Deduct Tab -->
+          <div id="deduct" class="tab-panel" style="display: none;">
+            <form>
+              <div class="form-group">
+                <label for="coins">Coins</label>
+                <input type="number" class="form-control" id="coins_deduct" placeholder="Enter coins">
+              </div>
+              <div class="form-group">
+                <label for="genre">Genre</label>
+                <input type="text" class="form-control" id="genre_deduct" placeholder="Enter genre">
+              </div>
+              <div class="form-group">
+                <label for="remarks">Remarks</label>
+                <textarea class="form-control" id="remarks_deduct" rows="3"></textarea>
+              </div>
+            </form>
+          </div>
+
+
+          <div id="bonus" class="tab-panel" style="display: none;">
+            <form>
+              <div class="form-group">
+                <label for="coins">Coins</label>
+                <input type="number" class="form-control" id="coins_bonus" placeholder="Enter coins">
+              </div>
+              <div class="form-group">
+                <label for="genre">Genre</label>
+                <input type="text" class="form-control" id="genre_bonus" placeholder="Enter genre">
+              </div>
+              <div class="form-group">
+                <label for="remarks">Remarks</label>
+                <textarea class="form-control" id="remarks_bonus" rows="3"></textarea>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-6">
+      <form>
+        <div class="form-group">
+          <label for="username">Username</label>
+          <input type="text" class="form-control" id="username" value="<%= @user.username %>" disabled>
+        </div>
+        <div class="form-group">
+          <label for="promoter_name">Promoter Name</label>
+          <input type="text" class="form-control" id="promoter_name" value="<%= @promoter_name %>" disabled>
+        </div>
+        <div class="form-group">
+          <label for="user_coins">Coins</label>
+          <input type="text" class="form-control" id="user_coins" value="<%= @user_coins %>" disabled>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const tabs = document.querySelectorAll(".tab");
+        const panels = document.querySelectorAll(".tab-panel");
+
+        tabs.forEach(tab => {
+            tab.addEventListener("click", function() {
+                tabs.forEach(t => t.classList.remove("active"));
+                panels.forEach(p => p.classList.remove("active"));
+                panels.forEach(p => p.style.display = "none");
+
+                tab.classList.add("active");
+                const tabId = tab.getAttribute("data-tab");
+                document.getElementById(tabId).classList.add("active");
+                document.getElementById(tabId).style.display = "block";
+            });
+        });
+    });
+</script>

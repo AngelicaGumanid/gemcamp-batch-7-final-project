@@ -1,7 +1,6 @@
 <%= stylesheet_link_tag "table", "data-turbo-track": "reload" %>
 
-<h1>Welcome Admin</h1>
-<p>This is the admin home page.</p>
+<h1>Users List</h1>
 
 <div class="layout">
   <div class="content">
@@ -21,6 +20,7 @@
           <th scope="col">Total Used Coins</th>
           <th scope="col">Children Members</th>
           <th scope="col">Phone Number</th>
+          <th scope="col">Actions</th>
         </tr>
         </thead>
 
@@ -35,13 +35,15 @@
             <td data-label="Total Used Coins"><%= client[:total_used_coins] %></td>
             <td data-label="Children Members"><%= client[:children_members] %></td>
             <td data-label="Phone Number"><%= client[:phone_number] %></td>
+            <td data-label="Actions">
+              <%= link_to "Balance Operate", balance_operate_admins_user_path(client[:id]), class: "btn btn-primary btn-sm" %>
+            </td>
           </tr>
         <% end %>
         </tbody>
       </table>
-      </div>
     <% else %>
       <p class="text-center">No clients found. Please add a new client.</p>
     <% end %>
-    </div>
-
+  </div>
+</div>
