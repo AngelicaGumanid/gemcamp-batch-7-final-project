@@ -1,0 +1,45 @@
+<%= stylesheet_link_tag "table", "data-turbo-track": "reload" %>
+
+<h1>Admin Invite List</h1>
+
+<%= form_with url: admins_invite_list_index_path, method: :get, local: true do %>
+  <div class="form-group">
+    <%= label_tag :parent_email, 'Parent Email' %>
+    <%= text_field_tag :parent_email, params[:parent_email], class: "form-control" %>
+  </div>
+
+  <%= submit_tag 'Search', class: 'btn btn-primary' %>
+<% end %>
+
+<%= link_to 'Clear Filters', admins_invite_list_index_path, class: 'btn btn-secondary' %>
+
+<table class="table table-striped mt-4">
+  <thead>
+  <tr>
+    <th>Parent Email</th>
+    <th>Email</th>
+    <th>Total Deposit</th>
+    <th>Members Total Deposit</th>
+    <th>Coins</th>
+    <th>Created At</th>
+    <th>Coins Used Count</th>
+    <th>Child Members</th>
+  </tr>
+  </thead>
+  <tbody>
+  <% @users.each do |user| %>
+    <tr>
+      <td><%= user.parent.try(:email) %></td>
+      <td><%= user.email %></td>
+      <td><%= number_to_currency(user.total_deposit) %></td>
+      <td><%= number_to_currency(user.members_total_deposit) %></td>
+      <td><%= user.coins %></td>
+      <td><%= user.created_at.strftime('%Y-%m-%d %H:%M:%S') %></td>
+      <td><%= user.coins_used_count %></td>
+      <td><%= user.child_members.count %></td>
+    </tr>
+  <% end %>
+  </tbody>
+</table>
+
+<%= paginate @users %>
