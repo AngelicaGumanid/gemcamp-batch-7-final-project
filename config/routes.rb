@@ -55,6 +55,8 @@ Rails.application.routes.draw do
         end
       end
 
+      get 'invite_list', to: 'invite_list#index'
+
     end
     root to: 'admins/home#index', as: 'admin_root'
   end
