@@ -1,14 +1,21 @@
-<h1>Published Shares</h1>
+<div class="container-fluid py-4">
 
-<div class="shares-list">
-  <% @shares.each do |share| %>
-    <div class="share-item card">
-      <%= image_tag share.picture.url, alt: share.item.name, class: 'share-image' if share.picture.present? %>
-      <h2><%= link_to share.item.name, clients_share_path(share) %></h2>
-      <p><%= truncate(share.comment, length: 100) %></p>
-      <p>Shared by: <%= share.user.username %></p>
-    </div>
-  <% end %>
+  <div class="client-homepage">
+    <%= render partial: 'partials/banner_and_news_ticker' %>
+  </div>
+
+  <h1>Published Shares</h1>
+
+  <div class="shares-list">
+    <% @shares.each do |share| %>
+      <div class="share-item card">
+        <%= image_tag share.picture.url, alt: share.item.name, class: 'share-image' if share.picture.present? %>
+        <h2><%= link_to share.item.name, clients_share_path(share) %></h2>
+        <p><%= truncate(share.comment, length: 100) %></p>
+        <p>Shared by: <%= share.user.username %></p>
+      </div>
+    <% end %>
+  </div>
 </div>
 
 <style>

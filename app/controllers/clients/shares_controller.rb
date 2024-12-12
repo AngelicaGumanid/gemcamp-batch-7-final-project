@@ -1,11 +1,13 @@
 class Clients::SharesController < ApplicationController
   layout 'client'
 
-  # Skip authentication to allow public access
   before_action :authenticate_clients_user!, except: [:index, :show]
 
   def index
     @shares = Winner.where(state: 'published').includes(:item, :user)
+
+    @banners = Banner.where(status: :active, online_at: ..Time.now, offline_at: Time.now..)
+    @news_tickers = NewsTicker.active.limit(5)
   end
 
   def show

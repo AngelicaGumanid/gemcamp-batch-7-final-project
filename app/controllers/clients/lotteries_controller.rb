@@ -11,11 +11,13 @@ class Clients::LotteriesController < ApplicationController
 
     if params[:category].present?
       @items = items_scope.where(category_id: params[:category])
-      # Rails.logger.debug "Filtering by category: #{params[:category]}"
     else
       @items = items_scope
-      # Rails.logger.debug "No category filter applied"
     end
+
+    @banners = Banner.where(status: :active, online_at: ..Time.now, offline_at: Time.now..)
+    @news_tickers = NewsTicker.active.limit(5)
+
   end
 
   def show

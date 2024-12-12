@@ -1,31 +1,20 @@
 <%#= stylesheet_link_tag "shop", "data-turbo-track": "reload" %>
 
-<section class="vh-100 d-flex align-items-center shop-section">
+<section class="d-flex align-items-center shop-section">
   <div class="container h-100 d-flex flex-column align-items-center justify-content-center">
 
-    <div class="col-12 mb-4">
-      <div class="card shadow-lg border-0">
-        <%#= image_tag "1.png", alt: "Shop Banner", class: "card-img-top banner-img" %>
-        <img src="#" alt="Banner Image" class="card-img-top banner-img">
-      </div>
-    </div>
-
-    <div class="col-12 mb-4 text-center">
-      <div class="alert alert-info">
-        <strong>Announcement:</strong>
-        <button class="btn btn-primary btn-sm">Click Here</button>
-      </div>
+    <div class="client-homepage">
+      <%= render partial: 'partials/banner_and_news_ticker' %>
     </div>
 
     <!-- Categories Section (If applicable for Shop) -->
-<!--    <div class="categories d-flex flex-wrap justify-content-center gap-3">-->
-      <%#= link_to 'All', clients_shops_path, class: "btn btn-outline-secondary btn-sm" %>
-      <%# @categories.each do |category| %>
-        <%#= link_to category.name, clients_shops_path(category: category.id), class: "btn btn-outline-secondary btn-sm" %>
-      <%# end %>
-<!--    </div>-->
+    <!--    <div class="categories d-flex flex-wrap justify-content-center gap-3">-->
+    <%#= link_to 'All', clients_shops_path, class: "btn btn-outline-secondary btn-sm" %>
+    <%# @categories.each do |category| %>
+    <%#= link_to category.name, clients_shops_path(category: category.id), class: "btn btn-outline-secondary btn-sm" %>
+    <%# end %>
+    <!--    </div>-->
 
-    <!-- Offers Section -->
     <div class="col-12">
       <div class="row row-cols-2 row-cols-md-3 g-4">
         <% @offers.each do |offer| %>

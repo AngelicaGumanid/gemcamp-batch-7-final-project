@@ -1,15 +1,14 @@
 <div class="container-fluid py-4">
   <div class="client-homepage">
 
-    <div class="container-fluid py-4">
-      <div class="client-homepage">
-        <%= render partial: 'partials/banner_and_news_ticker' %>
-      </div>
+    <div class="client-homepage">
+      <%= render partial: 'partials/banner_and_news_ticker' %>
     </div>
 
     <% unless current_clients_user %>
       <div class="alert alert-info text-center">
-        <strong>Note:</strong> Already have an account? <%= link_to 'Sign In', new_clients_user_session_path, class: 'text-primary' %> to access all features.
+        <strong>Note:</strong> Already have an
+        account? <%= link_to 'Sign In', new_clients_user_session_path, class: 'text-primary' %> to access all features.
       </div>
     <% end %>
 
