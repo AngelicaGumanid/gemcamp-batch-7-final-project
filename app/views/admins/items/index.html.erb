@@ -2,6 +2,11 @@
 
 <h1>Items</h1>
 <%= link_to 'New Item', new_admins_item_path, class: 'btn btn-primary' %>
+<%= form_tag admins_items_path, method: :get do %>
+  <%= check_box_tag :show_deleted, params[:show_deleted], id: "show_deleted_checkbox" %>
+  <label for="show_deleted_checkbox">Show Deleted Items</label>
+  <%= submit_tag "Apply Filter", class: "btn btn-primary" %>
+<% end %>
 
 <div class="container-fluid" style="background-color: white;">
   <table class="table table-striped table-bordered">
@@ -20,7 +25,7 @@
     </tr>
     </thead>
     <tbody>
-    <% @items.with_deleted.each do |item| %>
+    <% @items.with_deleted.order(created_at: :desc).each do |item| %>
       <tr>
         <td data-label="Name"><%= item.name %></td>
         <td data-label="Image"><%= image_tag(item.image.url, size: "100x100") if item.image.present? %></td>

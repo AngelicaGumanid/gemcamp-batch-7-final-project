@@ -2,7 +2,7 @@
 
 <h1>Admin Invite List</h1>
 
-<%= form_with url: admins_invite_list_index_path, method: :get, local: true do %>
+<%= form_with url: admins_invite_list_path, method: :get, local: true do %>
   <div class="form-group">
     <%= label_tag :parent_email, 'Parent Email' %>
     <%= text_field_tag :parent_email, params[:parent_email], class: "form-control" %>
@@ -11,7 +11,7 @@
   <%= submit_tag 'Search', class: 'btn btn-primary' %>
 <% end %>
 
-<%= link_to 'Clear Filters', admins_invite_list_index_path, class: 'btn btn-secondary' %>
+<%= link_to 'Clear Filters', admins_invite_list_path, class: 'btn btn-secondary' %>
 
 <table class="table table-striped mt-4">
   <thead>
