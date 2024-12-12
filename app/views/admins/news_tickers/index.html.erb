@@ -1,0 +1,31 @@
+<%= stylesheet_link_tag "table", "data-turbo-track": "reload" %>
+
+<h1>News Tickers</h1>
+
+<%= link_to 'Create New Ticker', new_admins_news_ticker_path, class: 'btn btn-success mb-3' %>
+
+<table class="table table-striped mt-4">
+  <thead>
+  <tr>
+    <th>Content</th>
+    <th>Status</th>
+    <th>Admin</th>
+    <th>Created At</th>
+    <th>Actions</th>
+  </tr>
+  </thead>
+  <tbody>
+  <% @news_tickers.each do |ticker| %>
+    <tr>
+      <td><%= ticker.content %></td>
+      <td><%= ticker.status.titleize %></td>
+      <td><%= ticker.admin.try(:email) %></td> <td><%= ticker.created_at.strftime("%Y-%m-%d %H:%M:%S") %></td> <td>
+      <%= link_to 'Edit', edit_admins_news_ticker_path(ticker) %> |
+      <%= button_to 'Delete', admins_news_ticker_path(ticker), method: :delete, data: { confirm: 'Are you sure?' } %>
+    </td>
+    </tr>
+  <% end %>
+  </tbody>
+</table>
+
+<%= paginate @news_tickers %>

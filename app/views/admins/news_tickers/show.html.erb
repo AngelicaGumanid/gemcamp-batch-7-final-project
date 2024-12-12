@@ -1,0 +1,9 @@
+<h1>News Ticker Details</h1>
+
+<p><strong>Content:</strong> <%= @news_ticker.content %></p>
+<p><strong>Status:</strong> <%= @news_ticker.status.titleize %></p>
+<p><strong>Created By:</strong> <%= @news_ticker.admin.try(:email) %></p>
+<p><strong>Created At:</strong> <%= @news_ticker.created_at.strftime("%Y-%m-%d %H:%M:%S") %></p>
+
+<%= link_to 'Edit', edit_admins_news_ticker_path(@news_ticker), class: 'btn btn-primary' %>
+<%= link_to 'Back to News Tickers', admins_news_tickers_path, class: 'btn btn-secondary' %>

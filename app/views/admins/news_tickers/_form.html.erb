@@ -1,0 +1,25 @@
+<%= form_with model: @news_ticker, url: @news_ticker.new_record? ? admins_news_tickers_path : admins_news_ticker_path(@news_ticker), local: true do |form| %>
+  <% if @news_ticker.errors.any? %>
+    <div class="alert alert-danger">
+      <h4>There were errors with your submission:</h4>
+      <ul>
+        <% @news_ticker.errors.full_messages.each do |msg| %>
+          <li><%= msg %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="form-group">
+    <%= form.label :content %>
+    <%= form.text_area :content, rows: 5, class: 'form-control' %> </div>
+
+  <div class="form-group">
+    <%= form.label :status %>
+    <%= form.select :status, NewsTicker.statuses.keys.map { |status| [status.titleize, status] }, { prompt: 'Select Status' }, class: 'form-control' %>
+  </div>
+
+  <div class="form-group">
+    <%= submit_tag(@news_ticker.new_record? ? 'Create Ticker' : 'Update Ticker', class: 'btn btn-primary') %>
+  </div>
+<% end %>
