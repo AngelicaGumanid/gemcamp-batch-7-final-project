@@ -15,6 +15,10 @@ class Item < ApplicationRecord
 
   after_initialize :set_default_batch_count, if: :new_record?
 
+  def destroy
+    update(deleted_at: Time.current)
+  end
+
   scope :with_deleted, -> { unscope(where: :deleted_at) }
 
   aasm column: 'state' do

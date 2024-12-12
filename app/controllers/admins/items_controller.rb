@@ -1,17 +1,19 @@
 class Admins::ItemsController < AdminController
-  layout 'admin'
   before_action :set_item, only: %i[show edit update destroy start pause end cancel resume]
 
   def index
-    @items = Item.with_deleted.includes(:category)
+    if params[:show_deleted] == 'true'
+      @items = Item.with_deleted.includes(:category).order(created_at: :desc)
+    else
+      @items = Item.includes(:category).order(created_at: :desc)
+    end
   end
-
   def show
     @item = Item.with_deleted.find(params[:id])
   end
 
   def edit
-    @item = Item.find(params[:id]) # Ensure this line is present
+    @item = Item.find(params[:id])
   end
 
   def new

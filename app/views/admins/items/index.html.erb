@@ -2,10 +2,12 @@
 
 <h1>Items</h1>
 <%= link_to 'New Item', new_admins_item_path, class: 'btn btn-primary' %>
-<%= form_tag admins_items_path, method: :get do %>
-  <%= check_box_tag :show_deleted, params[:show_deleted], id: "show_deleted_checkbox" %>
-  <label for="show_deleted_checkbox">Show Deleted Items</label>
-  <%= submit_tag "Apply Filter", class: "btn btn-primary" %>
+
+<%= form_with url: admins_items_path, method: :get, local: true do %>
+  <div class="form-check mb-3">
+    <%= check_box_tag 'show_deleted', 'true', params[:show_deleted] == 'true', id: 'show_deleted', class: 'form-check-input' %>
+    <%= label_tag 'show_deleted', 'Show Deleted Items', class: 'form-check-label' %>
+  </div>
 <% end %>
 
 <div class="container-fluid" style="background-color: white;">
@@ -25,7 +27,7 @@
     </tr>
     </thead>
     <tbody>
-    <% @items.with_deleted.order(created_at: :desc).each do |item| %>
+    <% @items.each do |item| %>
       <tr>
         <td data-label="Name"><%= item.name %></td>
         <td data-label="Image"><%= image_tag(item.image.url, size: "100x100") if item.image.present? %></td>
@@ -39,9 +41,6 @@
           <% if item.deleted_at.nil? %>
             <%= button_to 'Start', start_admins_item_path(item), method: :patch, class: 'btn btn-outline-success' if item.may_start? %>
             <%= button_to 'Pause', pause_admins_item_path(item), method: :patch, class: 'btn btn-outline-warning' if item.may_pause? %>
-            <%= button_to 'End', end_admins_item_path(item), method: :patch, class: 'btn btn-outline-danger' if item.may_end? %>
-            <%= button_to 'Cancel', cancel_admins_item_path(item), method: :patch, class: 'btn btn-outline-secondary' if item.may_cancel? %>
-            <%= button_to 'Resume', resume_admins_item_path(item), method: :patch, class: 'btn btn-outline-info' if item.may_resume? %>
           <% else %>
             <%= button_to 'Restore', restore_admins_item_path(item), method: :patch, class: 'btn btn-outline-success' %>
           <% end %>
@@ -49,10 +48,18 @@
         <td data-label="Actions">
           <%= link_to 'Show', admins_item_path(item), class: 'btn btn-outline-info' %>
           <%= link_to 'Edit', edit_admins_item_path(item), class: 'btn btn-outline-warning' %>
-          <%= button_to 'Delete', admins_item_path(item), method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-outline-danger' %>
+          <% if item.deleted_at.nil? %>
+            <%= button_to 'Delete', admins_item_path(item), method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-outline-danger' %>
+          <% end %>
         </td>
       </tr>
     <% end %>
     </tbody>
   </table>
 </div>
+
+<script>
+    document.getElementById('show_deleted').addEventListener('change', function() {
+        this.form.submit();
+    });
+</script>
