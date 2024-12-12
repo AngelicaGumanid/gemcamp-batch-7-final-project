@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2024_12_02_011735) do
+ActiveRecord::Schema[7.0].define(version: 2024_12_12_013929) do
   create_table "address_barangays", charset: "utf8mb4", force: :cascade do |t|
     t.bigint "city_id"
     t.string "code"
@@ -89,6 +89,15 @@ ActiveRecord::Schema[7.0].define(version: 2024_12_02_011735) do
     t.index ["address_provinces_id"], name: "index_locations_on_address_provinces_id"
     t.index ["address_regions_id"], name: "index_locations_on_address_regions_id"
     t.index ["user_id"], name: "index_locations_on_user_id"
+  end
+
+  create_table "news_tickers", charset: "utf8mb4", force: :cascade do |t|
+    t.text "content", null: false
+    t.integer "status", default: 0
+    t.bigint "admin_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["admin_id"], name: "index_news_tickers_on_admin_id"
   end
 
   create_table "offers", charset: "utf8mb4", force: :cascade do |t|
@@ -177,6 +186,7 @@ ActiveRecord::Schema[7.0].define(version: 2024_12_02_011735) do
   add_foreign_key "locations", "address_provinces", column: "address_provinces_id"
   add_foreign_key "locations", "address_regions", column: "address_regions_id"
   add_foreign_key "locations", "users"
+  add_foreign_key "news_tickers", "users", column: "admin_id"
   add_foreign_key "orders", "offers"
   add_foreign_key "orders", "users"
   add_foreign_key "tickets", "items"
