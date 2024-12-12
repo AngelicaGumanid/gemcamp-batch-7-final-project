@@ -1,0 +1,32 @@
+<div class="banner-image mb-4">
+  <div id="bannerCarousel" class="carousel slide" data-bs-ride="carousel">
+    <div class="carousel-inner">
+      <% @banners.each_with_index do |banner, index| %>
+        <div class="carousel-item<%= index == 0 ? ' active' : '' %>">
+          <%= image_tag banner.preview.url, class: "d-block w-100 banner-img" %>
+        </div>
+      <% end %>
+    </div>
+    <button class="carousel-control-prev" type="button" data-bs-target="#bannerCarousel" data-bs-slide="prev">
+      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Previous</span>
+    </button>
+    <button class="carousel-control-next" type="button" data-bs-target="#bannerCarousel" data-bs-slide="next">
+      <span class="carousel-control-next-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Next</span>
+    </button>
+  </div>
+</div>
+
+<div class="announcement my-4">
+  <div class="d-flex justify-content-between align-items-center">
+    <h4 class="fw-bold">Announcements</h4>
+  </div>
+  <marquee behavior="scroll" direction="left" scrollamount="5" onmouseover="this.stop()" onmouseout="this.start()">
+    <div class="news-ticker-container">
+      <% @news_tickers.each do |news_ticker| %>
+        <span class="news-ticker-item"><%= news_ticker.content %> </span>
+      <% end %>
+    </div>
+  </marquee>
+</div>
