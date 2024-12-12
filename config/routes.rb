@@ -57,7 +57,11 @@ Rails.application.routes.draw do
 
       get 'invite_list', to: 'invite_list#index'
 
-      resources :news_tickers
+      resources :news_tickers do
+        member do
+          patch :restore
+        end
+      end
 
     end
     root to: 'admins/home#index', as: 'admin_root'

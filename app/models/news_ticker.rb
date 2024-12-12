@@ -5,4 +5,15 @@ class NewsTicker < ApplicationRecord
 
   validates :content, presence: true
 
+  default_scope { where(deleted_at: nil) }
+  scope :with_deleted, -> { unscope(where: :deleted_at) }
+
+  def destroy
+    update(deleted_at: Time.current)
+  end
+
+  def restore
+    update(deleted_at: nil)
+  end
+
 end

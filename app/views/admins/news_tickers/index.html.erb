@@ -1,5 +1,3 @@
-<%= stylesheet_link_tag "table", "data-turbo-track": "reload" %>
-
 <h1>News Tickers</h1>
 
 <%= link_to 'Create New Ticker', new_admins_news_ticker_path, class: 'btn btn-success mb-3' %>
@@ -15,13 +13,17 @@
   </tr>
   </thead>
   <tbody>
-  <% @news_tickers.each do |ticker| %>
+  <% @news_tickers.with_deleted.each do |news_ticker| %>
     <tr>
-      <td><%= ticker.content %></td>
-      <td><%= ticker.status.titleize %></td>
-      <td><%= ticker.admin.try(:email) %></td> <td><%= ticker.created_at.strftime("%Y-%m-%d %H:%M:%S") %></td> <td>
-      <%= link_to 'Edit', edit_admins_news_ticker_path(ticker) %> |
-      <%= button_to 'Delete', admins_news_ticker_path(ticker), method: :delete, data: { confirm: 'Are you sure?' } %>
+      <td><%= news_ticker.content %></td>
+      <td><%= news_ticker.status.titleize %></td>
+      <td><%= news_ticker.admin.try(:email) %></td> <td><%= news_ticker.created_at.strftime("%Y-%m-%d %H:%M:%S") %></td> <td>
+      <%= link_to 'Edit', edit_admins_news_ticker_path(news_ticker) %> |
+      <% if news_ticker.deleted_at.present? %>
+        <%= button_to 'Restore', restore_admins_news_ticker_path(news_ticker), method: :patch, class: 'btn btn-outline-success' %>
+      <% else %>
+        <%= button_to 'Delete', admins_news_ticker_path(news_ticker), method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-outline-danger' %>
+      <% end %>
     </td>
     </tr>
   <% end %>

@@ -1,8 +1,8 @@
 class Admins::NewsTickersController < AdminController
-  before_action :set_news_ticker, only: [:show, :edit, :update, :destroy]
+  before_action :set_news_ticker, only: [:show, :edit, :update, :destroy, :restore]
 
   def index
-    @news_tickers = NewsTicker.page(params[:page])
+    @news_tickers = NewsTicker.with_deleted.page(params[:page])
   end
 
   def new
@@ -25,7 +25,7 @@ class Admins::NewsTickersController < AdminController
   end
 
   def show
-    @news_ticker = NewsTicker.find(params[:id])
+    @news_ticker = NewsTicker.with_deleted.find(params[:id])
   end
 
   def update
@@ -37,14 +37,28 @@ class Admins::NewsTickersController < AdminController
   end
 
   def destroy
-    @news_ticker.destroy
-    redirect_to admins_news_tickers_path, notice: 'News ticker was successfully destroyed.'
+    if @news_ticker.destroy
+      redirect_to admins_news_tickers_path, notice: 'News ticker successfully soft deleted.'
+    else
+      redirect_to admins_news_tickers_path, alert: @news_ticker.errors.full_messages.to_sentence
+    end
+  end
+
+  def restore
+    if @news_ticker.restore
+      redirect_to admins_news_tickers_path, notice: 'News ticker restored successfully.'
+    else
+      redirect_to admins_news_tickers_path, alert: 'Failed to restore news ticker.'
+    end
   end
 
   private
 
   def set_news_ticker
-    @news_ticker = NewsTicker.find(params[:id])
+    @news_ticker = NewsTicker.with_deleted.find(params[:id])
+    unless @news_ticker
+      redirect_to admins_news_tickers_path, alert: 'News ticker not found.'
+    end
   end
 
   def news_ticker_params
