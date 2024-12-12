@@ -63,6 +63,13 @@ Rails.application.routes.draw do
         end
       end
 
+      resources :banners do
+        member do
+          patch :restore
+        end
+      end
+
+
     end
     root to: 'admins/home#index', as: 'admin_root'
   end
