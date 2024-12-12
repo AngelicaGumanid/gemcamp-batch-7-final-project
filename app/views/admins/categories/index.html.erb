@@ -1,7 +1,12 @@
 <h1>Categories</h1>
 <%= link_to 'New Category', new_admins_category_path, class: 'btn btn-primary' %>
 
-<%= render 'partials/popup_message' %>
+<%= form_with url: admins_categories_path, method: :get, local: true do %>
+  <div class="form-check mb-3">
+    <%= check_box_tag 'show_deleted', 'true', params[:show_deleted] == 'true', id: 'show_deleted', class: 'form-check-input' %>
+    <%= label_tag 'show_deleted', 'Show Deleted Items', class: 'form-check-label' %>
+  </div>
+<% end %>
 
 <table>
   <thead>
@@ -28,3 +33,9 @@
   <% end %>
   </tbody>
 </table>
+
+<script>
+    document.getElementById('show_deleted').addEventListener('change', function () {
+        this.form.submit();
+    });
+</script>

@@ -1,10 +1,13 @@
 class Admins::CategoriesController < AdminController
-  layout 'admin'
 
   before_action :set_category, only: %i[show edit update destroy restore]
 
   def index
-    @categories = Category.with_deleted
+    if params[:show_deleted] == 'true'
+      @categories = Category.with_deleted.order(created_at: :desc)
+    else
+      @categories = Category.order(created_at: :desc)
+    end
   end
 
   def show
