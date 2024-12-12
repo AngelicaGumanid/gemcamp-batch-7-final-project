@@ -1,28 +1,9 @@
 <div class="container-fluid py-4">
   <div class="client-homepage">
 
-    <div class="banner-image mb-4">
-      <div id="bannerCarousel" class="carousel slide" data-bs-ride="carousel">
-        <div class="carousel-inner">
-          <div class="carousel-item active">
-            <%= image_tag "default_no_image_transparent.png", class: "d-block w-100 banner-img", alt: "Banner 1" %>
-          </div>
-          <div class="carousel-item">
-            <%= image_tag "default_no_image_transparent.png", class: "d-block w-100 banner-img", alt: "Banner 2" %>
-          </div>
-          <div class="carousel-item">
-            <%= image_tag "default_no_image_transparent.png", class: "d-block w-100 banner-img", alt: "Banner 3" %>
-          </div>
-        </div>
-
-        <button class="carousel-control-prev" type="button" data-bs-target="#bannerCarousel" data-bs-slide="prev">
-          <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-          <span class="visually-hidden">Previous</span>
-        </button>
-        <button class="carousel-control-next" type="button" data-bs-target="#bannerCarousel" data-bs-slide="next">
-          <span class="carousel-control-next-icon" aria-hidden="true"></span>
-          <span class="visually-hidden">Next</span>
-        </button>
+    <div class="container-fluid py-4">
+      <div class="client-homepage">
+        <%= render partial: 'partials/banner_and_news_ticker' %>
       </div>
     </div>
 
@@ -31,13 +12,6 @@
         <strong>Note:</strong> Already have an account? <%= link_to 'Sign In', new_clients_user_session_path, class: 'text-primary' %> to access all features.
       </div>
     <% end %>
-
-    <div class="announcement my-4">
-      <div class="d-flex justify-content-between align-items-center">
-        <h4 class="fw-bold">Announcements</h4>
-        <button class="btn btn-primary btn-sm">View All</button>
-      </div>
-    </div>
 
     <div class="feedback-section mt-5">
       <h4 class="fw-bold text-center mb-4">Winners Feedback</h4>

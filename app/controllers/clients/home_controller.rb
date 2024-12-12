@@ -6,5 +6,9 @@ class Clients::HomeController < ApplicationController
                  .includes(:category)
 
     @categories = Category.all
+
+    @banners = Banner.where(status: :active, online_at: ..Time.now, offline_at: Time.now..)
+    @news_tickers = NewsTicker.active.limit(5)
+
   end
 end
