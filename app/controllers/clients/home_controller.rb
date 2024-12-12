@@ -9,6 +9,8 @@ class Clients::HomeController < ApplicationController
 
     @banners = Banner.where(status: :active, online_at: ..Time.now, offline_at: Time.now..)
     @news_tickers = NewsTicker.active.limit(5)
+    @winners = Winner.where.not(picture: nil).includes(:user).limit(5)
+    @items = Item.where(status: :active, state: :starting).limit(8)
 
   end
 end

@@ -16,38 +16,24 @@
       <h4 class="fw-bold text-center mb-4">Winners Feedback</h4>
       <div id="feedbackCarousel" class="carousel slide" data-bs-ride="carousel">
         <div class="carousel-inner">
-          <div class="carousel-item active">
-            <div class="row">
-              <% 3.times do |i| %>
-                <div class="col-12 col-md-4 <%= 'd-none d-md-block' if i > 0 %>">
+          <% @winners.limit(5).each_with_index do |winner, index| %>
+            <div class="carousel-item <%= 'active' if index.zero? %>">
+              <div class="row">
+                <div class="col-md-6">
+                  <img src="<%= winner.picture.present? ? winner.picture.url : 'default_no_image.png' %>" alt="Feedback Image" class="img-fluid rounded">
+                </div>
+                <div class="col-md-6">
                   <div class="card shadow-sm">
-                    <%= image_tag "default_no_image_transparent.png", class: "img-fluid rounded", alt: "Feedback" %> <!-- Replace with dynamic content -->
-                    <div class="card-body text-center">
-                      <h5 class="card-title">User Name</h5>
-                      <p class="card-text">"Great experience! Highly recommended."</p>
+                    <div class="card-body">
+                      <h5 class="card-title"><%= winner.user.username %></h5>
+                      <p class="card-text"><%= winner.comment %></p>
                     </div>
                   </div>
                 </div>
-              <% end %>
+              </div>
             </div>
-          </div>
-          <div class="carousel-item">
-            <div class="row">
-              <% 3.times do |i| %>
-                <div class="col-12 col-md-4 <%= 'd-none d-md-block' if i > 0 %>">
-                  <div class="card shadow-sm">
-                    <%= image_tag "default_no_image_transparent.png", class: "img-fluid rounded", alt: "Feedback" %> <!-- Replace with dynamic content -->
-                    <div class="card-body text-center">
-                      <h5 class="card-title">User Name</h5>
-                      <p class="card-text">"Loved it! Will definitely participate again."</p>
-                    </div>
-                  </div>
-                </div>
-              <% end %>
-            </div>
-          </div>
+          <% end %>
         </div>
-
         <button class="carousel-control-prev" type="button" data-bs-target="#feedbackCarousel" data-bs-slide="prev">
           <span class="carousel-control-prev-icon" aria-hidden="true"></span>
           <span class="visually-hidden">Previous</span>
@@ -57,6 +43,30 @@
           <span class="visually-hidden">Next</span>
         </button>
       </div>
+      <div class="text-center mt-2">
+        <%= link_to "See More Feedback", clients_shares_path, class: "btn btn-primary" %>
+      </div>
+    </div>
+
+    <div class="items-grid row row-cols-1 row-cols-md-2 g-4">
+      <% @items.each do |item| %>
+        <div class="col">
+          <div class="item-card card shadow-sm">
+            <%= image_tag item.image.url, class: "card-img-top", alt: item.name %>
+            <div class="card-body">
+              <h5 class="card-title"><%= item.name %></h5>
+              <p class="card-text">Batch: <%= item.batch_count %></p>
+            </div>
+            <div class="card-footer">
+              <%= link_to "View Details", clients_lottery_path(item), class: "btn btn-primary" %>
+            </div>
+          </div>
+        </div>
+      <% end %>
+    </div>
+
+    <div class="text-center mt-3">
+      <%= link_to "See More Items", clients_lotteries_path, class: "btn btn-primary" %>
     </div>
 
     <div class="coming-soon-section mt-5">
