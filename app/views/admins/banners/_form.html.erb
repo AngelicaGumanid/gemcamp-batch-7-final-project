@@ -1,0 +1,36 @@
+<%= form_with model: [@admin, @banner], url: @banner.new_record? ? admins_banners_path : admins_banner_path(@banner), local: true do |form| %>
+  <% if @banner.errors.any? %>
+    <div class="alert alert-danger">
+      <h4>There were errors with your submission:</h4>
+      <ul>
+        <% @banner.errors.full_messages.each do |msg| %>
+          <li><%= msg %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="form-group">
+    <%= form.label :preview, "Preview Image" %>
+    <%= form.file_field :preview %>
+  </div>
+
+  <div class="form-group">
+    <%= form.label :online_at %>
+    <%= form.datetime_select :online_at %>
+  </div>
+
+  <div class="form-group">
+    <%= form.label :offline_at %>
+    <%= form.datetime_select :offline_at %>
+  </div>
+
+  <div class="form-group">
+    <%= form.label :status %>
+    <%= form.select :status, Banner.statuses.keys.map { |status| [status.humanize, status] }, { prompt: 'Select Status' }, class: 'form-control' %>
+  </div>
+
+  <div class="form-group">
+    <%= submit_tag(@banner.new_record? ? 'Create Banner' : 'Update Banner', class: 'btn btn-primary') %>
+  </div>
+<% end %>

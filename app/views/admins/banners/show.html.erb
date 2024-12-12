@@ -1,0 +1,15 @@
+<h1>Banner Details</h1>
+
+<p><strong>Preview:</strong></p>
+<% if @banner.preview.attached? %>
+  <%= image_tag @banner.preview, class: 'img-thumbnail' %>
+<% else %>
+  <p>No preview image attached.</p>
+<% end %>
+
+<p><strong>Online At:</strong> <%= @banner.online_at %></p>
+<p><strong>Offline At:</strong> <%= @banner.offline_at %></p>
+<p><strong>Status:</strong> <%= @banner.status.humanize %></p>
+
+<%= link_to 'Edit', edit_admins_banner_path(@banner), class: 'btn btn-primary' %>
+<%= link_to 'Back to Banners', admins_banners_path, class: 'btn btn-secondary' %>

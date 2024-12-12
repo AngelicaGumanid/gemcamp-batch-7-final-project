@@ -1,0 +1,54 @@
+<%= stylesheet_link_tag "table", "data-turbo-track": "reload" %>
+
+<h1>Banners</h1>
+
+<%= link_to 'Create New Banner', new_admins_banner_path, class: 'btn btn-success mb-3' %>
+
+<%= form_with(url: admins_banners_path, method: :get, local: true) do %>
+  <div class="form-group">
+    <%= label_tag :filter, 'Filter By' %>
+    <%= select_tag :filter, options_for_select([['All', 'all'], ['Active', 'active'], ['Inactive', 'inactive']], selected: params[:filter]), prompt: 'Select Filter', class: 'form-control' %>
+  </div>
+
+  <div class="form-group">
+    <%= label_tag :search, 'Search by Preview' %>
+    <%= text_field_tag :search, params[:search], placeholder: 'Search by Preview Name/Text', class: 'form-control' %>
+  </div>
+
+  <div class="form-group">
+    <%= submit_tag 'Search', class: 'btn btn-primary' %>
+  </div>
+<% end %>
+
+<table class="table table-striped mt-4">
+  <thead>
+  <tr>
+    <th>Preview</th>
+    <th>Online At</th>
+    <th>Offline At</th>
+    <th>Status</th>
+    <th>Actions</th>
+  </tr>
+  </thead>
+  <tbody>
+  <% @banners.with_deleted.each do |banner| %>
+    <tr>
+      <td><%= image_tag(banner.preview.url, size: "100x100") if banner.preview.present? %></td>
+      <td><%= banner.online_at %></td>
+      <td><%= banner.offline_at %></td>
+      <td><%= banner.status.humanize %></td>
+      <td>
+        <%= link_to 'Show', admins_banner_path(banner) %> |
+        <% if banner.deleted_at.present? %>
+          <%= button_to 'Restore', restore_admins_banner_path(banner), method: :patch, class: 'btn btn-outline-success' %>
+        <% else %>
+          <%= link_to 'Edit', edit_admins_banner_path(banner), class: 'btn btn-outline-primary' %>
+          <%= button_to 'Delete', admins_banner_path(banner), method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-outline-danger' %>
+        <% end %>
+      </td>
+    </tr>
+  <% end %>
+  </tbody>
+</table>
+
+<%= paginate @banners %>
