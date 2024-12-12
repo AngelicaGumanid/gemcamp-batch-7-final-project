@@ -25,4 +25,23 @@ class User < ApplicationRecord
   # For admin
   belongs_to :parent, class_name: 'User', optional: true
   has_many :children, class_name: 'User', foreign_key: 'parent_id', dependent: :destroy
+
+  def members_total_deposit
+    children_users.sum(&:total_deposit)
+  end
+
+  def coins_used_count
+    tickets.sum(&:coins)
+  end
+
+  private
+
+  def children_users
+    User.where(parent_id: id)
+  end
+
+  def ticket_coins
+    Ticket.where(user_id: user.id).sum(:coins).to_h
+  end
+
 end

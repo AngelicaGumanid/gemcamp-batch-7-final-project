@@ -1,6 +1,6 @@
 class Admins::InviteListController < AdminController
   def index
-    @users = User.includes(:parent, :child_members)
+    @users = User.includes(:parent, :children)
                  .where.not(parent_id: nil)
                  .order(created_at: :desc)
 
