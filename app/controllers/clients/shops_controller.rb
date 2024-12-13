@@ -7,7 +7,7 @@ class Clients::ShopsController < ApplicationController
   def index
     @offers = Offer.active
 
-    @banners = Banner.where(status: :active, online_at: ..Time.now, offline_at: Time.now..)
+    @banners = Banner.where(status: :active, online_at: Time.now, offline_at: Time.now..)
     @news_tickers = NewsTicker.active.limit(5)
   end
 
@@ -26,33 +26,20 @@ class Clients::ShopsController < ApplicationController
       return
     end
 
-    total_cost = @offer.coin * purchase_quantity
-
-    if current_clients_user.coins >= total_cost
-      ActiveRecord::Base.transaction do
-        current_clients_user.decrement!(:coins, total_cost)
-
-        purchase_quantity.times do |i|
-          order = current_clients_user.orders.create!(
-            offer: @offer,
-            genre: :deduct,
-            coin: @offer.coin,
-            amount: @offer.amount,
-            state: :pending
-          )
-
-          if order.persisted?
-            order.submit!
-          else
-            raise ActiveRecord::Rollback, "Order #{i + 1} failed: #{order.errors.full_messages.join(', ')}"
-          end
-        end
+    ActiveRecord::Base.transaction do
+      purchase_quantity.times do
+        current_clients_user.orders.create!(
+          offer: @offer,
+          genre: :deposit,
+          coin: @offer.coin,
+          amount: @offer.amount,
+          state: :pending
+        )
       end
-
-      redirect_to clients_shop_path(@offer), notice: "#{purchase_quantity} offer(s) purchased successfully."
-    else
-      redirect_to clients_shop_path(@offer), alert: "You do not have enough coins."
     end
+
+    redirect_to clients_shop_path(@offer), notice: "#{purchase_quantity} offer(s) purchased successfully."
+
   end
 
   private
