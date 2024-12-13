@@ -1,0 +1,66 @@
+<%= form_with model: @item, url: url_for(@item.new_record? ? admins_items_path : admins_item_path(@item)),
+              method: @item.new_record? ? :post : :patch,
+              html: { multipart: true },
+              data: { turbo: false, controller: 'item' },
+              local: true do |f| %>
+
+  <% if @item.errors.any? %>
+    <div class="alert alert-danger">
+      <h4 class="alert-heading">Error</h4>
+      <ul>
+        <% @item.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div>
+    <%= f.label :name %>
+    <%= f.text_field :name %>
+  </div>
+
+  <div>
+    <%= f.label :category_id, "Category" %>
+    <%= f.collection_select :category_id, Category.all, :id, :name, prompt: "Select a Category" %>
+  </div>
+
+  <div>
+    <%= f.label :image %>
+    <%= f.file_field :image %>
+  </div>
+
+  <div>
+    <%= f.label :quantity %>
+    <%= f.number_field :quantity %>
+  </div>
+
+  <div>
+    <%= f.label :minimum_tickets %>
+    <%= f.number_field :minimum_tickets %>
+  </div>
+
+  <div>
+    <%= f.label :online_at %>
+    <%= f.datetime_select :online_at %>
+  </div>
+
+  <div>
+    <%= f.label :offline_at %>
+    <%= f.datetime_select :offline_at %>
+  </div>
+
+  <div>
+    <%= f.label :start_at %>
+    <%= f.datetime_select :start_at %>
+  </div>
+
+  <div>
+    <%= f.label :status %>
+    <%= f.select :status, Item.statuses.keys.map { |status| [status.capitalize, status] } %>
+  </div>
+
+  <div>
+    <%= f.submit 'Save', class: 'btn btn-primary' %>
+  </div>
+<% end %>

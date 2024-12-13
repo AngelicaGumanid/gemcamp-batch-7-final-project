@@ -1,26 +1,29 @@
 class Item < ApplicationRecord
-  include AASM
-
   belongs_to :category, optional: true
   has_many :tickets, dependent: :restrict_with_error
   has_many :winners
 
-  default_scope { where(deleted_at: nil) }
-
   enum status: { inactive: 0, active: 1 }
   mount_uploader :image, ImageUploader
 
-  validates :minimum_tickets, numericality: { greater_than_or_equal_to: 1 }
-  validates :quantity, numericality: { greater_than_or_equal_to: 0 }
+  validates :name, presence: true, length: { maximum: 255 }
+  validates :category_id, presence: true
+  validates :quantity, presence: true, numericality: { only_integer: true, greater_than_or_equal_to: 1 }
+  validates :minimum_tickets, presence: true, numericality: { greater_than_or_equal_to: 0 }
+  validates :online_at, presence: true
+  validates :offline_at, presence: true
 
-  after_initialize :set_default_batch_count, if: :new_record?
+  attribute :batch_count, :integer, default: 0
+  attribute :minimum_tickets, :integer, default: 1
 
   def destroy
     update(deleted_at: Time.current)
   end
 
+  default_scope { where(deleted_at: nil) }
   scope :with_deleted, -> { unscope(where: :deleted_at) }
 
+  include AASM
   aasm column: 'state' do
     state :pending, initial: true
     state :starting
@@ -47,12 +50,16 @@ class Item < ApplicationRecord
     end
 
     event :cancel do
-      transitions from: %i[starting paused], to: :cancelled, after: :cancel_associated_tickets
+      transitions from: [:starting, :paused], to: :cancelled, after: :cancel_associated_tickets
     end
 
-    event :resume do
-      transitions from: :paused, to: :starting
-    end
+    # event :resume do
+    #   transitions from: :paused, to: :starting
+    # end
+  end
+
+  def can_start?
+    quantity&.positive? && (offline_at.nil? || offline_at > Date.current) && active?
   end
 
   def valid_ticket_count?
@@ -61,23 +68,11 @@ class Item < ApplicationRecord
 
   private
 
-  def cancel_associated_tickets
-    tickets.pending.find_each(&:cancel!)
-  end
-
-  def can_start?
-    quantity&.positive? && (offline_at.nil? || offline_at > Date.current) && active?
-  end
-
   def deduct_quantity_and_increase_batch
     self.class.transaction do
       decrement!(:quantity)
       increment!(:batch_count)
     end
-  end
-
-  def set_default_batch_count
-    self.batch_count ||= 0
   end
 
   def pick_winner_and_update_tickets
@@ -125,6 +120,10 @@ class Item < ApplicationRecord
 
   def calculate_winner_price
     100.0
+  end
+
+  def cancel_associated_tickets
+    tickets.pending.find_each(&:cancel!)
   end
 
 end

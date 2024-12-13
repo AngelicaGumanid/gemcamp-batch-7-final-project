@@ -41,14 +41,17 @@
           <% if item.deleted_at.nil? %>
             <%= button_to 'Start', start_admins_item_path(item), method: :patch, class: 'btn btn-outline-success' if item.may_start? %>
             <%= button_to 'Pause', pause_admins_item_path(item), method: :patch, class: 'btn btn-outline-warning' if item.may_pause? %>
+            <%= button_to 'End', end_admins_item_path(item), method: :patch, class: 'btn btn-outline-danger' if item.may_end? %>
+            <%= button_to 'Cancel', cancel_admins_item_path(item), method: :patch, class: 'btn btn-outline-secondary' if item.may_cancel? %>
+            <%#= button_to 'Resume', resume_admins_item_path(item), method: :patch, class: 'btn btn-outline-info' if item.may_resume? %>
           <% else %>
             <%= button_to 'Restore', restore_admins_item_path(item), method: :patch, class: 'btn btn-outline-success' %>
           <% end %>
         </td>
         <td data-label="Actions">
           <%= link_to 'Show', admins_item_path(item), class: 'btn btn-outline-info' %>
-          <%= link_to 'Edit', edit_admins_item_path(item), class: 'btn btn-outline-warning' %>
           <% if item.deleted_at.nil? %>
+            <%= link_to 'Edit', edit_admins_item_path(item), class: 'btn btn-outline-warning' %>
             <%= button_to 'Delete', admins_item_path(item), method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-outline-danger' %>
           <% end %>
         </td>
@@ -59,7 +62,7 @@
 </div>
 
 <script>
-    document.getElementById('show_deleted').addEventListener('change', function() {
+    document.getElementById('show_deleted').addEventListener('change', function () {
         this.form.submit();
     });
 </script>

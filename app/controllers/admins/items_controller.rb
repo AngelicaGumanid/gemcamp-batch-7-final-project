@@ -8,33 +8,35 @@ class Admins::ItemsController < AdminController
       @items = Item.includes(:category).order(created_at: :desc)
     end
   end
-  def show
-    @item = Item.with_deleted.find(params[:id])
-  end
 
-  def edit
-    @item = Item.find(params[:id])
+  def create
+    @item = Item.new(item_params)
+    if @item.save
+      redirect_to admins_items_path, notice: 'Item was successfully created.'
+    else
+      render :new
+    end
   end
 
   def new
     @item = Item.new
   end
 
-  def create
-    @item = Item.new(item_params)
-    if @item.save
-      redirect_to admins_items_path, notice: 'Item successfully created.'
-    else
-      render :edit, status: :unprocessable_entity
-    end
+  def edit
+    @item = Item.find(params[:id])
   end
 
   def update
+    @item = Item.find(params[:id])
     if @item.update(item_params)
-      redirect_to admins_items_path, notice: 'Item successfully updated.'
+      redirect_to admins_items_path, notice: 'Item was successfully updated.'
     else
-      render :edit, status: :unprocessable_entity
+      render :edit
     end
+  end
+
+  def show
+    @item = Item.with_deleted.find(params[:id])
   end
 
   def destroy
@@ -85,19 +87,22 @@ class Admins::ItemsController < AdminController
     end
   end
 
-  def resume
-    if @item.resume!
-      redirect_to admins_items_path, notice: 'Item successfully resumed.'
-    else
-      redirect_to admins_items_path, alert: 'Cannot resume item.'
-    end
-  end
+  # def resume
+  #   if @item.resume!
+  #     redirect_to admins_items_path, notice: 'Item successfully resumed.'
+  #   else
+  #     redirect_to admins_items_path, alert: 'Cannot resume item.'
+  #   end
+  # end
 
   private
 
   def set_item
-    @item = Item.find(params[:id])
-    redirect_to admins_items_path, alert: 'Item not found.' if @item.nil?
+    @item = Item.with_deleted.find_by(id: params[:id])
+
+    if @item.nil?
+      redirect_to admins_items_path, alert: 'Item not found or has been permanently deleted.'
+    end
   end
 
   def item_params
