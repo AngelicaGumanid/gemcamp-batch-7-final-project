@@ -15,17 +15,17 @@
 
   <div class="form-group">
     <%= label_tag :state %>
-    <%= select_tag :state, options_for_select([['All', ''], ['Pending', 'pending'], ['Submitted', 'submitted'], ['Paid', 'paid'], ['Cancelled', 'cancelled']], params[:state]), class: "form-control" %>
+    <%= select_tag :state, options_for_select([['Please select a state to search', ''], ['Pending', 'pending'], ['Submitted', 'submitted'], ['Paid', 'paid'], ['Cancelled', 'cancelled']], selected: params[:state]), class: "form-control" %>
   </div>
 
   <div class="form-group">
     <%= label_tag :offer_id, 'Offer' %>
-    <%= select_tag :offer_id, options_from_collection_for_select(Offer.all, :id, :name, params[:offer_id]), class: "form-control" %>
+    <%= select_tag :offer_id, options_for_select([['Please select an offer to search', '']] + Offer.all.map { |offer| [offer.name, offer.id] }, selected: params[:offer_id]), class: "form-control" %>
   </div>
 
   <div class="form-group">
     <%= label_tag :genre %>
-    <%= select_tag :genre, options_for_select(Order.genres.keys.map { |g| [g.titleize, g] }, params[:genre]), class: "form-control" %>
+    <%= select_tag :genre, options_for_select([['Please select a genre to search', '']] + Order.genres.keys.map { |g| [g.titleize, g] }, selected: params[:genre]), class: "form-control" %>
   </div>
 
   <div class="form-group">
@@ -36,9 +36,8 @@
   </div>
 
   <%= submit_tag 'Search', class: 'btn btn-primary' %>
+  <%= link_to 'Clear Filters', admins_orders_path, class: 'btn btn-secondary' %>
 <% end %>
-
-<%= link_to 'Clear Filters', admins_orders_path, class: 'btn btn-secondary' %>
 
 <table class="table table-striped mt-4">
   <thead>
@@ -47,6 +46,7 @@
     <th>User Email</th>
     <th>Amount</th>
     <th>Coins</th>
+    <th>Genre</th>
     <th>State</th>
     <th>Offer</th>
     <th>Actions</th>
@@ -59,6 +59,7 @@
       <td><%= order.user.email %></td>
       <td><%= order.amount %></td>
       <td><%= order.coin %></td>
+      <td><%= order.genre %></td>
       <td><%= order.state %></td>
       <td><%= order.offer.try(:name) %></td>
       <td>
