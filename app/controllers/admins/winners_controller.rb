@@ -1,5 +1,4 @@
 class Admins::WinnersController < AdminController
-  layout 'admin'
   before_action :set_winner, only: [:edit, :update, :show, :destroy, :submit, :pay, :ship, :deliver, :publish, :remove_publish]
 
   def index

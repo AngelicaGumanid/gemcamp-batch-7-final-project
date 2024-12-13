@@ -1,9 +1,8 @@
 class Admins::OffersController < AdminController
-  layout 'admin'
   before_action :set_offer, only: %i[show edit update destroy]
 
   def index
-    @offers = Offer.all
+    @offers = Offer.all.order(created_at: :desc)
     @offers = @offers.where(status: params[:status]) if params[:status].present?
     @offers = @offers.search(params[:search]) if params[:search].present?
     @offers = @offers.page(params[:page])
