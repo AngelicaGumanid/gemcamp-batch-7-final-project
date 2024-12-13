@@ -5,8 +5,14 @@ class Winner < ApplicationRecord
   belongs_to :location
   belongs_to :admin, class_name: 'User'
 
-  validates :price, numericality: { greater_than_or_equal_to: 0 }
+  validates :item_id, presence: true
+  validates :ticket_id, presence: true
+  validates :user_id, presence: true
+  validates :location_id, presence: true
+  validates :item_batch_count, presence: true, numericality: { only_integer: true, greater_than_or_equal_to: 1 }
+  validates :price, presence: true, numericality: { greater_than_or_equal_to: 0.01 }
   validates :paid_at, presence: true, if: :paid?
+  validates :admin_id, presence: true
   validates :picture, presence: true, if: :shared?
   validates :comment, presence: true, if: :shared?
 

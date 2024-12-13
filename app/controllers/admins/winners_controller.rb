@@ -1,6 +1,6 @@
 class Admins::WinnersController < AdminController
   layout 'admin'
-  before_action :set_winner, only: %i[show edit update destroy submit pay ship deliver publish remove_publish]
+  before_action :set_winner, only: [:edit, :update, :show, :destroy, :submit, :pay, :ship, :deliver, :publish, :remove_publish]
 
   def index
     @winners = Winner.joins(:ticket, :user)
@@ -11,13 +11,13 @@ class Admins::WinnersController < AdminController
                      .per(20)
   end
 
-  def show
-  end
-
   def edit
   end
 
   def update
+  end
+
+  def show
   end
 
   def destroy
