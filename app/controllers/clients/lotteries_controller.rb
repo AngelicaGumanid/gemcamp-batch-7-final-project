@@ -37,22 +37,20 @@ class Clients::LotteriesController < ApplicationController
       return
     end
 
-    if current_clients_user.coins >= ticket_count
-      current_clients_user.decrement!(:coins, ticket_count)
+    Ticket.transaction do
+      Ticket.deduct_coins_for_tickets(current_clients_user, ticket_count)
 
-      Ticket.transaction do
-        ticket_count.times do |i|
-          ticket = current_clients_user.tickets.create(item: @item, batch_count: @item.batch_count)
-          unless ticket.persisted?
-            raise ActiveRecord::Rollback, "Ticket #{i + 1} failed: #{ticket.errors.full_messages.join(', ')}"
-          end
+      ticket_count.times do |i|
+        ticket = current_clients_user.tickets.create(item: @item, batch_count: @item.batch_count)
+        unless ticket.persisted?
+          raise ActiveRecord::Rollback, "Ticket #{i + 1} failed: #{ticket.errors.full_messages.join(', ')}"
         end
       end
-
-      redirect_to clients_lottery_path(@item), notice: "#{ticket_count} ticket(s) purchased successfully."
-    else
-      redirect_to clients_lottery_path(@item), alert: "You do not have enough coins."
     end
+
+    redirect_to clients_lottery_path(@item), notice: "#{ticket_count} ticket(s) purchased successfully."
+  rescue ActiveRecord::Rollback
+    redirect_to clients_lottery_path(@item), alert: "Ticket purchase failed, please try again."
   end
 
   private

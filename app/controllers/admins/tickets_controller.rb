@@ -1,5 +1,4 @@
 class Admins::TicketsController < AdminController
-  layout 'admin'
   before_action :set_ticket, only: %i[show cancel]
 
   def index
@@ -13,8 +12,11 @@ class Admins::TicketsController < AdminController
 
   def cancel
     if @ticket.pending?
-      @ticket.cancel!
-      flash[:notice] = "Ticket #{@ticket.serial_number} has been cancelled, and coins have been refunded."
+      if @ticket.cancel!
+        flash[:notice] = "Ticket #{@ticket.serial_number} has been cancelled, and coins have been refunded."
+      else
+        flash[:alert] = 'Failed to cancel the ticket.'
+      end
     else
       flash[:alert] = 'Ticket cannot be cancelled.'
     end
