@@ -2,7 +2,7 @@ class Admins::OrdersController < AdminController
   before_action :set_order, only: %i[show edit update destroy pay cancel]
 
   def index
-    @orders = Order.all
+    @orders = Order.all.order(created_at: :desc)
 
     @orders = @orders.where("serial_number LIKE ?", "%#{params[:serial_number]}%") if params[:serial_number].present?
     @orders = @orders.joins(:user).where("users.email LIKE ?", "%#{params[:user_email]}%") if params[:user_email].present?
@@ -74,18 +74,19 @@ class Admins::OrdersController < AdminController
     end
   end
 
-  def submit
-    if @order && @order.may_submit?
-      @order.submit!
-      redirect_to admins_orders_path, notice: 'Order submitted successfully.'
-    else
-      redirect_to admins_orders_path, alert: 'Order cannot be submitted.'
-    end
-  end
-
   def destroy
     @order.destroy
     redirect_to orders_url, notice: 'Order was successfully destroyed.'
+  end
+
+  def submit
+    @order = Order.find(params[:id])
+    if @order.may_submit?
+      @order.submit!
+      redirect_to admins_orders_path, notice: "Order submitted successfully."
+    else
+      redirect_to admins_orders_path, alert: "Order cannot be submitted."
+    end
   end
 
   def pay
