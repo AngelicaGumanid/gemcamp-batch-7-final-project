@@ -3,7 +3,7 @@ class Order < ApplicationRecord
   belongs_to :offer, optional: true
 
   validates :serial_number, presence: true, uniqueness: true
-  # validates :remarks, presence: true
+  validate :remarks_required_for_specific_genres, if: :remarks_required_for_genre?
   validates :genre, presence: true
   validate :offer_required_if_deposit, if: :deposit?
   validate :amount_and_coins_required_if_deposit, if: :deposit?
@@ -22,6 +22,16 @@ class Order < ApplicationRecord
     end_date = Date.parse(end_date) if end_date.present?
     where(created_at: start_date..end_date) if start_date && end_date
   }
+
+  def remarks_required_for_specific_genres?
+    ['increase', 'deduct', 'bonus'].include?(genre)
+  end
+
+  def remarks_required_for_genre
+    if remarks.blank?
+      errors.add(:remarks, "can't be blank for this genre.")
+    end
+  end
 
   include AASM
 
@@ -73,8 +83,13 @@ class Order < ApplicationRecord
       decrease_user_coins(coin)
     else
       increase_user_coins(coin)
+      increase_total_deposit if genre == 'deposit'
     end
-    increase_total_deposit if genre == 'deposit'
+
+    if genre != 'deposit' && state == 'pending'
+      self.submit!
+      self.pay!
+    end
   end
 
   def handle_cancel
