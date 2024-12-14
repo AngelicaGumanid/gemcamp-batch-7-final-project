@@ -13,6 +13,16 @@ class Order < ApplicationRecord
 
   enum genre: { deposit: 0, increase: 1, deduct: 2, bonus: 3, share: 4 }
 
+  scope :filter_by_serial, -> (serial_number) { where("serial_number LIKE ?", "%#{serial_number}%") }
+  scope :filter_by_user_email, -> (email) { joins(:user).where("users.email LIKE ?", "%#{email}%") }
+  scope :filter_by_state, -> (state) { where(state: state) }
+  scope :filter_by_offer, -> (offer_id) { where(offer_id: offer_id) }
+  scope :filter_by_date_range, -> (start_date, end_date) {
+    start_date = Date.parse(start_date) if start_date.present?
+    end_date = Date.parse(end_date) if end_date.present?
+    where(created_at: start_date..end_date) if start_date && end_date
+  }
+
   include AASM
 
   aasm column: 'state' do

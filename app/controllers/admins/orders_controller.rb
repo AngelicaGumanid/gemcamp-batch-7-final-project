@@ -4,36 +4,19 @@ class Admins::OrdersController < AdminController
   def index
     @orders = Order.all.order(created_at: :desc)
 
-    @orders = @orders.where("serial_number LIKE ?", "%#{params[:serial_number]}%") if params[:serial_number].present?
-    @orders = @orders.joins(:user).where("users.email LIKE ?", "%#{params[:user_email]}%") if params[:user_email].present?
-    @orders = @orders.where(state: params[:state]) if params[:state].present?
-    @orders = @orders.where(offer_id: params[:offer_id]) if params[:offer_id].present?
-
-    @orders = @orders.where("orders.created_at >= ?", params[:start_date]) if params[:start_date].present?
-    @orders = @orders.where("orders.created_at <= ?", params[:end_date]) if params[:end_date].present?
+    @orders = @orders.filter_by_serial(params[:serial_number]) if params[:serial_number].present?
+    @orders = @orders.filter_by_user_email(params[:user_email]) if params[:user_email].present?
+    @orders = @orders.filter_by_state(params[:state]) if params[:state].present?
+    @orders = @orders.filter_by_offer(params[:offer_id]) if params[:offer_id].present?
+    @orders = @orders.filter_by_date_range(params[:start_date], params[:end_date]) if params[:start_date].present? && params[:end_date].present?
 
     @subtotal = @orders.sum(:amount)
-    @total_coin = @orders.sum(:coin)
+    @subtotal_coin = @orders.sum(:coin)
+
+    @total_amount = @orders.sum(:amount)
+    @total_coins_from_all = @orders.sum(:coin)
 
     @orders = @orders.page(params[:page]).per(10)
-
-    @total_amount = Order.where("serial_number LIKE ?", "%#{params[:serial_number]}%")
-                         .joins(:user)
-                         .where("users.email LIKE ?", "%#{params[:user_email]}%")
-                         .where(state: params[:state])
-                         .where(offer_id: params[:offer_id])
-                         .where("orders.created_at >= ?", params[:start_date])
-                         .where("orders.created_at <= ?", params[:end_date])
-                         .sum(:amount)
-
-    @total_coin = Order.where("serial_number LIKE ?", "%#{params[:serial_number]}%")
-                       .joins(:user)
-                       .where("users.email LIKE ?", "%#{params[:user_email]}%")
-                       .where(state: params[:state])
-                       .where(offer_id: params[:offer_id])
-                       .where("orders.created_at >= ?", params[:start_date])
-                       .where("orders.created_at <= ?", params[:end_date])
-                       .sum(:coin)
   end
 
   # def index

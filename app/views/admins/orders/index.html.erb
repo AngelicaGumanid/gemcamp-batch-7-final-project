@@ -78,11 +78,28 @@
   </tbody>
 </table>
 
-<h2>Order Summary</h2>
-<p><strong>Subtotal Amount:</strong> <%= number_to_currency(@subtotal) %></p>
-<p><strong>Subtotal Coins:</strong> <%= number_to_currency(@total_coin) %></p>
-<p><strong>Total Amount (from all records):</strong> <%= number_to_currency(@total_amount) %></p>
-<p><strong>Total Coins (from all records):</strong> <%= number_to_currency(@total_coin) %></p>
+<table class="table table-bordered">
+  <thead>
+  <tr>
+    <th>Type</th>
+    <th>Amount</th>
+    <th>Coins</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr>
+    <td>Subtotal</td>
+    <td><%= number_to_currency(@subtotal) %></td>
+    <td><%= number_with_delimiter(@subtotal_coin, delimiter: ',') %></td>
+  </tr>
+  <tr>
+    <td>Total (All Records)</td>
+    <td><%= number_to_currency(@total_amount) %></td>
+    <td><%= number_with_delimiter(@total_coins_from_all, delimiter: ',') %></td>
+  </tr>
+  </tbody>
+</table>
+
 
 
 <%= paginate @orders %>
