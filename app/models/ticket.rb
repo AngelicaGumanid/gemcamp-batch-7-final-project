@@ -10,9 +10,7 @@ class Ticket < ApplicationRecord
   include AASM
   aasm column: 'state' do
     state :pending, initial: true
-    state :won
-    state :lost
-    state :cancelled
+    state :won, :lost, :cancelled
 
     event :win do
       transitions from: :pending, to: :won

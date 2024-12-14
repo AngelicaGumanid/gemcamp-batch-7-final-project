@@ -37,6 +37,11 @@ class Clients::LotteriesController < ApplicationController
       return
     end
 
+    if current_clients_user.coins < ticket_count
+      redirect_to clients_lottery_path(@item), alert: "You do not have enough coins."
+      return
+    end
+
     Ticket.transaction do
       Ticket.deduct_coins_for_tickets(current_clients_user, ticket_count)
 

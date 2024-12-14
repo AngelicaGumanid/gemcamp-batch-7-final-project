@@ -8,6 +8,7 @@ class Item < ApplicationRecord
 
   validates :name, presence: true, length: { maximum: 255 }
   validates :category_id, presence: true
+  validates :image, presence: true
   validates :quantity, presence: true, numericality: { only_integer: true, greater_than_or_equal_to: 1 }
   validates :minimum_tickets, presence: true, numericality: { greater_than_or_equal_to: 0 }
   validates :online_at, presence: true
