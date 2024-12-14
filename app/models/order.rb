@@ -62,6 +62,10 @@ class Order < ApplicationRecord
     state == 'pending' || state == 'submitted' || state == 'paid'
   end
 
+  def client_can_cancel?
+    state == 'submitted'
+  end
+
   private
 
   def handle_payment

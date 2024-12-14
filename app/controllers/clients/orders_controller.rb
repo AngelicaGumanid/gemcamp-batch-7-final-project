@@ -20,7 +20,7 @@ class Clients::OrdersController < ApplicationController
 
   def cancel
     order = current_clients_user.orders.find(params[:id])
-    if order.can_cancel?
+    if order.client_can_cancel?
       order.cancel!
       redirect_to clients_profiles_path, notice: 'Order cancelled successfully.'
     else

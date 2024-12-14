@@ -37,7 +37,7 @@
               <strong>Genre:</strong> <%= order.genre %>
             </p>
             <div class="mt-3 text-end">
-              <% if order.can_cancel? %>
+              <% if order.submitted? %>
                 <%= button_to 'Cancel', cancel_clients_order_path(order), method: :patch, class: "btn btn-danger" %>
               <% end %>
             </div>
