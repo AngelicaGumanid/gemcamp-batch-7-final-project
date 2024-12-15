@@ -2,7 +2,11 @@ class Admins::NewsTickersController < AdminController
   before_action :set_news_ticker, only: [:show, :edit, :update, :destroy, :restore]
 
   def index
-    @news_tickers = NewsTicker.with_deleted.page(params[:page])
+    if params[:show_deleted] == 'true'
+      @news_tickers = NewsTicker.with_deleted.order(created_at: :desc).page(params[:page])
+    else
+      @news_tickers = NewsTicker.where(deleted_at: nil).order(created_at: :desc).page(params[:page])
+    end
   end
 
   def new
