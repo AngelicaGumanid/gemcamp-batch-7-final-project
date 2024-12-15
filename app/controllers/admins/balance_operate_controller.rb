@@ -1,5 +1,5 @@
 class Admins::BalanceOperateController < AdminController
-  before_action :set_user, only: [:show, :edit, :increase]
+  before_action :set_user, only: [:increase, :deduct]
 
   def increase
     @increase = Order.new(user: @user, amount: 0, coin: params[:coin], genre: "increase", remarks: params[:remarks])
@@ -9,6 +9,18 @@ class Admins::BalanceOperateController < AdminController
       redirect_to admins_user_increase_path, notice: 'Increase successfully added to the user.'
     else
       flash[:alert] = @increase.errors.full_messages.to_sentence
+      redirect_to admins_user_increase_path(@user)
+    end
+  end
+
+  def deduct
+    @deduct = Order.new(user: @user, amount: 0, coin: params[:coin], genre: "deduct", remarks: params[:remarks])
+    if @deduct.save
+      @deduct.submit!
+      @deduct.pay!
+      redirect_to admins_user_increase_path, notice: 'Deduction successfully processed.'
+    else
+      flash[:alert] = @deduct.errors.full_messages.to_sentence
       redirect_to admins_user_increase_path(@user)
     end
   end

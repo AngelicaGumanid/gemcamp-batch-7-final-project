@@ -7,6 +7,7 @@ Rails.application.routes.draw do
 
       resources :users do
         post 'clients/:id/increase', to: 'balance_operate#increase', as: 'increase'
+        post 'clients/:id/deduct', to: 'balance_operate#deduct', as: 'deduct'
       end
 
       resources :items do

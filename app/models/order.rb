@@ -7,6 +7,7 @@ class Order < ApplicationRecord
   validates :genre, presence: true
   validate :offer_required_if_deposit, if: :deposit?
   validate :amount_and_coins_required_if_deposit, if: :deposit?
+  validate :sufficient_coins_for_deduction, if: :deduct?
 
   before_validation :generate_serial_number, on: :create
   after_save :update_user_balance, if: :saved_change_to_state?
@@ -102,13 +103,18 @@ class Order < ApplicationRecord
   end
 
   def handle_cancel
-    if genre == 'deduct'
-      increase_user_coins(coin)
-    else
-      decrease_user_coins(coin) if user.coins >= coin
+    case genre
+    when 'deposit'
+      if state == 'paid'
+        decrease_user_coins(coin)
+        decrease_total_deposit
+      end
+    when 'deduct'
+      increase_user_coins(coin) if state == 'paid'
+      decrease_user_coins(coin) if state == 'paid' && user.coins >= coin
     end
-    decrease_total_deposit if genre == 'deposit'
   end
+
 
   def increase_total_deposit
     user.increment!(:total_deposit, amount || 0)
@@ -135,8 +141,6 @@ class Order < ApplicationRecord
     case genre
     when 'deposit', 'increase', 'bonus', 'share'
       user.increment!(:coins, coin) if state == 'paid'
-    when 'deduct'
-      user.decrement!(:coins, coin) if state == 'paid'
     end
   end
 
@@ -165,6 +169,12 @@ class Order < ApplicationRecord
 
   def allow_pay_from_pending_if_not_deposit?
     !deposit?
+  end
+
+  def sufficient_coins_for_deduction
+    if user.coins < coin
+      errors.add(:coin, "cannot exceed the user's current coin balance.")
+    end
   end
 
 end
