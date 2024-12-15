@@ -36,7 +36,7 @@
             <td data-label="Children Members"><%= client[:children_members] %></td>
             <td data-label="Phone Number"><%= client[:phone_number] %></td>
             <td data-label="Actions">
-              <%= link_to "Balance Operate", balance_operate_admins_user_path(client[:id]), class: "btn btn-primary btn-sm" %>
+              <%= link_to "Balance Operate", admins_user_path(client[:id]), class: "btn btn-primary btn-sm" %>
             </td>
           </tr>
         <% end %>

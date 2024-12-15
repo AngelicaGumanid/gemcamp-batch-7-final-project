@@ -1,6 +1,6 @@
 class Admins::UsersController < AdminController
   layout 'admin'
-  before_action :set_user, only: [:balance_operate]
+  before_action :set_user, only: [:show]
 
   def index
     @clients = User.where(genre: :client)
@@ -22,9 +22,9 @@ class Admins::UsersController < AdminController
     end
   end
 
-  def balance_operate
-    @promoter_name = "Promoter123" # Replace this with real data
-    @user_coins = @user.coins # Replace this if `coins` is a field
+  def show
+    @promoter_name = @user.email
+    @user_coins = @user.coins
   end
 
   def set_user

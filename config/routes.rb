@@ -6,9 +6,7 @@ Rails.application.routes.draw do
       devise_for :users, controllers: { sessions: 'admins/sessions' }, skip: [:registrations]
 
       resources :users do
-        member do
-          get :balance_operate
-        end
+        post 'clients/:id/increase', to: 'balance_operate#increase', as: 'increase'
       end
 
       resources :items do

@@ -3,7 +3,7 @@ class Order < ApplicationRecord
   belongs_to :offer, optional: true
 
   validates :serial_number, presence: true, uniqueness: true
-  validate :remarks_required_for_specific_genres, if: :remarks_required_for_genre?
+  validate :remarks_required_for_genre, if: :remarks_required_for_specific_genres?
   validates :genre, presence: true
   validate :offer_required_if_deposit, if: :deposit?
   validate :amount_and_coins_required_if_deposit, if: :deposit?
@@ -49,6 +49,7 @@ class Order < ApplicationRecord
 
     event :pay do
       transitions from: :submitted, to: :paid, after: :handle_payment
+      transitions from: :pending, to: :paid, after: :handle_payment, guard: :non_deposit_genre?
     end
   end
 
@@ -76,19 +77,27 @@ class Order < ApplicationRecord
     state == 'submitted'
   end
 
+  def non_deposit_genre?
+    genre != 'deposit'
+  end
+
   private
 
-  def handle_payment
-    if genre == 'deduct'
-      decrease_user_coins(coin)
-    else
-      increase_user_coins(coin)
-      increase_total_deposit if genre == 'deposit'
-    end
+  # def handle_payment
+  #   if genre == 'deduct'
+  #     decrease_user_coins(coin)
+  #   else
+  #     increase_user_coins(coin)
+  #     increase_total_deposit if genre == 'deposit'
+  #   end
+  # end
 
-    if genre != 'deposit' && state == 'pending'
-      self.submit!
-      self.pay!
+  def handle_payment
+    case genre
+    when 'deduct'
+      decrease_user_coins(coin)
+    when 'deposit'
+      increase_total_deposit
     end
   end
 
@@ -124,16 +133,10 @@ class Order < ApplicationRecord
 
   def update_user_balance
     case genre
-    when 'deposit'
-      user.increment!(:coins, coin) if state == 'paid'
-    when 'increase'
+    when 'deposit', 'increase', 'bonus', 'share'
       user.increment!(:coins, coin) if state == 'paid'
     when 'deduct'
       user.decrement!(:coins, coin) if state == 'paid'
-    when 'bonus'
-      user.increment!(:coins, coin) if state == 'paid'
-    when 'share'
-      user.increment!(:coins, coin) if state == 'paid'
     end
   end
 
@@ -158,6 +161,10 @@ class Order < ApplicationRecord
         errors.add(:coin, "must be present and greater than 0 for deposit orders.")
       end
     end
+  end
+
+  def allow_pay_from_pending_if_not_deposit?
+    !deposit?
   end
 
 end

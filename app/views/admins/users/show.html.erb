@@ -3,7 +3,6 @@
 <div class="container">
   <h1>Balance Operate</h1>
   <div class="row">
-    <!-- Left Side Tabs -->
     <div class="col-md-6">
       <div class="tab-container">
         <ul class="tab-header">
@@ -13,24 +12,29 @@
         </ul>
 
         <div class="tab-content">
-          <!-- Increase Tab -->
           <div id="increase" class="tab-panel active">
-            <form>
+            <%= form_with url: admins_user_increase_path(@user), method: :post, local: true do |f| %>
+              <input type="hidden" name="user_id" value="<%= @user.id %>">
+
               <div class="form-group">
-                <label for="coins">Coins</label>
-                <input type="number" class="form-control" id="coins" placeholder="Enter coins">
+                <%= f.label :coin, "Coins" %>
+                <%= f.number_field :coin, class: "form-control", placeholder: "Enter coins" %>
               </div>
+
+              <div class="mb-3">
+                <%= f.label :genre, "Genre" %>
+                <%= f.text_field :genre, value: 'Increase', class: 'form-control', disabled: true %>
+              </div>
+
               <div class="form-group">
-                <label for="genre">Genre</label>
-                <input type="text" class="form-control" id="genre" placeholder="Enter genre">
+                <%= f.label :remarks, "Remarks" %>
+                <%= f.text_area :remarks, class: "form-control", rows: 3 %>
               </div>
-              <div class="form-group">
-                <label for="remarks">Remarks</label>
-                <textarea class="form-control" id="remarks" rows="3"></textarea>
-              </div>
-            </form>
+
+              <%= f.submit "Submit", class: "btn btn-success" %>
+            <% end %>
           </div>
-          <!-- Deduct Tab -->
+
           <div id="deduct" class="tab-panel" style="display: none;">
             <form>
               <div class="form-group">
@@ -47,7 +51,6 @@
               </div>
             </form>
           </div>
-
 
           <div id="bonus" class="tab-panel" style="display: none;">
             <form>
@@ -89,12 +92,12 @@
 </div>
 
 <script>
-    document.addEventListener("DOMContentLoaded", function() {
+    document.addEventListener("DOMContentLoaded", function () {
         const tabs = document.querySelectorAll(".tab");
         const panels = document.querySelectorAll(".tab-panel");
 
         tabs.forEach(tab => {
-            tab.addEventListener("click", function() {
+            tab.addEventListener("click", function () {
                 tabs.forEach(t => t.classList.remove("active"));
                 panels.forEach(p => p.classList.remove("active"));
                 panels.forEach(p => p.style.display = "none");
