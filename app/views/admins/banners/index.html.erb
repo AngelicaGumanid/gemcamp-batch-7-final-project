@@ -45,10 +45,10 @@
       <td><%= banner.offline_at %></td>
       <td><%= banner.status.humanize %></td>
       <td>
-        <%= link_to 'Show', admins_banner_path(banner) %> |
         <% if banner.deleted_at.present? %>
           <%= button_to 'Restore', restore_admins_banner_path(banner), method: :patch, class: 'btn btn-outline-success' %>
         <% else %>
+          <%= link_to 'Show', admins_banner_path(banner) %> |
           <%= link_to 'Edit', edit_admins_banner_path(banner), class: 'btn btn-outline-primary' %>
           <%= button_to 'Delete', admins_banner_path(banner), method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-outline-danger' %>
         <% end %>
