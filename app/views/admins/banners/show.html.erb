@@ -1,8 +1,8 @@
 <h1>Banner Details</h1>
 
 <p><strong>Preview:</strong></p>
-<% if @banner.preview.attached? %>
-  <%= image_tag @banner.preview, class: 'img-thumbnail' %>
+<% if @banner.preview.present? %>
+  <%= image_tag @banner.preview.url, class: 'img-thumbnail' %>
 <% else %>
   <p>No preview image attached.</p>
 <% end %>

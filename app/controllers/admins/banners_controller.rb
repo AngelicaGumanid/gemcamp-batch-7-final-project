@@ -2,7 +2,11 @@ class Admins::BannersController < AdminController
   before_action :set_banner, only: [:show, :edit, :update, :destroy, :restore]
 
   def index
-    @banners = Banner.with_deleted.page(params[:page])
+    if params[:show_deleted] == 'true'
+      @banners = Banner.with_deleted.order(created_at: :desc).page(params[:page])
+    else
+      @banners = Banner.order(created_at: :desc).page(params[:page])
+    end
   end
 
   def create
