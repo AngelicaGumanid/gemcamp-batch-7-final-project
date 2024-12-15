@@ -5,7 +5,8 @@ class Admins::InviteListController < AdminController
                  .order(created_at: :desc)
 
     if params[:parent_email].present?
-      @users = @users.joins(:parent).where("users.email ILIKE ?", "%#{params[:parent_email]}%")
+      @users = @users.joins("INNER JOIN users parents ON parents.id = users.parent_id")
+                     .where("LOWER(parents.email) LIKE LOWER(?)", "%#{params[:parent_email]}%")
     end
 
     @users = @users.page(params[:page]).per(10)
