@@ -2,6 +2,7 @@
     text-align: center;
 }
 
+/* Banner and news ticker */
 .banner-image {
     margin-bottom: 30px;
 }
@@ -9,21 +10,211 @@
 .carousel .carousel-inner .carousel-item img {
     width: 100%;
     height: 100%;
-    max-height: 400px;
+    max-height: 500px;
     object-fit: contain;
     border-radius: 12px;
 }
 
 .announcement {
-    background-color: #f8f9fa;
-    padding: 15px;
+    display: flex;
+    align-items: center;
+    background-color: #0047ab; /* Change to blue */
+    color: #fff;
+    padding: 0;
+    border-radius: 0;
+    position: relative;
+    overflow: hidden;
+}
+
+.ticker-header {
+    background-color: #00357a; /* Darker shade for contrast */
+    color: #fff;
+    padding: 10px 20px;
+    font-weight: bold;
+    font-size: 18px;
+    text-transform: uppercase;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.news-ticker-wrapper {
+    background-color: #0047ab; /* Blue for ticker background */
+    display: flex;
+    align-items: center;
+    overflow: hidden;
+    flex: 1;
+    height: 50px;
+}
+
+.news-ticker-container {
+    display: flex;
+    gap: 50px;
+    white-space: nowrap;
+    animation: ticker-scroll 15s linear infinite;
+}
+
+.news-ticker-item {
+    color: #fff;
+    font-size: 16px;
+    font-weight: bold;
+}
+
+@keyframes ticker-scroll {
+    from {
+        transform: translateX(100%);
+    }
+    to {
+        transform: translateX(-100%);
+    }
+}
+
+/* Feedback Section Styles */
+.testimonial-section {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    background-color: #fff;
+    border-radius: 20px;
+    padding: 40px;
+    margin: 20px;
+    box-shadow: 0px 5px 20px rgba(0, 0, 0, 0.1);
+}
+
+.testimonial-left {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    text-align: center;
+}
+
+.testimonial-left img {
+    width: 100%;
+    max-width: 350px;
+    height: 250px;
+    object-fit: contain;
     border-radius: 10px;
 }
 
+.testimonial-stat {
+    font-size: 2.5rem;
+    font-weight: bold;
+    color: #00357a; /* Darker blue */
+    margin-top: 15px;
+}
+
+.stat-description {
+    font-size: 1rem;
+    color: #777;
+    margin-top: 5px;
+}
+
+.testimonial-right {
+    padding: 20px;
+}
+
+.review-container {
+    max-height: 400px;
+    overflow-y: auto;
+    padding-right: 10px;
+}
+
+.review-card {
+    background-color: #dde1eb;
+    border-radius: 10px;
+    padding: 20px;
+    margin-bottom: 20px;
+    color: #333;
+    transition: background-color 0.3s ease;
+}
+
+.review-card:hover {
+    background-color: #c9e2e7; /* Lighter blue on hover */
+}
+
+.review-text {
+    font-size: 1rem;
+    font-style: italic;
+    margin-bottom: 15px;
+    color: #555;
+}
+
+.reviewer {
+    display: flex;
+    align-items: center;
+}
+
+.reviewer img {
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    margin-right: 10px;
+}
+
+.reviewer div {
+    text-align: left;
+}
+
+.reviewer strong {
+    font-size: 1rem;
+    color: #333;
+}
+
+.reviewer small {
+    font-size: 0.85rem;
+    color: gray;
+}
+
+.bottom-cta {
+    margin-top: 20px;
+}
+
+.bottom-cta a {
+    background-color: #0047ab; /* Blue button */
+    color: white;
+    font-weight: bold;
+    padding: 10px 20px;
+    border-radius: 8px;
+    text-decoration: none;
+    transition: background-color 0.3s ease;
+}
+
+.bottom-cta a:hover {
+    background-color: #00357a; /* Darker blue on hover */
+}
+
+@media (max-width: 768px) {
+    .testimonial-section {
+        flex-direction: column;
+        padding: 20px;
+    }
+
+    .testimonial-left {
+        margin-bottom: 20px;
+    }
+
+    .testimonial-left img {
+        max-width: 100%;
+    }
+
+    .testimonial-stat {
+        font-size: 1.8rem;
+    }
+
+    .review-container {
+        max-height: 300px;
+    }
+}
+
+/* Categories & Cards */
 .categories-filter .filter-btn {
     border-radius: 20px;
     padding: 8px 16px;
     font-size: 0.9rem;
+    background-color: #0047ab;
+    color: white;
 }
 
 .items-grid .item-card {
@@ -65,12 +256,12 @@
 }
 
 .feedback-images .image:hover, .coming-soon-images .image:hover {
-    background-color: #007bff;
+    background-color: #0047ab; /* Blue hover effect */
     color: #fff;
 }
 
 .feedback-images .more, .coming-soon-images .more {
-    color: #007bff;
+    color: #0047ab; /* Blue for links */
     cursor: pointer;
     font-weight: 500;
 }
@@ -90,25 +281,4 @@
     .carousel-inner .row {
         justify-content: center;
     }
-}
-
-.announcement {
-    background-color: #f8f9fa;
-    padding: 15px;
-    border-radius: 10px;
-    overflow: hidden;
-}
-
-.news-ticker-container {
-    display: flex;
-    gap: 50px;
-}
-
-.news-ticker-item {
-    color: #007bff;;
-    font-weight: bold;
-    padding: 5px 10px;
-    border-radius: 5px;
-    margin-right: 20px;
-    /*display: inline-block;*/
 }

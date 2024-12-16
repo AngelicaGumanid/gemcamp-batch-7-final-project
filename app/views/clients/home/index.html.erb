@@ -1,9 +1,7 @@
 <div class="container-fluid py-4">
   <div class="client-homepage">
 
-    <div class="client-homepage">
-      <%= render partial: 'partials/banner_and_news_ticker' %>
-    </div>
+    <%= render partial: 'partials/banner_and_news_ticker' %>
 
     <% unless current_clients_user %>
       <div class="alert alert-info text-center">
@@ -13,41 +11,46 @@
     <% end %>
 
     <div class="feedback-section mt-5">
-      <h4 class="fw-bold text-center mb-4">Winners Feedback</h4>
-      <div id="feedbackCarousel" class="carousel slide" data-bs-ride="carousel">
-        <div class="carousel-inner">
-          <% @winners.limit(5).each_with_index do |winner, index| %>
-            <div class="carousel-item <%= 'active' if index.zero? %>">
-              <div class="row">
-                <div class="col-md-6">
-                  <img src="<%= winner.picture.present? ? winner.picture.url : 'default_no_image.png' %>" alt="Feedback Image" class="img-fluid rounded">
-                </div>
-                <div class="col-md-6">
-                  <div class="card shadow-sm">
-                    <div class="card-body">
-                      <h5 class="card-title"><%= winner.user.username %></h5>
-                      <p class="card-text"><%= winner.comment %></p>
-                    </div>
+      <h4 class="fw-bold text-center mb-4">Winners Feedbacks</h4>
+
+      <div class="row testimonial-section">
+        <div class="col-12 col-md-5 testimonial-left mb-4 mb-md-0">
+          <%= image_tag 'default_no_image.png', id: "testimonialImage", alt: "Feedback Image", class: "img-fluid" %>
+          <h2 id="testimonialName" class="testimonial-stat"></h2>
+          <p class="stat-description">Happy Participants Worldwide</p>
+        </div>
+
+        <div class="col-12 col-md-7 testimonial-right">
+          <h2 class="mb-4">Hear From Our Winners 💬</h2>
+
+          <div class="review-container">
+            <% @winners.order(created_at: :desc).limit(5).each_with_index do |winner, index| %>
+              <div class="review-card mb-3"
+                   data-image="<%= winner.picture.present? ? winner.picture.url : 'default_no_image.png' %>"
+                   data-name="<%= winner.user.username %>"
+                   data-feedback="<%= winner.comment %>">
+                <p class="review-text">
+                  "<%= winner.comment %>"
+                </p>
+                <div class="reviewer">
+                  <%= image_tag(winner.user.image.present? ? winner.user.image.url : 'default_profile.png', alt: winner.user.username, class: "rounded-circle", style: "object-fit: cover") %>
+                  <div>
+                    <strong><%= winner.user.username %></strong><br>
+                    <small>Winner</small>
                   </div>
                 </div>
               </div>
-            </div>
-          <% end %>
+            <% end %>
+          </div>
+
+          <div class="bottom-cta text-center mt-3">
+            <%= link_to "See More Feedback", clients_shares_path, class: "btn btn-light btn-sm ms-2" %>
+          </div>
         </div>
-        <button class="carousel-control-prev" type="button" data-bs-target="#feedbackCarousel" data-bs-slide="prev">
-          <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-          <span class="visually-hidden">Previous</span>
-        </button>
-        <button class="carousel-control-next" type="button" data-bs-target="#feedbackCarousel" data-bs-slide="next">
-          <span class="carousel-control-next-icon" aria-hidden="true"></span>
-          <span class="visually-hidden">Next</span>
-        </button>
-      </div>
-      <div class="text-center mt-2">
-        <%= link_to "See More Feedback", clients_shares_path, class: "btn btn-primary" %>
       </div>
     </div>
 
+    <!-- ITEM PART -->
     <div class="items-grid row row-cols-1 row-cols-md-2 g-4">
       <% @items.each do |item| %>
         <div class="col">
@@ -118,3 +121,38 @@
 
   </div>
 </div>
+
+
+
+<script>
+    // Wait for the DOM to be fully loaded before executing JavaScript
+    document.addEventListener("DOMContentLoaded", function () {
+        const reviewCards = document.querySelectorAll('.review-card');
+
+        // Automatically simulate a click on the first review card to load its content
+        if (reviewCards.length > 0) {
+            const firstCard = reviewCards[0];
+            const image = firstCard.getAttribute('data-image');
+            const name = firstCard.getAttribute('data-name');
+            const feedback = firstCard.getAttribute('data-feedback');
+
+            // Update the image and name in the left section
+            document.getElementById('testimonialImage').src = image;
+            document.getElementById('testimonialName').innerText = name;
+        }
+
+        // Add click event listener to each review card
+        reviewCards.forEach(card => {
+            card.addEventListener('click', () => {
+                // Get the data from the clicked card
+                const image = card.getAttribute('data-image');
+                const name = card.getAttribute('data-name');
+                const feedback = card.getAttribute('data-feedback');
+
+                // Update the image and name in the left section
+                document.getElementById('testimonialImage').src = image;
+                document.getElementById('testimonialName').innerText = name;
+            });
+        });
+    });
+</script>
