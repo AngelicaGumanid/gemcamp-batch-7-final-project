@@ -32,7 +32,6 @@
     }
 }
 
-/*========== BASE ==========*/
 *, ::before, ::after {
     box-sizing: border-box;
 }
@@ -48,7 +47,6 @@ body {
     min-height: 100vh;
 }
 
-/*========== HEADER ==========*/
 .header {
     position: fixed;
     top: 0;
@@ -238,4 +236,16 @@ body {
     color: #fff;
     background: linear-gradient(to right, #1978BE, #EC2129);;
     border-radius: 5px;
+}
+
+@media (max-width: 320px) {
+    .header__language {
+        font-size: 8px;
+        margin-left: auto;
+        margin-right: 0.5rem;
+    }
+
+    .header__container img {
+        display: none;
+    }
 }

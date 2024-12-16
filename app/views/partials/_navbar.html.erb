@@ -5,7 +5,9 @@
     <div class="container-fluid header__container">
 
       <div class="header__left">
-        <%= image_tag "koda_logo.png", class: "header__img", alt: "logo" %>
+        <%= link_to root_path, class: 'header__language' do %>
+          <%= image_tag "koda_logo.png", class: "header__img", alt: "logo" %>
+        <% end %>
       </div>
 
       <div class="d-flex align-items-center">

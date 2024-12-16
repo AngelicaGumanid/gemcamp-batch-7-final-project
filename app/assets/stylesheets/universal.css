@@ -1,37 +1,14 @@
-/*========== GOOGLE FONTS ==========*/
 @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap");
 
-.alert {
-    padding: 10px !important;
-    font-size: 12px !important;
-    margin: 1px !important;
-    color: #FF0000FF;
-    font-weight: bold;
-}
-
-.notice {
-    padding: 10px !important;
-    font-size: 12px !important;
-    margin: 1px !important;
-    color: #008e0f;
-    font-weight: bold;
-}
-
-body {
+body, html {
+    font-family: 'Poppins', sans-serif;
+    min-height: 100vh;
     display: flex;
     flex-direction: column;
-    min-height: 100vh;
-    margin: 0;
-    font-family: var(--body-font);
-    font-size: var(--normal-font-size);
-    background-color: var(--body-color);
-    color: var(--text-color);
 }
 
 .container-fluid {
+    background-color: #ffffff;
+    color: var(--text-color);
     flex: 1;
-}
-
-footer {
-    margin-top: auto;
 }

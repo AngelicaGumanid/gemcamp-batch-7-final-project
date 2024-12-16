@@ -1,17 +1,7 @@
-/* Base styles for body and layout */
 body {
-    display: flex;
-    flex-direction: column;
-    min-height: 100vh;
-    margin: 0; /* Remove default margin */
-    padding-bottom: var(--footer-height); /* Push content above the footer */
+    padding-bottom: var(--footer-height);
 }
 
-.container-fluid {
-    flex: 1; /* Allow main content to take the available space */
-}
-
-/* Footer styles */
 .footer {
     background-color: var(--container-color);
     text-align: center;
@@ -25,7 +15,7 @@ body {
     justify-content: center;
     align-items: center;
     padding: 0.5rem 1rem;
-    box-shadow: 0 -1px 5px rgba(0, 0, 0, 0.1); /* Optional shadow for better separation */
+    box-shadow: 0 -1px 5px rgba(0, 0, 0, 0.1);
 }
 
 .footer__container {
@@ -49,7 +39,6 @@ body {
     transform: scale(1.05);
 }
 
-/* Adjust the footer height */
 :root {
-    --footer-height: 3.5rem;
+    --footer-height: 3rem;
 }
