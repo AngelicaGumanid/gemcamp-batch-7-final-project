@@ -1,4 +1,5 @@
 .lottery-section {
+
     .banner-img {
         width: 100%;
         height: auto;
@@ -34,6 +35,8 @@
         font-size: 1.1rem;
         font-weight: 500;
         color: #333;
+        font-family: Poppins, sans-serif;
+        text-decoration: none;
     }
 
     .click-to-buy-ticket {
@@ -44,6 +47,8 @@
         cursor: pointer;
         text-align: center;
         transition: background-color 0.3s ease;
+        font-family: Poppins, sans-serif;
+        text-decoration: none;
     }
 
     .click-to-buy-ticket:hover {
@@ -70,5 +75,5 @@
     border-radius: 20px;
     padding: 8px 16px;
     font-size: 0.9rem;
+    font-family: Poppins, sans-serif;
 }
-

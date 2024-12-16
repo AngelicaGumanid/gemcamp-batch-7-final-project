@@ -1,37 +1,38 @@
 <%= stylesheet_link_tag "lottery", "data-turbo-track": "reload" %>
 
 <div class="container-fluid py-4">
+  <div class="lottery-section">
 
-  <section class="d-flex align-items-center lottery-section">
-    <div class="container h-100 d-flex flex-column align-items-center justify-content-center">
+    <%= render partial: 'partials/banner_and_news_ticker' %>
 
-      <div class="client-homepage">
-        <%= render partial: 'partials/banner_and_news_ticker' %>
-      </div>
+    <section class="d-flex align-items-center lottery-section">
+      <div class="container h-100 d-flex flex-column align-items-center justify-content-center">
 
-      <div class="categories d-flex flex-wrap justify-content-center gap-3 mb-4">
-        <%= link_to 'All', clients_lotteries_path, class: "btn btn-outline-secondary btn-sm" %>
-        <% @categories.each do |category| %>
-          <%= link_to category.name, clients_lotteries_path(category: category.id), class: "btn btn-outline-secondary btn-sm" %>
-        <% end %>
-      </div>
-
-      <div class="col-12">
-        <div class="row row-cols-2 row-cols-md-3 g-4">
-          <% @items.each do |item| %>
-            <div class="col">
-              <%= link_to clients_lottery_path(item), class: "card shadow-sm h-100 text-center item-card" do %>
-                <div class="card-body">
-                  <%= image_tag item.image.url, class: "card-img-top", alt: item.name, style: "object-fit: cover; height: 150px;" %>
-                  <h5 class="card-title"><%= item.name %></h5>
-                  <p class="card-text">Batch: <%= item.batch_count %></p>
-                </div>
-                <p class="click-to-buy-ticket">Click to buy ticket</p>
-              <% end %>
-            </div>
+        <div class="categories d-flex flex-wrap justify-content-center gap-3 mb-4">
+          <%= link_to 'All', clients_lotteries_path, class: "btn btn-outline-secondary btn-sm" %>
+          <% @categories.each do |category| %>
+            <%= link_to category.name, clients_lotteries_path(category: category.id), class: "btn btn-outline-secondary btn-sm" %>
           <% end %>
         </div>
+
+        <div class="col-12">
+          <div class="row row-cols-2 row-cols-md-3 g-4 text-decoration-none">
+            <% @items.each do |item| %>
+              <div class="col">
+                <%= link_to clients_lottery_path(item), class: "card shadow-sm h-100 text-center item-card" do %>
+                  <div class="card-body">
+                    <%= image_tag item.image.url, class: "object-fit-contain", alt: item.name, style: "height: 150px;" %>
+                    <h5 class="card-title"><%= item.name %></h5>
+                    <p class="card-text">Batch: <%= item.batch_count %></p>
+                  </div>
+                  <p class="click-to-buy-ticket">Click to buy ticket</p>
+                <% end %>
+              </div>
+            <% end %>
+          </div>
+        </div>
+
       </div>
-    </div>
-  </section>
+    </section>
+  </div>
 </div>
