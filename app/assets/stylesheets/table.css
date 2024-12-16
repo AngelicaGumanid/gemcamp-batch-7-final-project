@@ -78,3 +78,28 @@ table td {
         border-bottom: 0;
     }
 }
+
+
+.state-indicator {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    display: inline-block;
+    margin-right: 5px;
+}
+
+.state-indicator.pending {
+    background-color: #f39c12; /* Orange */
+}
+
+.state-indicator.won {
+    background-color: #2ecc71; /* Green */
+}
+
+.state-indicator.lost {
+    background-color: #e74c3c; /* Red */
+}
+
+.state-indicator.cancelled {
+    background-color: #bdc3c7; /* Grey */
+}

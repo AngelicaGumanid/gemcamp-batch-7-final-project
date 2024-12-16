@@ -2,63 +2,67 @@
 
 <h1>Tickets</h1>
 
-<%= form_with url: admins_tickets_path, method: :get, local: true do %>
-  <div class="form-group">
-    <%= label_tag :serial_number %>
-    <%= text_field_tag :serial_number, params[:serial_number], class: "form-control" %>
+<%= form_with url: admins_tickets_path, method: :get, local: true, class: "mb-4" do %>
+  <div class="row">
+    <div class="col-md-3 form-group">
+      <%= label_tag :serial_number, 'Serial Number' %>
+      <%= text_field_tag :serial_number, params[:serial_number], class: "form-control" %>
+    </div>
+    <div class="col-md-3 form-group">
+      <%= label_tag :item_name, 'Item Name' %>
+      <%= text_field_tag :item_name, params[:item_name], class: "form-control" %>
+    </div>
+    <div class="col-md-3 form-group">
+      <%= label_tag :email, 'Email' %>
+      <%= text_field_tag :email, params[:email], class: "form-control" %>
+    </div>
+    <div class="col-md-3 form-group">
+      <%= label_tag :state, 'State' %>
+      <%= select_tag :state, options_for_select([['All', ''], ['Pending', 'pending'], ['Won', 'won'], ['Lost', 'lost'], ['Cancelled', 'cancelled']], params[:state]), class: "form-control" %>
+    </div>
   </div>
-
-  <div class="form-group">
-    <%= label_tag :item_name, 'Item Name' %>
-    <%= text_field_tag :item_name, params[:item_name], class: "form-control" %>
+  <div class="row">
+    <div class="col-md-6 form-group">
+      <%= label_tag :start_date, 'Start Date' %>
+      <%= date_field_tag :start_date, params[:start_date], class: "form-control" %>
+    </div>
+    <div class="col-md-6 form-group">
+      <%= label_tag :end_date, 'End Date' %>
+      <%= date_field_tag :end_date, params[:end_date], class: "form-control" %>
+    </div>
   </div>
-
-  <div class="form-group">
-    <%= label_tag :email %>
-    <%= text_field_tag :email, params[:email], class: "form-control" %>
+  <div class="justify-content-between mt-4">
+    <%= submit_tag 'Search', class: 'btn btn-primary' %>
+    <%= link_to 'Clear Filters', admins_tickets_path, class: 'btn btn-secondary' %>
   </div>
-
-  <div class="form-group">
-    <%= label_tag :state %>
-    <%= select_tag :state, options_for_select([['All', ''], ['Pending', 'pending'], ['Won', 'won'], ['Lost', 'lost'], ['Cancelled', 'cancelled']], params[:state]), class: "form-control" %>
-  </div>
-
-  <div class="form-group">
-    <%= label_tag :start_date %>
-    <%= date_field_tag :start_date, params[:start_date], class: "form-control" %>
-    <%= label_tag :end_date %>
-    <%= date_field_tag :end_date, params[:end_date], class: "form-control" %>
-  </div>
-
-  <%= submit_tag 'Search', class: 'btn btn-primary' %>
 <% end %>
-
-<%= link_to 'Clear Filters', admins_tickets_path, class: 'btn btn-secondary' %>
 
 <table class="table table-striped mt-4">
   <thead>
   <tr>
-    <th>Item</th>
-    <th>User</th>
-    <th>Batch Count</th>
-    <th>Coins</th>
-    <th>State</th>
-    <th>Serial Number</th>
-    <th>Actions</th>
+    <th scope="col">Item</th>
+    <th scope="col">User</th>
+    <th scope="col">Batch Count</th>
+    <th scope="col">Coins</th>
+    <th scope="col">State</th>
+    <th scope="col">Serial Number</th>
+    <th scope="col">Actions</th>
   </tr>
   </thead>
   <tbody>
   <% @tickets.each do |ticket| %>
     <tr>
-      <td><%= ticket.item.name %></td>
-      <td><%= ticket.user.email %></td>
-      <td><%= ticket.batch_count %></td>
-      <td><%= ticket.coins %></td>
-      <td><%= ticket.state %></td>
-      <td><%= ticket.serial_number %></td>
-      <td>
+      <td data-label="Item"><%= ticket.item.name %></td>
+      <td data-label="User"><%= ticket.user.email %></td>
+      <td data-label="Batch Count"><%= ticket.batch_count %></td>
+      <td data-label="Coins"><%= ticket.coins %></td>
+      <td data-label="State">
+        <span class="state-indicator <%= ticket.state %>"></span> <%= ticket.state.capitalize %>
+      </td>
+      <td data-label="Serial Number"><%= ticket.serial_number %></td>
+      <td data-label="Actions">
         <% if ticket.pending? %>
-          <%= button_to 'Cancel', cancel_admins_ticket_path(ticket), method: :patch %>
+          <%= button_to 'Cancel', cancel_admins_ticket_path(ticket), method: :patch, class: 'btn btn-danger btn-sm' %>
         <% end %>
       </td>
     </tr>
