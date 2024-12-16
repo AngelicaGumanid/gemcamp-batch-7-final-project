@@ -3,9 +3,9 @@ class Admins::ItemsController < AdminController
 
   def index
     if params[:show_deleted] == 'true'
-      @items = Item.with_deleted.includes(:category).order(created_at: :desc)
+      @items = Item.with_deleted.includes(:category).order(created_at: :desc).page(params[:page]).per(10)
     else
-      @items = Item.includes(:category).order(created_at: :desc)
+      @items = Item.includes(:category).order(created_at: :desc).page(params[:page]).per(10)
     end
   end
 
