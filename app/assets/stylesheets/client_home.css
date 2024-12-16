@@ -18,7 +18,7 @@
 .announcement {
     display: flex;
     align-items: center;
-    background-color: #0047ab; /* Change to blue */
+    background-color: #0047ab;
     color: #fff;
     padding: 0;
     border-radius: 0;
@@ -27,7 +27,7 @@
 }
 
 .ticker-header {
-    background-color: #00357a; /* Darker shade for contrast */
+    background-color: #00357a;
     color: #fff;
     padding: 10px 20px;
     font-weight: bold;
@@ -39,7 +39,7 @@
 }
 
 .news-ticker-wrapper {
-    background-color: #0047ab; /* Blue for ticker background */
+    background-color: #0047ab;
     display: flex;
     align-items: center;
     overflow: hidden;
@@ -101,7 +101,7 @@
 .testimonial-stat {
     font-size: 2.5rem;
     font-weight: bold;
-    color: #00357a; /* Darker blue */
+    color: #00357a;
     margin-top: 15px;
 }
 
@@ -131,7 +131,7 @@
 }
 
 .review-card:hover {
-    background-color: #c9e2e7; /* Lighter blue on hover */
+    background-color: #c9e2e7;
 }
 
 .review-text {
@@ -172,7 +172,7 @@
 }
 
 .bottom-cta a {
-    background-color: #0047ab; /* Blue button */
+    background-color: #0047ab;
     color: white;
     font-weight: bold;
     padding: 10px 20px;
@@ -182,7 +182,7 @@
 }
 
 .bottom-cta a:hover {
-    background-color: #00357a; /* Darker blue on hover */
+    background-color: #00357a;
 }
 
 @media (max-width: 768px) {
@@ -207,6 +207,15 @@
         max-height: 300px;
     }
 }
+
+
+/* Items */
+.card {
+    border: none;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+    height: 100%;
+}
+
 
 /* Categories & Cards */
 .categories-filter .filter-btn {
