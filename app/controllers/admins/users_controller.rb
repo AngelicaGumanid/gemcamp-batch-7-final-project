@@ -3,7 +3,7 @@ class Admins::UsersController < AdminController
   before_action :set_user, only: [:show]
 
   def index
-    @clients = User.where(genre: :client)
+    @clients = User.where(genre: :client).order(created_at: :desc).page(params[:page]).per(10)
 
     @client_data = @clients.map do |client|
       children_total_deposit = (client.children_members.to_i > 0) ? client.children.sum(:total_deposit) : 0
@@ -21,6 +21,7 @@ class Admins::UsersController < AdminController
       }
     end
   end
+
 
   def show
     @promoter_name = @user.email
