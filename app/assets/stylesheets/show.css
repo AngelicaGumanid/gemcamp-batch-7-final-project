@@ -1,0 +1,15 @@
+.card {
+    transition: all 0.3s ease-in-out;
+}
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+}
+
+.badge {
+    font-size: 0.85rem;
+}
+
+hr {
+    border-color: #eaeaea;
+}

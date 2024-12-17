@@ -79,6 +79,20 @@ table td {
     }
 }
 
+.d-flex {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+    align-items: end;
+}
+
+@media screen and (max-width: 768px) {
+    .btn-container {
+        justify-content: flex-end !important; /* Align buttons to the right */
+    }
+}
+
+
 
 .state-indicator {
     width: 10px;
@@ -88,6 +102,28 @@ table td {
     margin-right: 5px;
 }
 
+/* Item State */
+.state-indicator.pending {
+    background-color: #3498db; /* Blue */
+}
+
+.state-indicator.starting {
+    background-color: #2ecc71; /* Green */
+}
+
+.state-indicator.paused {
+    background-color: #f39c12; /* Orange */
+}
+
+.state-indicator.ended {
+    background-color: #e74c3c; /* Red */
+}
+
+.state-indicator.cancelled {
+    background-color: #bdc3c7; /* Grey */
+}
+
+/* Ticket State */
 .state-indicator.pending {
     background-color: #f39c12; /* Orange */
 }
@@ -102,4 +138,41 @@ table td {
 
 .state-indicator.cancelled {
     background-color: #bdc3c7; /* Grey */
+}
+
+/* Winner State */
+.state-indicator.won {
+    background-color: #2ecc71; /* Green - indicating a successful win */
+}
+
+.state-indicator.claimed {
+    background-color: #3498db; /* Blue - indicating a claimed state */
+}
+
+.state-indicator.submitted {
+    background-color: #f39c12; /* Orange - indicating a submitted state */
+}
+
+.state-indicator.paid {
+    background-color: #9b59b6; /* Purple - indicating a paid state */
+}
+
+.state-indicator.shipped {
+    background-color: #1abc9c; /* Teal - indicating a shipped state */
+}
+
+.state-indicator.delivered {
+    background-color: #16a085; /* Dark Teal - indicating a delivered state */
+}
+
+.state-indicator.shared {
+    background-color: #f1c40f; /* Yellow - indicating a shared state */
+}
+
+.state-indicator.published {
+    background-color: #e67e22; /* Deep Orange - indicating a published state */
+}
+
+.state-indicator.remove_published {
+    background-color: #e74c3c; /* Red - indicating a remove-published state */
 }

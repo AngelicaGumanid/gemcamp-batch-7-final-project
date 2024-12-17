@@ -15,3 +15,4 @@
 //= link ticket_form.css
 //= link lottery.css
 //= link balance_operate.css
+//= link show.css

@@ -13,6 +13,10 @@ class Location < ApplicationRecord
   validate :user_address_limit, on: :create
   before_save :update_address
 
+  def full_address
+    [name, street_address, barangay.name, city.name, province.name, region.name].compact.join(", ")
+  end
+
   private
 
   # def unique_default_address

@@ -145,7 +145,7 @@ img {
     justify-content: space-between;
     padding-bottom: 3rem;
     overflow: auto;
-    scrollbar-width: none; /* For mozilla */
+    scrollbar-width: none;
 }
 
 .nav__container::-webkit-scrollbar {
@@ -193,7 +193,7 @@ img {
 }
 
 .nav__name {
-    font-size: var(--small-font-size);
+    font-size: var(--smaller-font-size);
     font-weight: var(--font-medium);
     white-space: nowrap;
 }
@@ -293,8 +293,8 @@ img {
 
     .nav {
         left: 0;
-        padding: 1.2rem 1.5rem 0;
-        width: 68px;
+        padding: 1rem 0.7rem 0;
+        width: 80px;
     }
 
     .nav__items {
