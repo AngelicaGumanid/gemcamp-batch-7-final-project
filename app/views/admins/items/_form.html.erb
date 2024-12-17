@@ -64,24 +64,28 @@
       <div class="row mb-3">
         <div class="col-md-6">
           <%= f.label :online_at, "Online At", class: "form-label" %>
-          <%= f.date_field :online_at, value: Time.current.strftime("%Y-%m-%d"), class: "form-control" %>
-          <%= f.time_field :online_at, value: Time.current.strftime("%H:%M"), class: "form-control" %>
+          <%= f.datetime_select :online_at, value: DateTime.current.strftime("%Y-%m-%d"), class: "form-control" %>
         </div>
+
         <div class="col-md-6">
           <%= f.label :offline_at, "Offline At", class: "form-label" %>
-          <%= f.date_field :offline_at, value: Time.current.strftime("%Y-%m-%d"), class: "form-control" %>
-          <%= f.time_field :offline_at, value: Time.current.strftime("%H:%M"), class: "form-control" %>
+          <%= f.datetime_select :offline_at, value: DateTime.current.strftime("%Y-%m-%d"), class: "form-control" %>
         </div>
       </div>
 
       <div class="row mb-3">
         <div class="col-md-6">
           <%= f.label :start_at, "Start At", class: "form-label" %>
-          <%= f.date_field :start_at, value: Time.current.strftime("%Y-%m-%d"), class: "form-control" %>
-          <%= f.time_field :start_at, value: Time.current.strftime("%H:%M"), class: "form-control" %>
+          <%= f.datetime_select :start_at, value: DateTime.current.strftime("%Y-%m-%d"), class: "form-control" %>
         </div>
 
         <div class="col-md-6">
+<!--          <div class="col-md-6">-->
+            <%#= f.label :start_at, "Start At", class: "form-label" %>
+            <%#= f.date_field :start_at, value: Time.current.strftime("%Y-%m-%d"), class: "form-control" %>
+            <%#= f.time_field :start_at, value: Time.current.strftime("%H:%M"), class: "form-control" %>
+<!--          </div>-->
+
           <div class="text-center mt-4">
             <%= f.submit 'Save Item', class: "btn btn-success px-5" %>
           </div>

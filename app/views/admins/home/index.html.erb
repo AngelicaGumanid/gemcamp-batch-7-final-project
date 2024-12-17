@@ -1,6 +1,6 @@
 <%# Admin Homepage Dashboard %>
 
-<div class="container-fluid mt-4", style="background-color: transparent">
+<div class="container-fluid mt-4" , style="background-color: transparent">
 
   <%# Welcome Header %>
   <div class="row mb-4">
@@ -107,10 +107,12 @@
                     <span class="badge bg-warning">No Batches</span>
                   <% end %>
 
-                  <!-- Check if the tickets in the current batch have met the minimum required -->
+
                   <% if item.tickets.where(batch_count: item.current_batch).count >= item.minimum_tickets %>
-                    <span class="badge bg-success">Ready to End</span>
+                    <span class="badge bg-danger">Ready to End</span>
                     <%= button_to raw('<i class="bx bx-stop Stop"></i> End'), end_admins_item_path(item), method: :patch, class: 'btn btn-outline-danger btn-sm ms-2', data: { bs_toggle: 'tooltip' }, title: 'End Item' if item.may_end? %>
+                  <% elsif item.starting? %>
+                    <span class="badge bg-success">Starting</span>
                   <% else %>
                     <span class="badge bg-warning">Not Ready</span>
                   <% end %>
@@ -123,9 +125,6 @@
         </div>
       </div>
     </div>
-
-
-
 
 
   </div>
