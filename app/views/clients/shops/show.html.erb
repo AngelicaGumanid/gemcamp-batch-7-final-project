@@ -2,7 +2,7 @@
   <div class="container">
     <div class="card shadow-lg border-0 mb-4">
       <% if @offer.image.present? && @offer.image.url.present? %>
-        <%= image_tag @offer.image.url, alt: @offer.name, class: "card-img-top" %>
+        <%= image_tag @offer.image.url, alt: @offer.name, class: "card-img-top object-fit-contain" %>
       <% else %>
         <%= image_tag '1.png', alt: 'Placeholder Image', class: "card-img-top" %>
       <% end %>
@@ -13,7 +13,7 @@
 
       <!-- Price and Coin Section -->
       <p class="text-center">Coins: <%= @offer.coin %></p>
-      <p class="text-center">Price: <%= number_to_currency(@offer.amount) %></p>
+      <p class="text-center">Price: <%= number_to_currency(@offer.amount, unit: "₱") %></p>
 
       <!-- Purchase Button -->
       <% if current_clients_user %>
@@ -40,9 +40,11 @@
 </section>
 
 <style>
+    /* Ensure the image fits inside the card */
     .offer-details-section .card-img-top {
         width: 100%;
-        height: auto;
+        height: 200px; /* Set a fixed height to maintain layout consistency */
+        object-fit: cover; /* Ensures the image covers the area without distortion */
     }
 
     .offer-details-section {

@@ -24,9 +24,10 @@ class Clients::LotteriesController < ApplicationController
 
     redirect_to root_path, alert: "Item is not available for purchase" unless @item.state == "starting"
 
-    @user_tickets = @item.tickets.where(user: current_clients_user)
+    @user_tickets = @item.tickets.where(user: current_clients_user).page(params[:page]).per(10)
     @ticket_count = @user_tickets.count
   end
+
 
   def buy_ticket
     ticket_count = params[:ticket_count].to_i

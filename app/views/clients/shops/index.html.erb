@@ -4,7 +4,7 @@
   <div class="container h-100 d-flex flex-column align-items-center justify-content-center">
 
     <div class="client-homepage">
-      <%= render partial: 'partials/banner_and_news_ticker' %>
+      <%= render partial: 'partials/banner_and_news_ticker', locals: { banners: @banners } %>
     </div>
 
     <!-- Categories Section (If applicable for Shop) -->
@@ -19,7 +19,6 @@
       <div class="row row-cols-2 row-cols-md-3 g-4">
         <% @offers.each do |offer| %>
           <div class="col">
-
             <%= link_to clients_shop_path(offer), class: "card shadow-sm h-100 text-center offer-card" do %>
               <div class="card-body">
                 <% if offer.image.present? && offer.image.url.present? %>
@@ -29,10 +28,9 @@
                 <% end %>
                 <h5 class="card-title"><%= offer.name %></h5>
                 <p class="card-text">Coins: <%= offer.coin %></p>
-                <p class="card-text">Price: <%= number_to_currency(offer.amount) %></p>
+                <p class="card-text">Price: <%= number_to_currency(offer.amount, unit: "₱") %></p>
               </div>
             <% end %>
-
           </div>
         <% end %>
       </div>

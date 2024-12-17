@@ -1,41 +1,141 @@
-<div class="container-fluid py-4">
+<%= stylesheet_link_tag "show", "data-turbo-track": "reload" %>
 
+<div class="container-fluid py-4">
   <div class="client-homepage">
     <%= render partial: 'partials/banner_and_news_ticker' %>
   </div>
 
-  <h1>Published Shares</h1>
+  <h1 class="text-center mb-4">Published Shares</h1>
 
   <div class="shares-list">
     <% @shares.each do |share| %>
-      <div class="share-item card">
-        <%= image_tag share.picture.url, alt: share.item.name, class: 'share-image' if share.picture.present? %>
-        <h2><%= link_to share.item.name, clients_share_path(share) %></h2>
-        <p><%= truncate(share.comment, length: 100) %></p>
-        <p>Shared by: <%= share.user.username %></p>
+      <div class="share-item card shadow-lg border-0 rounded-4 overflow-hidden">
+        <div class="row g-0">
+          <div class="col-md-5 bg-light d-flex justify-content-center align-items-center p-4">
+            <% if share.picture.present? %>
+              <%= image_tag share.picture.url, alt: share.item.name, class: "img-fluid rounded", style: "object-fit: contain; width: 100%; height: 200px;" %>
+            <% else %>
+              <div class="d-flex flex-column align-items-center">
+                <div class="text-muted fs-1">📷</div>
+                <p class="text-muted mt-2">No Image Available</p>
+              </div>
+            <% end %>
+          </div>
+
+          <div class="col-md-7 p-4 d-flex flex-column justify-content-center align-items-center">
+            <h2 class="share-title fw-bold mb-3 text-center">
+              <%= link_to share.item.name, clients_share_path(share), class: "text-decoration-none" %>
+            </h2>
+            <p class="share-description mb-3 text-muted text-center"><%= truncate(share.comment, length: 100) %></p>
+            <p class="share-author text-center text-muted">Shared by: <%= share.user.username %></p>
+          </div>
+        </div>
       </div>
     <% end %>
   </div>
+
+  <div class="pagination-container text-center mt-4">
+    <%= paginate @shares %>
+  </div>
 </div>
 
+
 <style>
-    .shares-list {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-        gap: 20px;
+    .container-fluid {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 15px;
     }
 
-    .share-item.card, .share-detail.card {
-        padding: 15px;
-        border: 1px solid #ddd;
-        border-radius: 5px;
+    h1 {
+        font-size: 2.5rem;
+        font-weight: 600;
+        color: #333;
+        margin-bottom: 30px;
+    }
+
+    .shares-list {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 20px;
+        padding: 0;
+    }
+
+    .share-item.card {
         background-color: #fff;
+        border-radius: 8px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        overflow: hidden;
+        transition: all 0.3s ease;
+        padding: 20px;
+        border: 1px solid #ddd;
+    }
+
+    .share-item.card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 8px 12px rgba(0, 0, 0, 0.1);
     }
 
     .share-image {
-        max-width: 100%;
-        height: auto;
+        width: 100%;
+        max-height: 200px;
+        object-fit: cover;
         border-radius: 5px;
+        margin-bottom: 15px;
     }
 
+    .share-title {
+        font-size: 1.25rem;
+        font-weight: 500;
+        color: #333;
+        margin-bottom: 10px;
+        transition: color 0.3s ease;
+    }
+
+    .share-title:hover {
+        color: #007bff;
+    }
+
+    .share-description {
+        font-size: 1rem;
+        color: #666;
+        margin-bottom: 15px;
+    }
+
+    .share-author {
+        font-size: 0.9rem;
+        color: #888;
+    }
+
+    .pagination-container {
+        padding: 20px 0;
+    }
+
+    @media (max-width: 768px) {
+        h1 {
+            font-size: 2rem;
+        }
+
+        .shares-list {
+            grid-template-columns: 1fr 1fr;
+        }
+
+        .share-item.card {
+            padding: 15px;
+        }
+    }
+
+    @media (max-width: 576px) {
+        h1 {
+            font-size: 1.5rem;
+        }
+
+        .shares-list {
+            grid-template-columns: 1fr;
+        }
+
+        .share-item.card {
+            padding: 10px;
+        }
+    }
 </style>

@@ -4,7 +4,7 @@ class Clients::SharesController < ApplicationController
   before_action :authenticate_clients_user!, except: [:index, :show]
 
   def index
-    @shares = Winner.where(state: 'published').includes(:item, :user)
+    @shares = Winner.where(state: 'published').includes(:item, :user).page(params[:page]).per(10)
 
     @banners = Banner.where(status: :active, online_at: ..Time.now, offline_at: Time.now..)
     @news_tickers = NewsTicker.active.limit(5)
