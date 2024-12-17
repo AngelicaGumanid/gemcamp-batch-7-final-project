@@ -1,0 +1,42 @@
+<%= form_with model: @category, url: @category.new_record? ? admins_offers_path : admins_category_path(@category),
+              method: @category.new_record? ? :post : :patch,
+              html: { class: 'p-4' },
+              local: true do |form| %>
+
+  <div class="d-flex align-items-center mb-4">
+    <%= link_to admins_categories_path, class: 'btn btn-outline-secondary btn-sm me-3' do %>
+      <i class="bx bx-arrow-back"></i> Back to Categories List
+    <% end %>
+  </div>
+
+  <div class="card shadow-sm border-0">
+    <div class="card-header bg-primary text-white">
+      <h5 class="mb-0">Category</h5>
+    </div>
+
+    <div class="card-body">
+      <% if @category.errors.any? %>
+        <div class="alert alert-danger">
+          <h6 class="alert-heading">Please fix the following errors:</h6>
+          <ul class="mb-0">
+            <% @category.errors.full_messages.each do |message| %>
+              <li><%= message %></li>
+            <% end %>
+          </ul>
+        </div>
+      <% end %>
+
+      <div class="row mb-3">
+        <div class="col-md-6">
+          <%= form.label :name, "Category Name", class: "form-label" %>
+          <%= form.text_field :name, class: "form-control", placeholder: "Enter offer name" %>
+        </div>
+        <div class="col-md-6">
+          <div class="text-center mt-4">
+            <%= form.submit 'Save Category', class: "btn btn-success px-5" %>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+<% end %>

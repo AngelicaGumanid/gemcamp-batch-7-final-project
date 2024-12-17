@@ -1,12 +1,1 @@
-<h1><%= action_name.capitalize %> Category</h1>
-
-<%= form_with model: @category, url: action_name == 'new' ? admins_categories_path : admins_category_path(@category), local: true do |form| %>
-  <div>
-    <%= form.label :name %>
-    <%= form.text_field :name %>
-  </div>
-
-  <div>
-    <%= form.submit 'Save', class: 'btn btn-primary' %>
-  </div>
-<% end %>
+<%= render 'form' %>

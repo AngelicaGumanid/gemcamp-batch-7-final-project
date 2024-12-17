@@ -4,9 +4,9 @@ class Admins::CategoriesController < AdminController
 
   def index
     if params[:show_deleted] == 'true'
-      @categories = Category.with_deleted.order(created_at: :desc)
+      @categories = Category.with_deleted.order(created_at: :desc).page(params[:page]).per(20)
     else
-      @categories = Category.order(created_at: :desc)
+      @categories = Category.order(created_at: :desc).page(params[:page]).per(20)
     end
   end
 
