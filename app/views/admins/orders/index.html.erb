@@ -2,67 +2,73 @@
 
 <h1>Orders</h1>
 
-<%= form_with url: admins_orders_path, method: :get, local: true do %>
-  <div class="form-group">
-    <%= label_tag :serial_number %>
-    <%= text_field_tag :serial_number, params[:serial_number], class: "form-control" %>
+<%= form_with url: admins_orders_path, method: :get, local: true, class: "mb-4" do %>
+  <div class="row">
+    <div class="col-md-3 form-group">
+      <%= label_tag :serial_number, 'Serial Number' %>
+      <%= text_field_tag :serial_number, params[:serial_number], class: "form-control" %>
+    </div>
+    <div class="col-md-3 form-group">
+      <%= label_tag :email, 'Email' %>
+      <%= text_field_tag :email, params[:email], class: "form-control" %>
+    </div>
   </div>
-
-  <div class="form-group">
-    <%= label_tag :user_email, 'User Email' %>
-    <%= text_field_tag :user_email, params[:user_email], class: "form-control" %>
+  <div class="row">
+    <div class="col-md-3 form-group">
+      <%= label_tag :state, 'State' %>
+      <%= select_tag :state, options_for_select([['Please select a state to search', ''], ['Pending', 'pending'], ['Submitted', 'submitted'], ['Paid', 'paid'], ['Cancelled', 'cancelled']], selected: params[:state]), class: "form-control" %>
+    </div>
+    <div class="col-md-3 form-group">
+      <%= label_tag :offer_id, 'Offer' %>
+      <%= select_tag :offer_id, options_for_select([['Please select an offer to search', '']] + Offer.all.map { |offer| [offer.name, offer.id] }, selected: params[:offer_id]), class: "form-control" %>
+    </div>
+    <div class="col-md-3 form-group">
+      <%= label_tag :genre, 'Genre' %>
+      <%= select_tag :genre, options_for_select([['Please select a genre to search', '']] + Order.genres.keys.map { |g| [g.titleize, g] }, selected: params[:genre]), class: "form-control" %>
+    </div>
   </div>
-
-  <div class="form-group">
-    <%= label_tag :state %>
-    <%= select_tag :state, options_for_select([['Please select a state to search', ''], ['Pending', 'pending'], ['Submitted', 'submitted'], ['Paid', 'paid'], ['Cancelled', 'cancelled']], selected: params[:state]), class: "form-control" %>
+  <div class="row">
+    <div class="col-md-6 form-group">
+      <%= label_tag :start_date, 'Start Date' %>
+      <%= date_field_tag :start_date, params[:start_date], class: "form-control" %>
+    </div>
+    <div class="col-md-6 form-group">
+      <%= label_tag :end_date, 'End Date' %>
+      <%= date_field_tag :end_date, params[:end_date], class: "form-control" %>
+    </div>
   </div>
-
-  <div class="form-group">
-    <%= label_tag :offer_id, 'Offer' %>
-    <%= select_tag :offer_id, options_for_select([['Please select an offer to search', '']] + Offer.all.map { |offer| [offer.name, offer.id] }, selected: params[:offer_id]), class: "form-control" %>
+  <div class="justify-content-between mt-4">
+    <%= submit_tag 'Search', class: 'btn btn-primary' %>
+    <%= link_to 'Clear Filters', admins_orders_path, class: 'btn btn-secondary' %>
   </div>
-
-  <div class="form-group">
-    <%= label_tag :genre %>
-    <%= select_tag :genre, options_for_select([['Please select a genre to search', '']] + Order.genres.keys.map { |g| [g.titleize, g] }, selected: params[:genre]), class: "form-control" %>
-  </div>
-
-  <div class="form-group">
-    <%= label_tag :start_date %>
-    <%= date_field_tag :start_date, params[:start_date], class: "form-control" %>
-    <%= label_tag :end_date %>
-    <%= date_field_tag :end_date, params[:end_date], class: "form-control" %>
-  </div>
-
-  <%= submit_tag 'Search', class: 'btn btn-primary' %>
-  <%= link_to 'Clear Filters', admins_orders_path, class: 'btn btn-secondary' %>
 <% end %>
 
 <table class="table table-striped mt-4">
   <thead>
   <tr>
-    <th>Serial Number</th>
-    <th>User Email</th>
-    <th>Amount</th>
-    <th>Coins</th>
-    <th>Genre</th>
-    <th>State</th>
-    <th>Offer</th>
-    <th>Actions</th>
+    <th scope="col">Serial Number</th>
+    <th scope="col">User Email</th>
+    <th scope="col">Amount</th>
+    <th scope="col">Coins</th>
+    <th scope="col">Genre</th>
+    <th scope="col">State</th>
+    <th scope="col">Offer</th>
+    <th scope="col">Actions</th>
   </tr>
   </thead>
   <tbody>
   <% @orders.each do |order| %>
     <tr>
-      <td><%= order.serial_number %></td>
-      <td><%= order.user.email %></td>
-      <td><%= order.amount %></td>
-      <td><%= order.coin %></td>
-      <td><%= order.genre %></td>
-      <td><%= order.state %></td>
-      <td><%= order.offer.try(:name) %></td>
-      <td>
+      <td data-label="Serial Number"><%= order.serial_number %></td>
+      <td data-label="Email"><%= order.user.email %></td>
+      <td data-label="Amount"><%= order.amount %></td>
+      <td data-label="Coin"><%= order.coin %></td>
+      <td data-label="Genre"><%= order.genre %></td>
+      <td data-label="State">
+        <span class="state-indicator <%= order.state %>"></span> <%= order.state.capitalize %>
+      </td>
+      <td data-label="Offer"><%= order.offer.try(:name) %></td>
+      <td data-label="Action">
         <% if order.may_submit? %>
           <%= button_to 'Submit', submit_admins_order_path(order), method: :patch, class: "btn btn-primary" %>
         <% end %>
