@@ -1,25 +1,79 @@
-<h1>Item Details</h1>
+<%= stylesheet_link_tag "show", "data-turbo-track": "reload" %>
 
-<div class="item-details">
-  <p><strong>Name:</strong> <%= @item.name %></p>
+<div class="container mt-5">
+  <div class="card shadow-lg border-0 rounded-4 overflow-hidden">
 
-  <% if @item.image.present? %>
-    <p><strong>Image:</strong></p>
-    <%= image_tag(@item.image.url, size: "300x300") %>
-  <% else %>
-    <p><strong>Image:</strong> No image available</p>
-  <% end %>
+    <div class="row g-0">
+      <!-- Image Section -->
+      <div class="col-md-5 bg-light d-flex justify-content-center align-items-center p-5">
+        <% if @item.image.present? %>
+          <%= image_tag(@item.image.url, class: "img-fluid rounded", alt: @item.name) %>
+        <% else %>
+          <div class="d-flex flex-column align-items-center">
+            <div class="text-muted fs-1">📷</div>
+            <p class="text-muted mt-2">No Image Available</p>
+          </div>
+        <% end %>
+      </div>
 
-  <p><strong>Quantity:</strong> <%= @item.quantity %></p>
-  <p><strong>Minimum Tickets:</strong> <%= @item.minimum_tickets %></p>
-  <p><strong>Batch Count:</strong> <%= @item.batch_count %></p>
-  <p><strong>Status:</strong> <%= @item.status.capitalize %></p>
-  <p><strong>Online At:</strong> <%= @item.online_at&.strftime('%d %B %Y %I:%M %p') || 'N/A' %></p>
-  <p><strong>Offline At:</strong> <%= @item.offline_at&.strftime('%d %B %Y %I:%M %p') || 'N/A' %></p>
-  <p><strong>Start At:</strong> <%= @item.start_at&.strftime('%d %B %Y %I:%M %p') || 'N/A' %></p>
-  <p><strong>Deleted At:</strong> <%= @item.deleted_at&.strftime('%d %B %Y %I:%M %p') || 'Not Deleted' %></p>
+      <!-- Item Details -->
+      <div class="col-md-7 p-4">
+        <h2 class="fw-bold mb-4"><%= @item.name %></h2>
+
+        <div class="row mb-3">
+          <div class="col-6 mb-2">
+            <p class="text-muted mb-1">Quantity</p>
+            <p class="fw-semibold"><%= @item.quantity %></p>
+          </div>
+          <div class="col-6 mb-2">
+            <p class="text-muted mb-1">Minimum Tickets</p>
+            <p class="fw-semibold"><%= @item.minimum_tickets %></p>
+          </div>
+          <div class="col-6 mb-2">
+            <p class="text-muted mb-1">Batch Count</p>
+            <p class="fw-semibold"><%= @item.batch_count %></p>
+          </div>
+          <div class="col-6 mb-2">
+            <p class="text-muted mb-1">Status</p>
+            <span class="badge <%= @item.status == 'active' ? 'bg-success' : 'bg-secondary' %>">
+              <%= @item.status.capitalize %>
+            </span>
+          </div>
+        </div>
+
+        <hr class="my-4">
+
+        <!-- Timestamps -->
+        <div class="row">
+          <div class="col-6 mb-2">
+            <p class="text-muted mb-1">Online At</p>
+            <p><%= @item.online_at&.strftime('%d %B %Y %I:%M %p') || 'N/A' %></p>
+          </div>
+          <div class="col-6 mb-2">
+            <p class="text-muted mb-1">Offline At</p>
+            <p><%= @item.offline_at&.strftime('%d %B %Y %I:%M %p') || 'N/A' %></p>
+          </div>
+          <div class="col-6 mb-2">
+            <p class="text-muted mb-1">Start At</p>
+            <p><%= @item.start_at&.strftime('%d %B %Y %I:%M %p') || 'N/A' %></p>
+          </div>
+          <div class="col-6 mb-2">
+            <p class="text-muted mb-1">Deleted At</p>
+            <p class="<%= @item.deleted_at ? 'text-danger' : 'text-success' %>">
+              <%= @item.deleted_at&.strftime('%d %B %Y %I:%M %p') || 'Not Deleted' %>
+            </p>
+          </div>
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="d-flex gap-2 mt-4">
+          <%= link_to 'Back to Items', admins_items_path, class: 'btn btn-outline-secondary rounded-pill' %>
+          <% if @item.deleted_at.nil? %>
+            <%= link_to 'Edit Item', edit_admins_item_path(@item), class: 'btn btn-outline-warning rounded-pill' %>
+            <%= button_to 'Delete Item', admins_item_path(@item), method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-outline-danger rounded-pill' %>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
-
-<%= link_to 'Back to Items', admins_items_path, class: 'btn btn-outline-secondary' %>
-<%= link_to 'Edit Item', edit_admins_item_path(@item), class: 'btn btn-outline-warning' if @item.deleted_at.nil? %>
-<%= button_to 'Delete Item', admins_item_path(@item), method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-outline-danger' if @item.deleted_at.nil? %>

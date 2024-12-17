@@ -1,7 +1,14 @@
 <%= stylesheet_link_tag "table", "data-turbo-track": "reload" %>
 
-<h1>Items</h1>
-<%= link_to 'New Item', new_admins_item_path, class: 'btn btn-primary mb-3' %>
+<div class="d-flex justify-content-between align-items-center">
+  <h1 class="mb-3">Items</h1>
+  <div>
+    <%= link_to 'Create New Item', new_admins_item_path, class: 'btn btn-outline-primary me-2' %>
+    <%= link_to 'View Category', admins_categories_path, class: 'btn btn-outline-success' %>
+  </div>
+</div>
+
+
 
 <%= form_with url: admins_items_path, method: :get, local: true do %>
   <div class="form-check mb-3">
@@ -35,24 +42,31 @@
       <td data-label="Batch Count"><%= item.batch_count %></td>
       <td data-label="Category"><%= item.category&.name || 'Uncategorized' %></td>
       <td data-label="Status"><%= item.status %></td>
-      <td data-label="State"><%= item.aasm.current_state %></td>
+      <td data-label="State">
+        <span class="state-indicator <%= item.aasm.current_state %>"></span> <%= item.aasm.human_state.capitalize %>
+      </td>
       <td data-label="State Actions">
-        <% if item.deleted_at.nil? %>
-          <%= button_to raw('<i class="bx bx-play Start"></i> Start'), start_admins_item_path(item), method: :patch, class: 'btn btn-outline-success btn-sm mb-1' if item.may_start? %>
-          <%= button_to raw('<i class="bx bx-pause Pause"></i> Pause'), pause_admins_item_path(item), method: :patch, class: 'btn btn-outline-warning btn-sm mb-1' if item.may_pause? %>
-          <%= button_to raw('<i class="bx bx-stop Stop"></i> End'), end_admins_item_path(item), method: :patch, class: 'btn btn-outline-danger btn-sm mb-1' if item.may_end? %>
-          <%= button_to raw('<i class="bx bx-x Cancel"></i> Cancel'), cancel_admins_item_path(item), method: :patch, class: 'btn btn-outline-secondary btn-sm mb-1' if item.may_cancel? %>
-        <% else %>
-          <%= button_to raw('<i class="bx bx-revision Restore"></i> Restore'), restore_admins_item_path(item), method: :patch, class: 'btn btn-outline-success btn-sm mb-1' %>
-        <% end %>
+        <div class="d-flex btn-container flex-wrap gap-2">
+          <% if item.deleted_at.nil? %>
+            <%= button_to raw('<i class="bx bx-play Start"></i>'), start_admins_item_path(item), method: :patch, class: 'btn btn-outline-success btn-sm', data: { bs_toggle: 'tooltip' }, title: 'Start Item' if item.may_start? %>
+            <%= button_to raw('<i class="bx bx-pause Pause"></i>'), pause_admins_item_path(item), method: :patch, class: 'btn btn-outline-warning btn-sm', data: { bs_toggle: 'tooltip' }, title: 'Pause Item' if item.may_pause? %>
+            <%= button_to raw('<i class="bx bx-stop Stop"></i>'), end_admins_item_path(item), method: :patch, class: 'btn btn-outline-danger btn-sm', data: { bs_toggle: 'tooltip' }, title: 'End Item' if item.may_end? %>
+            <%= button_to raw('<i class="bx bx-x Cancel"></i>'), cancel_admins_item_path(item), method: :patch, class: 'btn btn-outline-secondary btn-sm', data: { bs_toggle: 'tooltip' }, title: 'Cancel Item' if item.may_cancel? %>
+          <% else %>
+            <%= button_to raw('<i class="bx bx-revision Restore"></i>'), restore_admins_item_path(item), method: :patch, class: 'btn btn-outline-success btn-sm', data: { bs_toggle: 'tooltip' }, title: 'Restore Item' %>
+          <% end %>
+        </div>
       </td>
       <td data-label="Actions">
-        <%= link_to raw('<i class="bx bx-show Show"></i> Show'), admins_item_path(item), class: 'btn btn-outline-info btn-sm mb-1' %>
-        <% if item.deleted_at.nil? %>
-          <%= link_to raw('<i class="bx bx-edit Edit"></i> Edit'), edit_admins_item_path(item), class: 'btn btn-outline-warning btn-sm mb-1' %>
-          <%= button_to raw('<i class="bx bx-trash Trash"></i> Delete'), admins_item_path(item), method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-outline-danger btn-sm mb-1' %>
-        <% end %>
+        <div class="d-flex btn-container flex-wrap gap-2">
+          <%= link_to raw('<i class="bx bx-show Show"></i>'), admins_item_path(item), class: 'btn btn-outline-info btn-sm', data: { bs_toggle: 'tooltip' }, title: 'View Item' %>
+          <% if item.deleted_at.nil? %>
+            <%= link_to raw('<i class="bx bx-edit Edit"></i>'), edit_admins_item_path(item), class: 'btn btn-outline-warning btn-sm', data: { bs_toggle: 'tooltip' }, title: 'Edit Item' %>
+            <%= button_to raw('<i class="bx bx-trash Trash"></i>'), admins_item_path(item), method: :delete, data: { bs_toggle: 'tooltip', confirm: 'Are you sure?' }, title: 'Delete Item', class: 'btn btn-outline-danger btn-sm' %>
+          <% end %>
+        </div>
       </td>
+
     </tr>
   <% end %>
   </tbody>
@@ -61,3 +75,20 @@
 <div class="d-flex justify-content-center">
   <%= paginate @items %>
 </div>
+
+<script>
+    document.getElementById('show_deleted').addEventListener('change', function () {
+        this.form.submit();
+    });
+</script>
+
+<script>
+    import * as bootstrap from "bootstrap";
+
+    document.addEventListener("DOMContentLoaded", () => {
+        const tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+        tooltipTriggerList.map(function (tooltipTriggerEl) {
+            return new bootstrap.Tooltip(tooltipTriggerEl);
+        });
+    });
+</script>
