@@ -1,8 +1,28 @@
 <%= stylesheet_link_tag "table", "data-turbo-track": "reload" %>
 
-<h1>Banners</h1>
+<div class="d-flex justify-content-between align-items-center">
+  <h1 class="mb-3">Banners</h1>
+  <div>
+    <%= link_to 'Create New Banner', new_admins_banner_path, class: 'btn btn-outline-primary me-2' %>
+  </div>
+</div>
 
-<%= link_to 'Create New Banner', new_admins_banner_path, class: 'btn btn-success mb-3' %>
+<%= form_with url: admins_banners_path, method: :get, local: true, class: "mb-4" do %>
+  <div class="row">
+    <div class="col-md-3 form-group">
+      <%= label_tag :filter, 'Filter By' %>
+      <%= select_tag :filter, options_for_select([['All', 'all'], ['Active', 'active'], ['Inactive', 'inactive']], selected: params[:filter]), prompt: 'Select Filter', class: 'form-control' %>
+    </div>
+<!--    <div class="col-md-3 form-group">-->
+      <%#= label_tag :search, 'Search by Preview' %>
+      <%#= text_field_tag :search, params[:search], placeholder: 'Search by Preview Name/Text', class: 'form-control' %>
+<!--    </div>-->
+  </div>
+  <div class="justify-content-between mt-4">
+    <%= submit_tag 'Search', class: 'btn btn-primary' %>
+    <%= link_to 'Clear Filters', admins_banners_path, class: 'btn btn-secondary' %>
+  </div>
+<% end %>
 
 <%= form_with url: admins_banners_path, method: :get, local: true do %>
   <div class="form-check mb-3">
@@ -11,47 +31,41 @@
   </div>
 <% end %>
 
-<%= form_with(url: admins_banners_path, method: :get, local: true) do %>
-  <div class="form-group">
-    <%= label_tag :filter, 'Filter By' %>
-    <%= select_tag :filter, options_for_select([['All', 'all'], ['Active', 'active'], ['Inactive', 'inactive']], selected: params[:filter]), prompt: 'Select Filter', class: 'form-control' %>
-  </div>
-
-  <div class="form-group">
-    <%= label_tag :search, 'Search by Preview' %>
-    <%= text_field_tag :search, params[:search], placeholder: 'Search by Preview Name/Text', class: 'form-control' %>
-  </div>
-
-  <div class="form-group">
-    <%= submit_tag 'Search', class: 'btn btn-primary' %>
-  </div>
-<% end %>
-
 <table class="table table-striped mt-4">
   <thead>
   <tr>
-    <th>Preview</th>
-    <th>Online At</th>
-    <th>Offline At</th>
-    <th>Status</th>
-    <th>Actions</th>
+    <th scope="col">Preview</th>
+    <th scope="col">Preview Name</th>
+    <th scope="col">Online At</th>
+    <th scope="col">Offline At</th>
+    <th scope="col">Status</th>
+    <th scope="col">Actions</th>
   </tr>
   </thead>
   <tbody>
   <% @banners.each do |banner| %>
     <tr>
-      <td><%= image_tag(banner.preview.url, size: "100x100") if banner.preview.present? %></td>
-      <td><%= banner.online_at %></td>
-      <td><%= banner.offline_at %></td>
-      <td><%= banner.status.humanize %></td>
-      <td>
-        <% if banner.deleted_at.present? %>
-          <%= button_to 'Restore', restore_admins_banner_path(banner), method: :patch, class: 'btn btn-outline-success' %>
+      <td data-label="Image"><%= image_tag(banner.preview.url, size: "100x100") if banner.preview.present? %></td>
+      <td data-label="Image">
+        <% if banner.preview.present? %>
+          <%= File.basename(banner.preview.url) %>
         <% else %>
-          <%= link_to 'Show', admins_banner_path(banner) %> |
-          <%= link_to 'Edit', edit_admins_banner_path(banner), class: 'btn btn-outline-primary' %>
-          <%= button_to 'Delete', admins_banner_path(banner), method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-outline-danger' %>
+          No preview available
         <% end %>
+      </td>
+      <td data-label="Online At"><%= banner.online_at %></td>
+      <td data-label="Offline At"><%= banner.offline_at %></td>
+      <td data-label="Status"><%= banner.status.humanize %></td>
+      <td data-label="Action">
+        <div class="d-flex btn-container flex-wrap gap-2">
+          <% if banner.deleted_at.present? %>
+            <%= button_to 'Restore', restore_admins_banner_path(banner), method: :patch, class: 'btn btn-outline-success btn-sm' %>
+          <% else %>
+            <%= link_to 'Show', admins_banner_path(banner), class: 'btn btn-outline-success btn-sm' %>
+            <%= link_to 'Edit', edit_admins_banner_path(banner), class: 'btn btn-outline-primary btn-sm' %>
+            <%= button_to 'Delete', admins_banner_path(banner), method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-outline-danger btn-sm' %>
+          <% end %>
+        </div>
       </td>
     </tr>
   <% end %>

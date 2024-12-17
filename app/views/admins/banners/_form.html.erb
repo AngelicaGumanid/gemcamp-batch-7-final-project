@@ -1,36 +1,62 @@
-<%= form_with model: [@admin, @banner], url: @banner.new_record? ? admins_banners_path : admins_banner_path(@banner), local: true do |form| %>
-  <% if @banner.errors.any? %>
-    <div class="alert alert-danger">
-      <h4>There were errors with your submission:</h4>
-      <ul>
-        <% @banner.errors.full_messages.each do |msg| %>
-          <li><%= msg %></li>
-        <% end %>
-      </ul>
+<%= form_with model: [@admin, @banner], url: @banner.new_record? ? admins_banners_path : admins_banner_path(@banner), local: true, html: { class: "p-4" } do |form| %>
+
+  <div class="d-flex align-items-center mb-4">
+    <%= link_to admins_banners_path, class: 'btn btn-outline-secondary btn-sm me-3' do %>
+      <i class="bx bx-arrow-back"></i> Back to Banners List
+    <% end %>
+  </div>
+
+  <div class="card shadow-sm border-0">
+    <div class="card-header bg-primary text-white">
+      <h5 class="mb-0">Banner</h5>
     </div>
-  <% end %>
 
-  <div class="form-group">
-    <%= form.label :preview, "Preview Image" %>
-    <%= form.file_field :preview %>
+    <div class="card-body">
+      <% if @banner.errors.any? %>
+        <div class="alert alert-danger">
+          <h6 class="alert-heading">Please fix the following errors:</h6>
+          <ul class="mb-0">
+            <% @banner.errors.full_messages.each do |message| %>
+              <li><%= message %></li>
+            <% end %>
+          </ul>
+        </div>
+      <% end %>
+
+      <div class="row mb-3">
+        <div class="col-md-6">
+          <%= form.label :preview, "Preview Image", class: "form-label" %>
+          <%= form.file_field :preview, class: "form-control" %>
+        </div>
+        <div class="col-md-6">
+          <%= form.label :status, "Status", class: "form-label" %>
+          <%= form.select :status, Banner.statuses.keys.map { |status| [status.humanize, status] }, { prompt: 'Select Status' }, class: "form-select" %>
+        </div>
+      </div>
+
+      <div class="row mb-3">
+        <div class="col-md-6">
+          <%= form.label :online_at, "Online At", class: "form-label" %>
+          <%= form.datetime_select :online_at, class: "form-control" %>
+        </div>
+        <div class="col-md-6">
+          <%= form.label :offline_at, "Offline At", class: "form-label" %>
+          <%= form.datetime_select :offline_at, class: "form-control" %>
+        </div>
+      </div>
+
+      <div class="row mb-3">
+        <div class="col-md-6">
+          <%= form.label :start_at, "Start At", class: "form-label" %>
+          <%= form.datetime_select :start_at, class: "form-control" %>
+        </div>
+        <div class="col-md-6">
+          <div class="text-center mt-4">
+            <%= form.submit @banner.new_record? ? 'Create Banner' : 'Update Banner', class: "btn btn-success px-5" %>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 
-  <div class="form-group">
-    <%= form.label :online_at %>
-    <%= form.datetime_select :online_at %>
-  </div>
-
-  <div class="form-group">
-    <%= form.label :offline_at %>
-    <%= form.datetime_select :offline_at %>
-  </div>
-
-  <div class="form-group">
-    <%= form.label :status %>
-    <%= form.select :status, Banner.statuses.keys.map { |status| [status.humanize, status] }, { prompt: 'Select Status' }, class: 'form-control' %>
-  </div>
-
-  <div class="form-group">
-    <%= submit_tag(@banner.new_record? ? 'Create Banner' : 'Update Banner', class: 'btn btn-primary') %>
-  </div>
 <% end %>
