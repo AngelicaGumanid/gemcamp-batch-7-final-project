@@ -33,7 +33,7 @@ class Clients::LotteriesController < ApplicationController
     ticket_count = params[:ticket_count].to_i
 
     if current_clients_user.coins < ticket_count
-      redirect_to clients_offers_path, alert: "You do not have enough coins. Please top up."
+      redirect_to clients_lotteries_path, alert: "You do not have enough coins. Please top up."
       return
     end
 

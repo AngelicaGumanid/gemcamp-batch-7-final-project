@@ -68,10 +68,9 @@ class Winner < ApplicationRecord
     Order.create!(
       user: self.user,
       amount: self.price,
-      coin: self.item.coin,
-      genre: 'share_bonus',
+      coin: 1,
+      genre: 'share',
       remarks: "Share bonus for winner #{self.ticket.serial_number}",
-      paid_at: Time.current
     )
   end
 

@@ -1,6 +1,8 @@
 <%= stylesheet_link_tag "table", "data-turbo-track": "reload" %>
 
-<h1>Orders</h1>
+<div class="d-flex justify-content-between align-items-center">
+  <h1 class="mb-3">Orders </h1>
+</div>
 
 <%= form_with url: admins_orders_path, method: :get, local: true, class: "mb-4" do %>
   <div class="row">

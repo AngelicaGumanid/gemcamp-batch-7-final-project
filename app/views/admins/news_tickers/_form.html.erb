@@ -1,4 +1,4 @@
-<%= form_with model: @news_ticker, url: @news_ticker.new_record? ? admins_offers_path : admins_category_path(@news_ticker),
+<%= form_with model: @news_ticker, url: @news_ticker.new_record? ? admins_news_tickers_path : admins_category_path(@news_ticker),
               method: @news_ticker.new_record? ? :post : :patch,
               html: { class: 'p-4' },
               local: true do |form| %>
