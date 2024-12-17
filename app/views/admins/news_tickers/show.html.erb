@@ -1,9 +1,65 @@
-<h1>News Ticker Details</h1>
+<%= stylesheet_link_tag "show", "data-turbo-track": "reload" %>
 
-<p><strong>Content:</strong> <%= @news_ticker.content %></p>
-<p><strong>Status:</strong> <%= @news_ticker.status.titleize %></p>
-<p><strong>Created By:</strong> <%= @news_ticker.admin.try(:email) %></p>
-<p><strong>Created At:</strong> <%= @news_ticker.created_at.strftime("%Y-%m-%d %H:%M:%S") %></p>
+<div class="container mt-5">
+  <div class="card shadow-lg border-0 rounded-4 overflow-hidden">
 
-<%= link_to 'Edit', edit_admins_news_ticker_path(@news_ticker), class: 'btn btn-primary' %>
-<%= link_to 'Back to News Tickers', admins_news_tickers_path, class: 'btn btn-secondary' %>
+    <div class="row g-0">
+      <!-- Image Section: You can adjust this if there's an image associated with the News Ticker -->
+      <div class="col-md-5 bg-light d-flex justify-content-center align-items-center p-5">
+        <div class="d-flex flex-column align-items-center">
+          <div class="text-muted fs-1">📢</div>
+          <p class="text-muted mt-2">No Image Available</p>
+        </div>
+      </div>
+
+      <!-- Content Section -->
+      <div class="col-md-7 p-4 d-flex flex-column justify-content-start">
+        <h2 class="fw-bold mb-4 text-center">News Ticker Details</h2>
+
+        <!-- Content Block -->
+        <div class="row mb-4">
+          <div class="col-12 mb-2">
+            <p class="text-muted mb-1">Content</p>
+            <p class="fw-semibold"><%= @news_ticker.content %></p>
+          </div>
+        </div>
+
+        <!-- Status Block -->
+        <div class="row mb-4">
+          <div class="col-6 mb-2">
+            <p class="text-muted mb-1">Status</p>
+            <span class="badge <%= @news_ticker.status == 'active' ? 'bg-success' : 'bg-secondary' %>">
+        <%= @news_ticker.status.titleize %>
+      </span>
+          </div>
+        </div>
+
+        <!-- Created By Block -->
+        <div class="row mb-4">
+          <div class="col-6 mb-2">
+            <p class="text-muted mb-1">Created By</p>
+            <p class="fw-semibold"><%= @news_ticker.admin.try(:email) || 'N/A' %></p>
+          </div>
+        </div>
+
+        <!-- Created At Block -->
+        <div class="row mb-4">
+          <div class="col-6 mb-2">
+            <p class="text-muted mb-1">Created At</p>
+            <p class="fw-semibold"><%= @news_ticker.created_at.strftime("%Y-%m-%d %H:%M:%S") %></p>
+          </div>
+        </div>
+
+        <hr class="my-4">
+
+        <!-- Action Buttons -->
+        <div class="d-flex gap-3 justify-content-center">
+          <%= link_to 'Back to News Tickers', admins_news_tickers_path, class: 'btn btn-outline-secondary rounded-pill' %>
+          <%= link_to 'Edit', edit_admins_news_ticker_path(@news_ticker), class: 'btn btn-outline-warning rounded-pill' %>
+          <%= button_to 'Delete', admins_news_ticker_path(@news_ticker), method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-outline-danger rounded-pill' %>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>

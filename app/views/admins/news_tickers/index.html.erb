@@ -1,6 +1,11 @@
-<h1>News Tickers</h1>
+<%= stylesheet_link_tag "table", "data-turbo-track": "reload" %>
 
-<%= link_to 'Create New Ticker', new_admins_news_ticker_path, class: 'btn btn-success mb-3' %>
+<div class="d-flex justify-content-between align-items-center">
+  <h1 class="mb-3">News Ticker</h1>
+  <div>
+    <%= link_to 'Create New Ticker', new_admins_news_ticker_path, class: 'btn btn-outline-primary me-2' %>
+  </div>
+</div>
 
 <%= form_with url: admins_news_tickers_path, method: :get, local: true do %>
   <div class="form-check mb-3">
@@ -12,27 +17,30 @@
 <table class="table table-striped mt-4">
   <thead>
   <tr>
-    <th>Content</th>
-    <th>Status</th>
-    <th>Admin</th>
-    <th>Created At</th>
-    <th>Actions</th>
+    <th scope="col">Content</th>
+    <th scope="col">Status</th>
+    <th scope="col">Admin</th>
+    <th scope="col">Created At</th>
+    <th scope="col">Actions</th>
   </tr>
   </thead>
   <tbody>
   <% @news_tickers.each do |news_ticker| %>
     <tr>
-      <td><%= news_ticker.content %></td>
-      <td><%= news_ticker.status.titleize %></td>
-      <td><%= news_ticker.admin.try(:email) %></td>
-      <td><%= news_ticker.created_at.strftime("%Y-%m-%d %H:%M:%S") %></td>
-      <td>
-        <%= link_to 'Edit', edit_admins_news_ticker_path(news_ticker) %> |
-        <% if news_ticker.deleted_at.present? %>
-          <%= button_to 'Restore', restore_admins_news_ticker_path(news_ticker), method: :patch, class: 'btn btn-outline-success' %>
-        <% else %>
-          <%= button_to 'Delete', admins_news_ticker_path(news_ticker), method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-outline-danger' %>
-        <% end %>
+      <td data-label="Content"><%= news_ticker.content %></td>
+      <td data-label="Status"><%= news_ticker.status.titleize %></td>
+      <td data-label="Admin Email"><%= news_ticker.admin.try(:email) %></td>
+      <td data-label="Created At"><%= news_ticker.created_at.strftime("%Y-%m-%d %H:%M:%S") %></td>
+      <td data-label="Actions">
+        <div class="d-flex btn-container flex-wrap gap-2">
+          <%= link_to 'Show', admins_news_ticker_path(news_ticker), class: 'btn btn-outline-info btn-sm' %>
+          <%= link_to 'Edit', edit_admins_news_ticker_path(news_ticker), class: 'btn btn-outline-warning btn-sm' %>
+          <% if news_ticker.deleted_at.present? %>
+            <%= button_to 'Restore', restore_admins_news_ticker_path(news_ticker), method: :patch, class: 'btn btn-outline-success btn-sm' %>
+          <% else %>
+            <%= button_to 'Delete', admins_news_ticker_path(news_ticker), method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-outline-danger btn-sm' %>
+          <% end %>
+        </div>
       </td>
     </tr>
   <% end %>

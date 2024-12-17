@@ -3,9 +3,9 @@ class Admins::NewsTickersController < AdminController
 
   def index
     if params[:show_deleted] == 'true'
-      @news_tickers = NewsTicker.with_deleted.order(created_at: :desc).page(params[:page])
+      @news_tickers = NewsTicker.with_deleted.order(created_at: :desc).page(params[:page]).per(10)
     else
-      @news_tickers = NewsTicker.where(deleted_at: nil).order(created_at: :desc).page(params[:page])
+      @news_tickers = NewsTicker.where(deleted_at: nil).order(created_at: :desc).page(params[:page]).per(10)
     end
   end
 
