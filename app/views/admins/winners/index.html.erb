@@ -1,97 +1,107 @@
 <%= stylesheet_link_tag "table", "data-turbo-track": "reload" %>
 
-<h1>Winners</h1>
+<h1 class="mb-4">Winners</h1>
 
-<%= form_with url: admins_winners_path, method: :get, local: true do %>
-  <div class="form-group">
-    <%= label_tag :serial_number %>
-    <%= text_field_tag :serial_number, params[:serial_number], class: "form-control" %>
+<%= form_with url: admins_winners_path, method: :get, local: true, class: "mb-4" do %>
+  <div class="row">
+    <div class="col-md-3 form-group mb-3">
+      <%= label_tag :serial_number, 'Serial Number' %>
+      <%= text_field_tag :serial_number, params[:serial_number], class: "form-control" %>
+    </div>
+    <div class="col-md-3 form-group mb-3">
+      <%= label_tag :email, 'Email' %>
+      <%= text_field_tag :email, params[:email], class: "form-control" %>
+    </div>
+    <div class="col-md-3 form-group mb-3">
+      <%= label_tag :state, 'State' %>
+      <%= select_tag :state, options_for_select(Winner.aasm.states.map(&:name).unshift('all'), params[:state]), class: "form-control" %>
+    </div>
   </div>
-
-  <div class="form-group">
-    <%= label_tag :email %>
-    <%= text_field_tag :email, params[:email], class: "form-control" %>
+  <div class="row">
+    <div class="col-md-6 form-group mb-3">
+      <%= label_tag :start_date, 'Start Date' %>
+      <%= date_field_tag :start_date, params[:start_date], class: "form-control" %>
+    </div>
+    <div class="col-md-6 form-group mb-3">
+      <%= label_tag :end_date, 'End Date' %>
+      <%= date_field_tag :end_date, params[:end_date], class: "form-control" %>
+    </div>
   </div>
-
-  <div class="form-group">
-    <%= label_tag :state %>
-    <%= select_tag :state, options_for_select(Winner.aasm.states.map(&:name).unshift('all'), params[:state]), class: "form-control" %>
+  <div class="d-flex justify-content-between mt-4">
+    <%= submit_tag 'Search', class: 'btn btn-primary' %>
+    <%= link_to 'Clear Filters', admins_tickets_path, class: 'btn btn-secondary' %>
   </div>
-
-  <div class="form-group">
-    <%= label_tag :start_date %>
-    <%= date_field_tag :start_date, params[:start_date], class: "form-control" %>
-    <%= label_tag :end_date %>
-    <%= date_field_tag :end_date, params[:end_date], class: "form-control" %>
-  </div>
-
-  <%= submit_tag 'Search', class: "btn btn-primary" %>
 <% end %>
 
-<table class="table table-striped">
-  <thead>
-  <tr>
-    <th>Item ID</th>
-    <th>Ticket ID</th>
-    <th>User ID</th>
-    <th>Address ID</th>
-    <th>Item Batch Count</th>
-    <th>State</th>
-    <th>Price</th>
-    <th>Paid At</th>
-    <th>Admin ID</th>
-    <th>Picture</th>
-    <th>Comment</th>
-    <th>Actions</th>
-  </tr>
-  </thead>
-  <tbody>
-  <% @winners.each do |winner| %>
+<!-- Improved Table Layout -->
+<div class="table-responsive mt-4">
+  <table class="table table-striped">
+    <thead>
     <tr>
-      <td><%= winner.item.try(:id) %></td>
-      <td><%= winner.ticket.try(:id) %></td>
-      <td><%= winner.user.try(:id) %></td>
-      <td><%= winner.location.try(:id) %></td>
-      <td><%= winner.item.try(:batch_count) %></td>
-      <td><%= winner.state %></td>
-      <td><%= number_to_currency(winner.price) %></td>
-      <td><%= winner.paid_at ? winner.paid_at.strftime('%Y-%m-%d') : 'Not Paid Yet' %></td>
-      <td><%= winner.admin.try(:id) %></td>
-      <td>
-        <% if winner.picture? %>
-          <%= image_tag winner.picture.url, size: '50x50' %>
-        <% else %>
-          No Picture
-        <% end %>
-      </td>
-      <td><%= winner.comment %></td>
-      <td>
-        <% case winner.state %>
-        <% when 'won' %>
-          <%= button_to 'Claim', submit_admins_winner_path(winner), method: :patch, class: 'btn btn-sm btn-primary', disabled: true %>
-        <% when 'claimed' %>
-          <%= button_to 'Submit', pay_admins_winner_path(winner), method: :patch, class: 'btn btn-sm btn-secondary' %>
-        <% when 'submitted' %>
-          <%= button_to 'Pay', ship_admins_winner_path(winner), method: :patch, class: 'btn btn-sm btn-success' %>
-        <% when 'paid' %>
-          <%= button_to 'Ship', deliver_admins_winner_path(winner), method: :patch, class: 'btn btn-sm btn-warning' %>
-        <% when 'shipped' %>
-          <%= button_to 'Deliver', deliver_admins_winner_path(winner), method: :patch, class: 'btn btn-sm btn-info' %>
-        <% when 'delivered' %>
-          <%= button_to 'Share', publish_admins_winner_path(winner), method: :patch, class: 'btn btn-sm btn-dark', disabled: true %>
-        <% when 'shared' %>
-          <%= button_to 'Publish', publish_admins_winner_path(winner), method: :patch, class: 'btn btn-sm btn-danger' %>
-        <% when 'published' %>
-          <%= button_to 'Unpublish', remove_publish_admins_winner_path(winner), method: :patch, class: 'btn btn-sm btn-danger' %>
-        <% when 'remove_published' %>
-          <%= button_to 'Publish', publish_admins_winner_path(winner), method: :patch, class: 'btn btn-sm btn-danger' %>
-        <% else %>
-          No actions available
-        <% end %>
-      </td>
-    <tr>
-  <% end %>
-  </tbody>
-</table>
+      <th scope="col">Item ID</th>
+      <th scope="col">Ticket ID</th>
+      <th scope="col">User ID</th>
+      <th scope="col">Location</th>
+      <th scope="col">Batch Count</th>
+      <th scope="col">Price</th>
+      <th scope="col">Paid At</th>
+      <th scope="col">Admin ID</th>
+      <th scope="col">Picture</th>
+      <th scope="col">Comment</th>
+      <th scope="col">State</th>
+      <th scope="col">Actions</th>
+    </tr>
+    </thead>
+    <tbody>
+    <% @winners.each do |winner| %>
+      <tr>
+        <td data-label="Item" class="truncate"><%= winner.item.name %></td>
+        <td data-label="Ticket"><%= winner.ticket.try(:id) %></td>
+        <td data-label="User" class="truncate"><%= winner.user.email %></td>
+        <td data-label="Location" class="truncate"><%= winner.location.full_address %></td>
+        <td data-label="Batch Count"><%= winner.item.try(:batch_count) %></td>
+        <td data-label="Price"><%= number_to_currency(winner.price, unit: "₱") %></td>
+        <td data-label="Paid At"><%= winner.paid_at ? winner.paid_at.strftime('%Y-%m-%d') : 'Not Paid Yet' %></td>
+        <td data-label="Admin"><%= winner.admin.email %></td>
+        <td data-label="Picture">
+          <% if winner.picture? %>
+            <%= image_tag winner.picture.url, size: '50x50', class: 'img-fluid' %>
+          <% else %>
+            No Picture
+          <% end %>
+        </td>
+        <td data-label="Comment" class="truncate"><%= winner.comment %></td>
+        <td data-label="State">
+          <span class="state-indicator <%= winner.state %>"></span> <%= winner.state.capitalize %>
+        </td>
+        <td data-label="Actions" class="actions-cell">
+          <% case winner.state %>
+          <% when 'won' %>
+            <%= button_to 'Claim', submit_admins_winner_path(winner), method: :patch, class: 'btn btn-sm btn-primary', disabled: true %>
+          <% when 'claimed' %>
+            <%= button_to 'Submit', pay_admins_winner_path(winner), method: :patch, class: 'btn btn-sm btn-secondary' %>
+          <% when 'submitted' %>
+            <%= button_to 'Pay', ship_admins_winner_path(winner), method: :patch, class: 'btn btn-sm btn-success' %>
+          <% when 'paid' %>
+            <%= button_to 'Ship', deliver_admins_winner_path(winner), method: :patch, class: 'btn btn-sm btn-warning' %>
+          <% when 'shipped' %>
+            <%= button_to 'Deliver', deliver_admins_winner_path(winner), method: :patch, class: 'btn btn-sm btn-info' %>
+          <% when 'delivered' %>
+            <%= button_to 'Share', publish_admins_winner_path(winner), method: :patch, class: 'btn btn-sm btn-dark', disabled: true %>
+          <% when 'shared' %>
+            <%= button_to 'Publish', publish_admins_winner_path(winner), method: :patch, class: 'btn btn-sm btn-danger' %>
+          <% when 'published' %>
+            <%= button_to 'Unpublish', remove_publish_admins_winner_path(winner), method: :patch, class: 'btn btn-sm btn-danger' %>
+          <% when 'remove_published' %>
+            <%= button_to 'Publish', publish_admins_winner_path(winner), method: :patch, class: 'btn btn-sm btn-danger' %>
+          <% else %>
+            No actions available
+          <% end %>
+        </td>
+      </tr>
+    <% end %>
+    </tbody>
+  </table>
+</div>
 
 <%= paginate @winners %>
