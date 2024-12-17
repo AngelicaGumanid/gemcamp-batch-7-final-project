@@ -52,7 +52,7 @@ class Winner < ApplicationRecord
     end
 
     event :share do
-      transitions from: :delivered, to: :shared
+      transitions from: :delivered, to: :shared, after: :create_share_bonus
     end
 
     event :publish do
@@ -62,6 +62,17 @@ class Winner < ApplicationRecord
     event :remove_publish do
       transitions from: :published, to: :remove_published
     end
+  end
+
+  def create_share_bonus
+    Order.create!(
+      user: self.user,
+      amount: self.price,
+      coin: self.item.coin,
+      genre: 'share_bonus',
+      remarks: "Share bonus for winner #{self.ticket.serial_number}",
+      paid_at: Time.current
+    )
   end
 
   private

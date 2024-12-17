@@ -61,24 +61,27 @@
             <% end %>
           </div>
 
-
-
           <div id="bonus" class="tab-panel" style="display: none;">
-            <form>
+            <%= form_with url: admins_user_bonus_path(@user), method: :post, local: true do |f| %>
               <div class="form-group">
-                <label for="coins">Coins</label>
-                <input type="number" class="form-control" id="coins_bonus" placeholder="Enter coins">
+                <%= f.label :coin, "Coins" %>
+                <%= f.number_field :coin, class: "form-control", placeholder: "Enter coins" %>
               </div>
+
               <div class="form-group">
-                <label for="genre">Genre</label>
-                <input type="text" class="form-control" id="genre_bonus" placeholder="Enter genre">
+                <%= f.label :amount, "Amount" %>
+                <%= f.number_field :amount, class: "form-control", placeholder: "Enter amount" %>
               </div>
+
               <div class="form-group">
-                <label for="remarks">Remarks</label>
-                <textarea class="form-control" id="remarks_bonus" rows="3"></textarea>
+                <%= f.label :remarks, "Remarks" %>
+                <%= f.text_area :remarks, class: "form-control", rows: 3 %>
               </div>
-            </form>
+
+              <%= f.submit "Submit Bonus", class: "btn btn-success" %>
+            <% end %>
           </div>
+
         </div>
       </div>
     </div>
@@ -121,3 +124,4 @@
         });
     });
 </script>
+
