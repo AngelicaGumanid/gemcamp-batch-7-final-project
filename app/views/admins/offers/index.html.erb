@@ -1,50 +1,54 @@
 <%= stylesheet_link_tag "table", "data-turbo-track": "reload" %>
 
-<h1>Offers</h1>
-
-<%= link_to 'Create New Offer', new_admins_offer_path, class: 'btn btn-success mb-3' %>
-
-<%= form_with(url: admins_offers_path, method: :get, local: true) do %>
-  <div class="form-group">
-    <%= label_tag :status, 'Status' %>
-    <%= select_tag :status, options_for_select(Offer.statuses.keys.map { |status| [status.titleize, status] }, params[:status]), prompt: 'Select Status', class: 'form-control' %>
+<div class="d-flex justify-content-between align-items-center">
+  <h1 class="mb-3">Offers</h1>
+  <div>
+    <%= link_to 'Create New Offer', new_admins_offer_path, class: 'btn btn-outline-primary me-2' %>
   </div>
+</div>
 
-  <div class="form-group">
-    <%= label_tag :search, 'Search by Offer Name' %>
-    <%= text_field_tag :search, params[:search], placeholder: 'Search by Offer Name', class: 'form-control' %>
+<%= form_with url: admins_offers_path, method: :get, local: true do %>
+  <div class="row">
+    <div class="col-md-3 form-group">
+      <%= label_tag :status, 'Status' %>
+      <%= select_tag :status, options_for_select(Offer.statuses.keys.map { |status| [status.titleize, status] }, params[:status]), prompt: 'Select Status', class: 'form-control' %>
+    </div>
+    <div class="col-md-3 form-group">
+      <%= label_tag :search, 'Search by Offer Name' %>
+      <%= text_field_tag :name, params[:name], class: "form-control" %>
+    </div>
   </div>
-
-  <div class="form-group">
+  <div class="justify-content-between mt-4">
     <%= submit_tag 'Search', class: 'btn btn-primary' %>
+    <%= link_to 'Clear Filters', admins_offers_path, class: 'btn btn-secondary' %>
   </div>
-
-  <%= link_to 'Clear Filter', admins_offers_path, class: 'btn btn-success mb-3' %>
 <% end %>
 
-<table class="table table-striped mt-4">
+<table class="table table-striped table-bordered">
   <thead>
   <tr>
-    <th>Image</th>
-    <th>Name</th>
-    <th>Status</th>
-    <th>Amount</th>
-    <th>Coin</th>
-    <th>Actions</th>
+    <th scope="col">Image</th>
+    <th scope="col">Name</th>
+    <th scope="col">Status</th>
+    <th scope="col">Amount</th>
+    <th scope="col">Coin</th>
+    <th scope="col">Actions</th>
   </tr>
   </thead>
   <tbody>
   <% @offers.each do |offer| %>
     <tr>
-      <td><%= image_tag(offer.image.url, size: "100x100") if offer.image.present? %></td>
-      <td><%= offer.name %></td>
-      <td><%= offer.status.titleize %></td>
-      <td><%= offer.amount %></td>
-      <td><%= offer.coin %></td>
-      <td>
-        <%= link_to 'Show', admins_offer_path(offer) %> |
-        <%= link_to 'Edit', edit_admins_offer_path(offer) %> |
-        <%= button_to 'Delete', admins_offer_path(offer), method: :delete, data: { confirm: 'Are you sure?' } %>
+      <td data-label="Image"><%= image_tag(offer.image.url, size: "100x100") if offer.image.present? %></td>
+      <td data-label="Name"><%= offer.name %></td>
+      <td data-label="Status"><%= offer.status.titleize %></td>
+      <td data-label="Amount"><%= offer.amount %></td>
+      <td data-label="Coin"><%= offer.coin %></td>
+      <td data-label="Actions">
+        <div class="d-flex btn-container flex-wrap gap-2">
+          <%= link_to raw('<i class="bx bx-show Show"></i>'), admins_offer_path(offer), class: 'btn btn-outline-info btn-sm', data: { bs_toggle: 'tooltip' }, title: 'View Offer' %>
+          <%= link_to raw('<i class="bx bx-edit Edit"></i>'), edit_admins_offer_path(offer), class: 'btn btn-outline-warning btn-sm', data: { bs_toggle: 'tooltip' }, title: 'Edit Offer' %>
+          <%= button_to raw('<i class="bx bx-trash Trash"></i>'), admins_offer_path(offer), method: :delete, data: { bs_toggle: 'tooltip', confirm: 'Are you sure?' }, title: 'Delete Offer', class: 'btn btn-outline-danger btn-sm' %>
+        </div>
       </td>
     </tr>
   <% end %>

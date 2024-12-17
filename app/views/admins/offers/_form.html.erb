@@ -1,41 +1,64 @@
-<%= form_with model: @offer, url: @offer.new_record? ? admins_offers_path : admins_offer_path(@offer), local: true do |form| %>
-  <% if @offer.errors.any? %>
-    <div class="alert alert-danger">
-      <h4>There were errors with your submission:</h4>
-      <ul>
-        <% @offer.errors.full_messages.each do |msg| %>
-          <li><%= msg %></li>
-        <% end %>
-      </ul>
+<%= form_with model: @offer, url: @offer.new_record? ? admins_offers_path : admins_offer_path(@offer),
+              method: @offer.new_record? ? :post : :patch,
+              html: { class: 'p-4' },
+              local: true do |form| %>
+
+  <div class="d-flex align-items-center mb-4">
+    <%= link_to admins_offers_path, class: 'btn btn-outline-secondary btn-sm me-3' do %>
+      <i class="bx bx-arrow-back"></i> Back to Offers List
+    <% end %>
+  </div>
+
+  <div class="card shadow-sm border-0">
+    <div class="card-header bg-primary text-white">
+      <h5 class="mb-0">Offer</h5>
     </div>
-  <% end %>
 
-  <div class="form-group">
-    <%= form.label :name %>
-    <%= form.text_field :name, class: 'form-control' %>
-  </div>
+    <div class="card-body">
+      <% if @offer.errors.any? %>
+        <div class="alert alert-danger">
+          <h6 class="alert-heading">Please fix the following errors:</h6>
+          <ul class="mb-0">
+            <% @offer.errors.full_messages.each do |message| %>
+              <li><%= message %></li>
+            <% end %>
+          </ul>
+        </div>
+      <% end %>
 
-  <div class="form-group">
-    <%= form.label :status %>
-    <%= form.select :status, Offer.statuses.keys.map { |status| [status.titleize, status] }, { prompt: 'Select Status' }, class: 'form-control' %>
-  </div>
+      <div class="row mb-3">
+        <div class="col-md-6">
+          <%= form.label :name, "Offer Name", class: "form-label" %>
+          <%= form.text_field :name, class: "form-control", placeholder: "Enter offer name" %>
+        </div>
+        <div class="col-md-6">
+          <%= form.label :status, "Status", class: "form-label" %>
+          <%= form.select :status, Offer.statuses.keys.map { |status| [status.titleize, status] }, { prompt: 'Select Status' }, class: "form-select" %>
+        </div>
+      </div>
 
-  <div class="form-group">
-    <%= form.label :amount %>
-    <%= form.number_field :amount, class: 'form-control' %>
-  </div>
+      <div class="row mb-3">
+        <div class="col-md-6">
+          <%= form.label :amount, "Amount", class: "form-label" %>
+          <%= form.number_field :amount, class: "form-control", placeholder: "Enter amount" %>
+        </div>
+        <div class="col-md-6">
+          <%= form.label :coin, "Coin", class: "form-label" %>
+          <%= form.number_field :coin, class: "form-control", placeholder: "Enter coin value" %>
+        </div>
+      </div>
 
-  <div class="form-group">
-    <%= form.label :coin %>
-    <%= form.number_field :coin, class: 'form-control' %>
-  </div>
-
-  <div class="form-group">
-    <%= form.label :image %>
-    <%= form.file_field :image, class: 'form-control' %>
-  </div>
-
-  <div class="form-group">
-    <%= form.submit 'Save Offer', class: 'btn btn-primary' %>
+      <div class="row mb-3">
+        <div class="col-md-6">
+          <%= form.label :image, "Upload Image", class: "form-label" %>
+          <%= form.file_field :image, class: "form-control" %>
+        </div>
+        <div class="col-md-6">
+          <div class="text-center mt-4">
+            <%= form.submit 'Save Offer', class: "btn btn-success px-5" %>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 <% end %>

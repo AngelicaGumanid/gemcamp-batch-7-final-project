@@ -1,12 +1,48 @@
-<h1>Offer Details</h1>
-<p><strong>Name:</strong> <%= @offer.name %></p>
-<p><strong>Status:</strong> <%= @offer.status.titleize %></p>
-<p><strong>Amount:</strong> <%= @offer.amount %></p>
-<p><strong>Coin:</strong> <%= @offer.coin %></p>
+<%= stylesheet_link_tag "show", "data-turbo-track": "reload" %>
 
-<% if @offer.image.present? %>
-  <p><strong>Image:</strong> <%= image_tag @offer.image.url %></p>
-<% end %>
+<div class="container mt-5">
+  <div class="card shadow-lg border-0 rounded-4 overflow-hidden">
 
-<%= link_to 'Edit', edit_admins_offer_path(@offer), class: 'btn btn-primary' %> |
-<%= link_to 'Back to Offers', admins_offers_path, class: 'btn btn-secondary' %>
+    <div class="row g-0">
+      <div class="col-md-5 bg-light d-flex justify-content-center align-items-center p-5">
+        <% if @offer.image.present? %>
+          <%= image_tag(@offer.image.url, class: "img-fluid rounded", alt: @offer.name) %>
+        <% else %>
+          <div class="d-flex flex-column align-items-center">
+            <div class="text-muted fs-1">📷</div>
+            <p class="text-muted mt-2">No Image Available</p>
+          </div>
+        <% end %>
+      </div>
+
+      <div class="col-md-7 p-4 d-flex flex-column justify-content-center align-items-center">
+        <h2 class="fw-bold mb-4 text-center"><%= @offer.name %></h2>
+
+        <div class="row mb-3 justify-content-center">
+          <div class="col-6 mb-2">
+            <p class="text-muted mb-1">Amount</p>
+            <p class="fw-semibold text-center"><%= @offer.amount %></p>
+          </div>
+          <div class="col-6 mb-2">
+            <p class="text-muted mb-1">Coin</p>
+            <p class="fw-semibold text-center"><%= @offer.coin %></p>
+          </div>
+          <div class="col-6 mb-2">
+            <p class="text-muted mb-1">Status</p>
+            <span class="badge <%= @offer.status == 'active' ? 'bg-success' : 'bg-secondary' %>">
+              <%= @offer.status.titleize %>
+            </span>
+          </div>
+        </div>
+
+        <hr class="my-4">
+
+        <div class="d-flex gap-2 mt-4 justify-content-center">
+          <%= link_to 'Back to Offers', admins_offers_path, class: 'btn btn-outline-secondary rounded-pill' %>
+          <%= link_to 'Edit Offer', edit_admins_offer_path(@offer), class: 'btn btn-outline-warning rounded-pill' %>
+          <%= button_to 'Delete Offer', admins_offer_path(@offer), method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-outline-danger rounded-pill' %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
