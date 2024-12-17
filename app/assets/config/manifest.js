@@ -16,3 +16,4 @@
 //= link lottery.css
 //= link balance_operate.css
 //= link show.css
+//= link admin_session.css

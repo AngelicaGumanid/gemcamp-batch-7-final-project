@@ -1,18 +1,39 @@
-<%= stylesheet_link_tag "form", "data-turbo-track": "reload" %>
+<!DOCTYPE html>
+<html>
 
-<section class="h-100 gradient-form" style="background-color: #eee;">
+<head>
+  <title>Admin</title>
+  <link rel="icon" href="<%= asset_path 'koda_logo.png' %>" type="image/png">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <%= csrf_meta_tags %>
+  <%= csp_meta_tag %>
+
+  <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'> <!-- Boxicons -->
+
+  <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
+  <%= stylesheet_link_tag "universal.css", "data-turbo-track": "reload" %>
+  <%= stylesheet_link_tag "navbar.css", "data-turbo-track": "reload" %>
+  <%= stylesheet_link_tag "footer.css", "data-turbo-track": "reload" %>
+  <%= javascript_include_tag "application", "data-turbo-track": "reload", type: "module" %>
+  <%= stylesheet_link_tag "form", "data-turbo-track": "reload" %>
+  <%= javascript_include_tag 'https://code.jquery.com/jquery-3.6.0.min.js' %>
+
+</head>
+
+<body>
+
+<section class="h-100 gradient-form" style="background-color: #eee; height: 100vh;">
   <div class="container h-100">
     <div class="row d-flex justify-content-center align-items-center h-100">
       <div class="col-xl-10">
         <div class="card rounded-3 text-black">
           <div class="row g-0">
-            <div class="col-lg-6">
+
+            <div class="col-md-6">
               <div class="card-body p-md-5 mx-md-4">
 
                 <div class="text-center">
-                  <%= image_tag "koda_logo.png", style: "width: 200px;", alt: "logo" %>
-                  <%#= image_tag 'signin_logo.png', class: 'img-fluid w-100 rounded-4 shadow-4', alt: 'Sample image' %>
-                  <h4 class="mt-1 mb-5 pb-1"> Admin Log In </h4>
+                  <h4 class="mt-1 mb-5 pb-1">Admin Log In</h4>
                 </div>
 
                 <%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
@@ -41,12 +62,10 @@
               </div>
             </div>
 
-            <div class="col-lg-6 d-flex align-items-center gradient-custom-admin">
-              <div class="text-white px-3 py-4 p-md-5 mx-md-4">
-                <h4 class="mb-4">Nard's Lottery Result Website</h4>
-                <p class="small mb-0">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-                  tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud
-                  exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+            <div class="col-md-6 d-flex align-items-center justify-content-center gradient-custom-admin">
+              <div class="text-center text-white px-3 py-4 p-md-5 mx-md-4">
+                <%= image_tag "koda_logo.png", style: "width: 200px;", alt: "logo" %>
+                <h4 class="mt-4">Welcome to Admin Panel</h4>
               </div>
             </div>
 
@@ -56,3 +75,7 @@
     </div>
   </div>
 </section>
+
+
+</body>
+</html>
