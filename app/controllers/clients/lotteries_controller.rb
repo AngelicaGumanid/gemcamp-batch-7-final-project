@@ -17,7 +17,6 @@ class Clients::LotteriesController < ApplicationController
 
     @banners = Banner.where(status: :active, online_at: ..Time.now, offline_at: Time.now..)
     @news_tickers = NewsTicker.active.limit(5)
-
   end
 
   def show
@@ -32,13 +31,13 @@ class Clients::LotteriesController < ApplicationController
   def buy_ticket
     ticket_count = params[:ticket_count].to_i
 
-    if ticket_count <= 0
-      redirect_to clients_lottery_path(@item), alert: "Invalid ticket count."
+    if current_clients_user.coins < ticket_count
+      redirect_to clients_offers_path, alert: "You do not have enough coins. Please top up."
       return
     end
 
-    if current_clients_user.coins < ticket_count
-      redirect_to clients_lottery_path(@item), alert: "You do not have enough coins."
+    if ticket_count <= 0
+      redirect_to clients_lottery_path(@item), alert: "Invalid ticket count."
       return
     end
 
@@ -63,5 +62,4 @@ class Clients::LotteriesController < ApplicationController
   def set_item
     @item = Item.find(params[:id])
   end
-
 end

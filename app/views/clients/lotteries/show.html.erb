@@ -12,13 +12,6 @@
         <div class="card-body">
           <h5 class="card-title text-center mb-3"><%= @item.name %></h5>
 
-
-          <!--        <div class="progress">-->
-          <!--          <div class="progress-bar" role="progressbar" style="width: <%#= (@item.tickets.count.to_f / @item.quantity.to_f * 100).round(2) %>%;" aria-valuenow="<%#= @item.tickets.count %>" aria-valuemin="0" aria-valuemax="<%#= @item.quantity %>">-->
-          <!--            <%#= (@item.tickets.count.to_f / @item.quantity.to_f * 100).round(2) %>%-->
-          <!--          </div>-->
-          <!--        </div>-->
-
           <div class="progress mb-3">
             <div class="progress-bar" role="progressbar"
                  style="width: <%= [(@item.tickets.where(batch_count: @item.batch_count).count.to_f / @item.minimum_tickets.to_f * 100), 100].min %>%;"
@@ -31,19 +24,21 @@
 
           <p class="text-center">
             <strong><%= @item.tickets.where(batch_count: @item.batch_count).count %></strong> tickets sold out of
-            <strong><%= @item.minimum_tickets %></strong> required for batch <%= @item.batch_count %>.
+            <strong><%= @item.minimum_tickets %></strong> required for batch <%= @item.batch_count %>.<br>
           </p>
 
           <% if current_clients_user %>
             <% if @item.state == "starting" %>
               <%= form_with url: buy_ticket_clients_lottery_path(@item), method: :post, local: true do |form| %>
                 <div class="d-flex justify-content-center align-items-center mb-3">
-
-                  <button type="button" class="btn btn-outline-secondary decrement" style="width: 40px;">-</button>
-
                   <%= form.number_field :ticket_count, in: 1..current_clients_user.coins, class: "form-control text-center mx-2", min: 1, step: 1, value: 1, style: "width: 100%;" %>
+                </div>
 
-                  <button type="button" class="btn btn-outline-secondary increment" style="width: 40px;">+</button>
+                <div class="d-flex justify-content-center mb-3">
+                  <%= button_tag '1', type: :submit, name: 'ticket_count', value: 1, class: 'btn btn-outline-primary mx-1' %>
+                  <%= button_tag '5', type: :submit, name: 'ticket_count', value: 5, class: 'btn btn-outline-primary mx-1' %>
+                  <%= button_tag '10', type: :submit, name: 'ticket_count', value: 10, class: 'btn btn-outline-primary mx-1' %>
+                  <%= button_tag '20', type: :submit, name: 'ticket_count', value: 20, class: 'btn btn-outline-primary mx-1' %>
                 </div>
 
                 <button type="submit" class="btn btn-buy_ticket w-100">Buy Ticket(s)</button>
@@ -52,8 +47,7 @@
               <p class="text-danger text-center mt-3">This item is not available for purchase at the moment.</p>
             <% end %>
           <% else %>
-            <p class="text-center mt-3">Please <%= link_to 'sign in', new_clients_user_session_path %> to purchase
-              tickets.</p>
+            <p class="text-center mt-3">Please <%= link_to 'sign in', new_clients_user_session_path %> to purchase tickets.</p>
           <% end %>
 
           <h6 class="mt-4">Serial Numbers</h6>
