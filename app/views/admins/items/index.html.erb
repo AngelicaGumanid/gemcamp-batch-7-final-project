@@ -1,14 +1,11 @@
 <%= stylesheet_link_tag "table", "data-turbo-track": "reload" %>
 
 <div class="d-flex justify-content-between align-items-center">
-  <h1 class="mb-3">Items</h1>
+  <h1> Items List</h1>
   <div>
-    <%= link_to 'Create New Item', new_admins_item_path, class: 'btn btn-outline-primary me-2' %>
-    <%= link_to 'View Category', admins_categories_path, class: 'btn btn-outline-success' %>
+    <%= link_to 'Export CSV', admins_items_path(format: :csv, page: params[:page]), class: 'btn btn-success me-2' %>
   </div>
 </div>
-
-
 
 <%= form_with url: admins_items_path, method: :get, local: true do %>
   <div class="form-check mb-3">

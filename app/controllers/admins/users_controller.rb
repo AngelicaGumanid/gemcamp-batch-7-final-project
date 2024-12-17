@@ -2,6 +2,8 @@ class Admins::UsersController < AdminController
   layout 'admin'
   before_action :set_user, only: [:show]
 
+  require 'csv'
+
   def index
     @clients = User.where(genre: :client).order(created_at: :desc).page(params[:page]).per(10)
 
@@ -20,8 +22,29 @@ class Admins::UsersController < AdminController
         phone_number: client.phone
       }
     end
-  end
 
+    respond_to do |format|
+      format.html
+      format.csv {
+        csv_string = CSV.generate(headers: true) do |csv|
+          csv << [
+            "Parent Email", "Email", "Total Deposit", "Member Total Deposits",
+            "Coins", "Total Used Coins", "Children Members", "Phone Number"
+          ]
+
+          @client_data.each do |client|
+            csv << [
+              client[:parent_email], client[:email], client[:total_deposit],
+              client[:member_total_deposits], client[:coins], client[:total_used_coins],
+              client[:children_members], client[:phone_number]
+            ]
+          end
+        end
+        render plain: csv_string
+      }
+    end
+
+  end
 
   def show
     @promoter_name = @user.email

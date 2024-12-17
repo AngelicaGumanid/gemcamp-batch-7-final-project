@@ -1,6 +1,8 @@
 class Admins::OrdersController < AdminController
   before_action :set_order, only: %i[show edit update destroy pay cancel]
 
+  require 'csv'
+
   def index
     @orders = Order.all.order(created_at: :desc)
 
@@ -17,6 +19,28 @@ class Admins::OrdersController < AdminController
     @total_coins_from_all = @orders.sum(:coin)
 
     @orders = @orders.page(params[:page]).per(10)
+
+    respond_to do |format|
+      format.html
+      format.csv {
+        csv_string = CSV.generate(headers: true) do |csv|
+          csv << ["Serial Number", "Email", "Amount", "Coins", "Genre", "State", "Offer"]
+          @orders.each do |order|
+            csv << [
+              order.serial_number,
+              order.user.email,
+              order.amount,
+              order.coin,
+              order.genre,
+              order.state.capitalize,
+              order.offer.try(:name)
+            ]
+          end
+        end
+        send_data csv_string, filename: "orders-#{Time.now.strftime('%Y%m%d%H%M%S')}.csv"
+      }
+    end
+
   end
 
   # def index

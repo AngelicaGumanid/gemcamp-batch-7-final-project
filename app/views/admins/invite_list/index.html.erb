@@ -12,6 +12,7 @@
   <div class="justify-content-between mt-4">
     <%= submit_tag 'Search', class: 'btn btn-primary' %>
     <%= link_to 'Clear Filters', admins_invite_list_path, class: 'btn btn-secondary' %>
+    <%= link_to 'Export CSV', admins_invite_list_path(format: :csv, page: params[:page]), class: 'btn btn-success me-2' %>
   </div>
 <% end %>
 

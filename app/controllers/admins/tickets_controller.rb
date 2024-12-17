@@ -1,6 +1,8 @@
 class Admins::TicketsController < AdminController
   before_action :set_ticket, only: %i[show cancel]
 
+  require 'csv'
+
   def index
     @tickets = Ticket.joins(:item, :user)
                      .includes(:item, :user)
@@ -8,6 +10,26 @@ class Admins::TicketsController < AdminController
                      .order(created_at: :desc)
                      .page(params[:page])
                      .per(20)
+
+    respond_to do |format|
+      format.html
+      format.csv {
+        csv_string = CSV.generate(headers: true) do |csv|
+          csv << ["Serial Number", "Item Name", "Email", "State", "Created At"]
+          @tickets.each do |ticket|
+            csv << [
+              ticket.serial_number,
+              ticket.item_name,
+              ticket.user.email,
+              ticket.state,
+              ticket.created_at.strftime('%Y-%m-%d %H:%M:%S')
+            ]
+          end
+        end
+        send_data csv_string, filename: "tickets-#{Time.now.strftime('%Y%m%d%H%M%S')}.csv"
+      }
+    end
+
   end
 
   def cancel

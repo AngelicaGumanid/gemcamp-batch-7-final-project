@@ -1,12 +1,36 @@
 class Admins::ItemsController < AdminController
   before_action :set_item, only: %i[show edit update destroy start pause end cancel resume]
 
+  require 'csv'
+  
   def index
     if params[:show_deleted] == 'true'
       @items = Item.with_deleted.includes(:category).order(created_at: :desc).page(params[:page]).per(10)
     else
       @items = Item.includes(:category).order(created_at: :desc).page(params[:page]).per(10)
     end
+
+    respond_to do |format|
+      format.html
+      format.csv {
+        csv_string = CSV.generate(headers: true) do |csv|
+          csv << ["Name", "Quantity", "Minimum Tickets", "Batch Count", "Category", "Status", "State"]
+          @items.each do |item|
+            csv << [
+              item.name,
+              item.quantity,
+              item.minimum_tickets,
+              item.batch_count,
+              item.category.try(:name) || 'Uncategorized',
+              item.status,
+              item.aasm.human_state.capitalize
+            ]
+          end
+        end
+        send_data csv_string, filename: "items-#{Time.now.strftime('%Y%m%d%H%M%S')}.csv"
+      }
+    end
+
   end
 
   def create

@@ -1,6 +1,7 @@
 class Admins::WinnersController < AdminController
   before_action :set_winner, only: [:edit, :update, :show, :destroy, :submit, :pay, :ship, :deliver, :publish, :remove_publish]
 
+  require 'csv'
   def index
     @winners = Winner.joins(:ticket, :user)
                      .includes(:item, :ticket, :user, :admin)
@@ -8,6 +9,32 @@ class Admins::WinnersController < AdminController
                      .order(created_at: :desc)
                      .page(params[:page])
                      .per(20)
+
+    respond_to do |format|
+      format.html
+      format.csv {
+        csv_string = CSV.generate(headers: true) do |csv|
+          csv << ["Item ID", "Ticket ID", "User ID", "Location", "Batch Count", "Price", "Paid At", "Admin ID", "Picture", "Comment", "State"]
+          @winners.each do |winner|
+            csv << [
+              winner.item.name,
+              winner.ticket.try(:id),
+              winner.user.email,
+              winner.location.full_address,
+              winner.item.try(:batch_count),
+              winner.price,
+              winner.paid_at ? winner.paid_at.strftime('%Y-%m-%d') : 'Not Paid Yet',
+              winner.admin.email,
+              winner.picture? ? winner.picture.url : 'No Picture',
+              winner.comment,
+              winner.state.capitalize
+            ]
+          end
+        end
+        send_data csv_string, filename: "winners-#{Time.now.strftime('%Y%m%d%H%M%S')}.csv"
+      }
+    end
+
   end
 
   def edit
