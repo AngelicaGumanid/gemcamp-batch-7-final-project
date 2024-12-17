@@ -1,4 +1,203 @@
-<%= stylesheet_link_tag "table", "data-turbo-track": "reload" %>
+<%# Admin Homepage Dashboard %>
 
-<h1>Welcome Admin</h1>
-<p>This is the admin home page.</p>
+<div class="container-fluid mt-4", style="background-color: transparent">
+
+  <%# Welcome Header %>
+  <div class="row mb-4">
+    <div class="col-12">
+      <h1 class="fw-bold">Admin Dashboard</h1>
+      <p class="text-muted">Welcome back, <%= current_admins_user.username %>! Here’s your platform summary.</p>
+    </div>
+  </div>
+
+  <div class="row mb-4">
+    <div class="col-lg-3 col-md-6 mb-4">
+      <div class="card shadow-sm border-0 rounded-3">
+        <div class="card-body text-center">
+          <i class="bi bi-image fs-1 text-primary mb-3"></i>
+          <h5 class="card-title text-muted">Banners</h5>
+          <h3 class="fw-bold"><%= Banner.count %></h3>
+          <%= link_to "Manage Banners", admins_banners_path, class: "btn btn-outline-primary btn-sm mt-2 w-100" %>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-lg-3 col-md-6 mb-4">
+      <div class="card shadow-sm border-0 rounded-3">
+        <div class="card-body text-center">
+          <i class="bi bi-box-seam fs-1 text-success mb-3"></i>
+          <h5 class="card-title text-muted">Items</h5>
+          <h3 class="fw-bold"><%= Item.count %></h3>
+          <%= link_to "Manage Items", admins_items_path, class: "btn btn-outline-success btn-sm mt-2 w-100" %>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-lg-3 col-md-6 mb-4">
+      <div class="card shadow-sm border-0 rounded-3">
+        <div class="card-body text-center">
+          <i class="bi bi-cart-check fs-1 text-warning mb-3"></i>
+          <h5 class="card-title text-muted">Orders</h5>
+          <h3 class="fw-bold"><%= Order.count %></h3>
+          <%= link_to "View Orders", admins_orders_path, class: "btn btn-outline-warning btn-sm mt-2 w-100" %>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-lg-3 col-md-6 mb-4">
+      <div class="card shadow-sm border-0 rounded-3">
+        <div class="card-body text-center">
+          <i class="bi bi-trophy fs-1 text-danger mb-3"></i>
+          <h5 class="card-title text-muted">Winners</h5>
+          <h3 class="fw-bold"><%= Winner.count %></h3>
+          <%= link_to "Manage Winners", admins_winners_path, class: "btn btn-outline-danger btn-sm mt-2 w-100" %>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row mb-4">
+    <div class="col-lg-6 mb-4">
+      <div class="card shadow-sm border-0 rounded-3">
+        <div class="card-header bg-primary text-white">
+          <h5 class="mb-0">Recent Orders</h5>
+        </div>
+        <div class="card-body">
+          <% if @recent_orders.present? %>
+            <ul class="list-group list-group-flush">
+              <% @recent_orders.each do |order| %>
+                <li class="list-group-item d-flex justify-content-between align-items-center">
+                  <div>
+                    <strong>Order #<%= order.serial_number || order.id %></strong> - <%= order.user.username %>
+                  </div>
+                  <div class="text-muted">
+                    <%= order.created_at.strftime("%b %d, %Y") %>
+                  </div>
+                </li>
+              <% end %>
+            </ul>
+          <% else %>
+            <p class="text-muted">No recent orders.</p>
+          <% end %>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-lg-6 mb-4">
+      <div class="card shadow-sm border-0 rounded-3">
+        <div class="card-header bg-success text-white">
+          <h5 class="mb-0">Active Items</h5>
+        </div>
+        <div class="card-body">
+          <% if @items_with_min_tickets.present? %>
+            <ul class="list-group list-group-flush">
+              <% @items_with_min_tickets.each do |item| %>
+                <li class="list-group-item d-flex justify-content-between align-items-center">
+                  <div>
+                    <strong><%= item.name %></strong>
+                    <small class="d-block text-muted">
+                      Tickets Sold (Batch <%= item.current_batch %>):
+                      <%= item.tickets_sold_in_current_batch || 0 %> / Minimum Required: <%= item.minimum_tickets %>
+                    </small>
+                  </div>
+
+                  <% if item.current_batch && item.current_batch > 0 %>
+                    <span class="badge bg-info">Batch Count: <%= item.current_batch %></span>
+                  <% else %>
+                    <span class="badge bg-warning">No Batches</span>
+                  <% end %>
+
+                  <!-- Check if the tickets in the current batch have met the minimum required -->
+                  <% if item.tickets.where(batch_count: item.current_batch).count >= item.minimum_tickets %>
+                    <span class="badge bg-success">Ready to End</span>
+                    <%= button_to raw('<i class="bx bx-stop Stop"></i> End'), end_admins_item_path(item), method: :patch, class: 'btn btn-outline-danger btn-sm ms-2', data: { bs_toggle: 'tooltip' }, title: 'End Item' if item.may_end? %>
+                  <% else %>
+                    <span class="badge bg-warning">Not Ready</span>
+                  <% end %>
+                </li>
+              <% end %>
+            </ul>
+          <% else %>
+            <p class="text-muted mb-0">No active items have reached the minimum tickets yet.</p>
+          <% end %>
+        </div>
+      </div>
+    </div>
+
+
+
+
+
+  </div>
+
+  <div class="row mb-4">
+
+    <div class="col-lg-6 mb-4">
+      <div class="card shadow-sm border-0 rounded-3">
+        <div class="card-header bg-secondary text-white">
+          <h5>Recent Items</h5>
+        </div>
+        <ul class="list-group list-group-flush">
+          <% @recent_items.each do |item| %>
+            <li class="list-group-item d-flex justify-content-between align-items-center">
+              <%= item.name %>
+              <span class="text-muted float-end"><%= time_ago_in_words(item.created_at) %> ago</span>
+            </li>
+          <% end %>
+        </ul>
+      </div>
+    </div>
+
+    <div class="col-lg-6 mb-4">
+      <div class="card shadow-sm border-0 rounded-3">
+        <div class="card-header bg-info text-white">
+          <h5>Recent News Ticker</h5>
+        </div>
+        <ul class="list-group list-group-flush">
+          <% @recent_news_tickers.each do |news| %>
+            <li class="list-group-item">
+              <%= truncate(news.content, length: 50) %>
+              <span class="text-muted float-end"><%= time_ago_in_words(news.created_at) %> ago</span>
+            </li>
+          <% end %>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="row mb-4">
+    <div class="col-md-4 mb-4">
+      <div class="card shadow-sm border-0 rounded-3">
+        <div class="card-body text-center">
+          <%= link_to admins_categories_path, class: "btn btn-outline-primary btn-lg w-100 d-flex align-items-center justify-content-center" do %>
+            <i class="bx bx-list-check fs-2 me-3"></i>
+            <span>Manage Categories</span>
+          <% end %>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-4 mb-4">
+      <div class="card shadow-sm border-0 rounded-3">
+        <div class="card-body text-center">
+          <%= link_to admins_orders_path, class: "btn btn-outline-warning btn-lg w-100 d-flex align-items-center justify-content-center" do %>
+            <i class="bx bx-cart-check fs-2 me-3"></i>
+            <span>View Orders</span>
+          <% end %>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-4 mb-4">
+      <div class="card shadow-sm border-0 rounded-3">
+        <div class="card-body text-center">
+          <%= link_to admins_users_path, class: "btn btn-outline-success btn-lg w-100 d-flex align-items-center justify-content-center" do %>
+            <i class="bx bx-user-circle fs-2 me-3"></i>
+            <span>Manage Users</span>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
